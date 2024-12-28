@@ -12,7 +12,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v3
+
     - name: Install Python dependencies
       run: |
         python3 -m pip install --upgrade pip
