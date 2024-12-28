@@ -1,0 +1,9 @@
+/* Adjust the maximum width of the content area for all pages */
+.quarto-container {
+    max-width: 1200px; /* Set desired width */
+    margin: 0 auto;    /* Center align */
+}
+
+.quarto-sidebar {
+    width: 250px;
+}
