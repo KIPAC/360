@@ -4,6 +4,13 @@ format: html
 jupyter: python3
 ---
 
+# Learning Goals
+
+- Have a good understanding of what to expect from this course 
+- Learn about the grading policy, assignments and final project scope
+- Begin our exploration of "Gravity 3 ways" 
+- Take first steps with the [gala](https://gala-astro.readthedocs.io/en/latest/) package. 
+
 # Modern Astrophysics
 
 This course is directed at first/second year graduate students interested in astrophysics research. We cover a few of the important physical processes necessary to understand astronomical objects and observations. The course will use python notebooks throughout helping with experiential learning and give the student resources to explore the code/formulas and algorithms behind the plots and animations.
