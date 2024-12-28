@@ -1,0 +1,34 @@
+project:
+  type: website
+  output-dir: ./website/_site  # Where Quarto places the rendered site
+  
+metadata-files:
+  - _metadata.yml
+
+website:
+  title: "Physics 360: Modern Astrophysics"
+  navbar:
+  # Global navigation bar for the website
+    left:
+      - text: "Lectures"
+        menu:
+          - text: "Lecture 1"
+            href: ./lectures/lecture1.qmd
+          - text: "Lecture 2"
+            href: ./lectures/lecture2.qmd
+      - text: "Assignments"
+        href: ../assignments/
+      - text: "Final Project"
+        menu:
+          - text: "Project Suggestions"
+            href: ./final_project/project_suggestions.qmd
+          - text: "Project 1"
+            href: ./final_project/project_descriptions/project1.qmd
+          - text: "Project 2"
+            href: ./final_project/project_descriptions/project2.qmd
+      - text: "Resources"
+        href: resources.qmd
+
+format:
+  html:
+    css: styles.css

@@ -1,0 +1,5 @@
+execute:
+  engine: jupyter
+  executable: "/Users/tabel/Teaching/pyEnv/Teaching/bin/python"
+  # Optional:
+  daemon: false  # instruct Quarto not to reuse a previously spawned kernel
