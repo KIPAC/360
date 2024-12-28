@@ -169,3 +169,35 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+/.quarto/
+.DS_Store
+.gitignore
+lectures/lecture1 2.quarto_ipynb
+lectures/lecture1 3.quarto_ipynb
+website/.github/workflows/deploy.yml
+website/_site/index.html
+website/_site/resources.html
+website/_site/search.json
+website/_site/final_project/project_descriptions/project1.html
+website/_site/lectures/lecture1 2.html
+website/_site/lectures/lecture1.html
+website/_site/site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min 2.css
+website/_site/site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min 3.css
+website/_site/site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min.css
+website/_site/site_libs/bootstrap/bootstrap-icons.css
+website/_site/site_libs/bootstrap/bootstrap-icons.woff
+website/_site/site_libs/bootstrap/bootstrap.min.js
+website/_site/site_libs/clipboard/clipboard.min.js
+website/_site/site_libs/quarto-html/anchor.min.js
+website/_site/site_libs/quarto-html/popper.min.js
+website/_site/site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css
+website/_site/site_libs/quarto-html/quarto.js
+website/_site/site_libs/quarto-html/tippy.css
+website/_site/site_libs/quarto-html/tippy.umd.min.js
+website/_site/site_libs/quarto-nav/headroom.min.js
+website/_site/site_libs/quarto-nav/quarto-nav.js
+website/_site/site_libs/quarto-search/autocomplete.umd.js
+website/_site/site_libs/quarto-search/fuse.min.js
+website/_site/site_libs/quarto-search/quarto-search.js
+website/_site/website/index.html
