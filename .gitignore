@@ -77,6 +77,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+quarto_ipynb/
 
 # IPython
 profile_default/
@@ -175,7 +176,6 @@ cython_debug/
 .gitignore
 lectures/lecture1 2.quarto_ipynb
 lectures/lecture1 3.quarto_ipynb
-website/.github/workflows/deploy.yml
 website/_site/index.html
 website/_site/resources.html
 website/_site/search.json
@@ -201,3 +201,5 @@ website/_site/site_libs/quarto-search/autocomplete.umd.js
 website/_site/site_libs/quarto-search/fuse.min.js
 website/_site/site_libs/quarto-search/quarto-search.js
 website/_site/website/index.html
+website/_site/styles.css
+website/_site/resources/resources.html
