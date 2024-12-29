@@ -12,6 +12,8 @@ website:
   navbar:
   # Global navigation bar for the website
     left:
+      - text: "Home"
+        href: ./website/index.qmd
       - text: "Lectures"
         menu:
           - text: "Lecture 1"
