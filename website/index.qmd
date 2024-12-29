@@ -1,6 +1,9 @@
 ---
 title: "Physics 360: Modern Astrophysics"
-format: html
+format: 
+    html:
+        code-links: repo
+
 ---
 
 # Welcome to Physics 360

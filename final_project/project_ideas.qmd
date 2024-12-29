@@ -1,0 +1,104 @@
+---
+title: "Possible Final project topics"
+lightbox:
+    match: auto
+    effect: zoom
+    desc-position: right
+    loop: false
+format:
+    html:
+        toc: true
+        toc-location: body
+        code-links: repo
+        toc-title: " "
+---
+
+# Forward models
+
+
+## Globular Star Clusters observations by HST and JWST 
+
+::: {.callout-note}
+This is a signficant project and breaks up into sub tasks. It likely is a good project for a group of students.
+:::
+
+<div style="float: right; width: 30%; text-align: right;">
+  ![M13 as seen by HST](../resources/Images/M13.jpg){width=100% fig-alt="An HST observation of the central regions of M13." .lightbox}
+</div>
+
+HST observations of Globular Clusters in the Milky Way are stunning.
+We want to build a forward model which uses a library of stellar spectra which we convolve with the correct broad band filters of the specific observations we want to match. We then want to build a forward model which aims to combine our theoretical stars into an image which once the point spread function of HST is applied matches our input data. 
+
+## Model Galaxy images/spectra from 3D Simulations
+
+We have access to many different galaxy formation simulations and want to explore to make virtual observations that we can compare directly with real observations. We want to explore what is required to make very fast predictions. 
+
+## Model Galaxy images/spectra 
+
+::: {.callout-note}
+This is a signficant project and breaks up into sub tasks. It likely is a good project for a group of students.
+:::
+<div style="float: right; width: 30%; text-align: right;">
+  ![Galaxy in Galaxy Zoo 2](../resources/Images/GalaxyZoo2.jpg){width=100% fig-alt="An SDSS image in Galaxy Zoo 2." .lightbox}
+</div>
+The [image data](https://zenodo.org/records/3565489#.Y3vFKS-l0eY) of [Galaxy Zoo 2](https://data.galaxyzoo.org/#section-7) [@Willett:2019aa] is available online. This is supplemented by classifications carried out by a large number of volunteers. 
+Leveraging [DSPS](https://github.com/ArgonneCPAC/dsps) from @Hearin:2023aa we want to match all pixel colors. 
+
+## Model the X-ray emission of an X-ray cluster
+
+<div style="float: right; width: 30%; text-align: right;">
+  ![Chandra observation of Coma](../resources/Images/ChandraComaCluster.png){width=100% fig-alt="Chandra observation of Coma." .lightbox}
+</div>
+The X-ray emission comes from hot plasma in the galaxy cluster. In this project we want to think through how well we constrain a 3D density and temperature distribution to closely match a specific observation.  How does adding spectral/energy information help in ths constraints? 
+
+
+## Radiation from a 3D HII region
+
+## Radiation Hydro-Dynamics of a 3D HII region
+
+# Dynamics
+
+## Model a dwarf galaxy/GC disruption in [gala](https://gala-astro.readthedocs.io/en/latest/)
+
+## Particle-Mesh Codes in Cosmology
+
+Andrey Kravtsov wrote a [wonderful set of instructions](../../resources/PDFs/WriteAPMCode_Kravtsov.pdf) on how to approach writing your own particle mesh code specifically for numerical cosmology. There is now a beautifully implemented python version of cosmological PM by @Breton:2024aa, called [pysco](https://github.com/mianbreton/pysco), which also includes well developed initial conditions generation. I have many example Jupyter notebooks I can share with you also ones related to the Simplex in Cell technique [@Abel:2012aa, @Kates-Harbeck:2016aa, @Sousbie:2016aa, @Hahn:2016aa]. There are multiple possible projects building on this work. 
+
+#### Make pysco use the phase-space sheet
+E.g. you might incorporate the ideas from @Abel:2012aa, @Sousbie:2016aa, and @Hahn:2016aa into pysco. 
+
+#### Explore the statistics of 3D cosmological density
+You might first just use fields as computed through the Lagrangian Perturbation theory implemented in pysco, i.e. the initial conditions. Once you have a pipeline to measure the spatial statistics you are interested in 
+- [Kymatio](https://www.kymat.io) implements 1, 2 and 3D wavelet scattering transforms. Follow @Cheng:2023aa and characterize the scattering coefficients for evolved cosmological density fields. 
+- Measure the PDFs for the density fields for many different smoothing lengths and compare to the predictions given by [pyLDT](https://github.com/mcataneo/pyLDT-cosmo) from @Cataneo:2021aa.
+- Explore [kNN-CDFs](https://github.com/yipihey/kNN-CDFs) from @Banerjee:2021ws.
+
+
+## Statistical properties of 1,2 and 3D turbulence
+
+The novelty in this project is that we will try to do very high dynamic range estimates of the statistical properties of turbulence by running a set of simulations which we connect in a one way approach. We will start with a 1D model which will help us practice everything we need. If we manage that we can extend it to 2 and 3D. 
+@Beattie:2022aa study the density PDF in supersonic MHD turbulence. We start by reading  this paper to get a sense of the current questions in the field. 
+First step then is to use 1D hydro 
+
+## Numerical Cosmology
+
+
+
+# Micro-physics
+
+##  Very fast chemical reaction network solvers using neural nets
+
+
+
+## Fast non-equilibrium cooling functions: high dimensional interpolation
+
+## Differentiable emission line modeling for galaxies
+
+## Differentiable Dust emission and absorption
+
+
+# Statistics related
+
+## Counting with Fourier Transforms: Fast 2pt correlation functions for large radii
+
+
