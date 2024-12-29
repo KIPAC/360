@@ -2,6 +2,8 @@ project:
   type: website
   output-dir: ./website/_site  # Where Quarto places the rendered site
   
+bibliography: ./resources/references.bib
+
 metadata-files:
   - _metadata.yml
 
@@ -21,11 +23,7 @@ website:
       - text: "Final Project"
         menu:
           - text: "Project Suggestions"
-            href: ./final_project/project_suggestions.qmd
-          - text: "Project 1"
-            href: ./final_project/project_descriptions/project1.qmd
-          - text: "Project 2"
-            href: ./final_project/project_descriptions/project2.qmd
+            href: ./final_project/project_ideas.qmd
       - text: "Resources"
         href: resources.qmd
 
