@@ -1,5 +1,96 @@
 [
   {
+    "objectID": "final_project/project_ideas.html",
+    "href": "final_project/project_ideas.html",
+    "title": "Possible Final project topics",
+    "section": "",
+    "text": "Note\n\n\n\nThis is a signficant project and breaks up into sub tasks. It likely is a good project for a group of students.\n\n\n\n\n\n\nM13 as seen by HST\n\n\n\nHST observations of Globular Clusters in the Milky Way are stunning. We want to build a forward model which uses a library of stellar spectra which we convolve with the correct broad band filters of the specific observations we want to match. We then want to build a forward model which aims to combine our theoretical stars into an image which once the point spread function of HST is applied matches our input data.\n\n\n\nWe have access to many different galaxy formation simulations and want to explore to make virtual observations that we can compare directly with real observations. We want to explore what is required to make very fast predictions.\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThis is a signficant project and breaks up into sub tasks. It likely is a good project for a group of students.\n\n\n\n\n\n\nGalaxy in Galaxy Zoo 2\n\n\n\nThe image data of Galaxy Zoo 2 (Willett et al. 2019) is available online. This is supplemented by classifications carried out by a large number of volunteers. Leveraging DSPS from Hearin et al. (2023) we want to match all pixel colors.\n\n\n\n\n\n\n\nChandra observation of Coma\n\n\n\nThe X-ray emission comes from hot plasma in the galaxy cluster. In this project we want to think through how well we constrain a 3D density and temperature distribution to closely match a specific observation. How does adding spectral/energy information help in ths constraints?"
+  },
+  {
+    "objectID": "final_project/project_ideas.html#globular-star-clusters-observations-by-hst-and-jwst",
+    "href": "final_project/project_ideas.html#globular-star-clusters-observations-by-hst-and-jwst",
+    "title": "Possible Final project topics",
+    "section": "",
+    "text": "Note\n\n\n\nThis is a signficant project and breaks up into sub tasks. It likely is a good project for a group of students.\n\n\n\n\n\n\nM13 as seen by HST\n\n\n\nHST observations of Globular Clusters in the Milky Way are stunning. We want to build a forward model which uses a library of stellar spectra which we convolve with the correct broad band filters of the specific observations we want to match. We then want to build a forward model which aims to combine our theoretical stars into an image which once the point spread function of HST is applied matches our input data."
+  },
+  {
+    "objectID": "final_project/project_ideas.html#model-galaxy-imagesspectra-from-3d-simulations",
+    "href": "final_project/project_ideas.html#model-galaxy-imagesspectra-from-3d-simulations",
+    "title": "Possible Final project topics",
+    "section": "",
+    "text": "We have access to many different galaxy formation simulations and want to explore to make virtual observations that we can compare directly with real observations. We want to explore what is required to make very fast predictions."
+  },
+  {
+    "objectID": "final_project/project_ideas.html#model-galaxy-imagesspectra",
+    "href": "final_project/project_ideas.html#model-galaxy-imagesspectra",
+    "title": "Possible Final project topics",
+    "section": "",
+    "text": "Note\n\n\n\nThis is a signficant project and breaks up into sub tasks. It likely is a good project for a group of students.\n\n\n\n\n\n\nGalaxy in Galaxy Zoo 2\n\n\n\nThe image data of Galaxy Zoo 2 (Willett et al. 2019) is available online. This is supplemented by classifications carried out by a large number of volunteers. Leveraging DSPS from Hearin et al. (2023) we want to match all pixel colors."
+  },
+  {
+    "objectID": "final_project/project_ideas.html#model-the-x-ray-emission-of-an-x-ray-cluster",
+    "href": "final_project/project_ideas.html#model-the-x-ray-emission-of-an-x-ray-cluster",
+    "title": "Possible Final project topics",
+    "section": "",
+    "text": "Chandra observation of Coma\n\n\n\nThe X-ray emission comes from hot plasma in the galaxy cluster. In this project we want to think through how well we constrain a 3D density and temperature distribution to closely match a specific observation. How does adding spectral/energy information help in ths constraints?"
+  },
+  {
+    "objectID": "final_project/project_ideas.html#model-a-dwarf-galaxygc-disruption-in-gala",
+    "href": "final_project/project_ideas.html#model-a-dwarf-galaxygc-disruption-in-gala",
+    "title": "Possible Final project topics",
+    "section": "Model a dwarf galaxy/GC disruption in gala",
+    "text": "Model a dwarf galaxy/GC disruption in gala"
+  },
+  {
+    "objectID": "final_project/project_ideas.html#particle-mesh-codes-in-cosmology",
+    "href": "final_project/project_ideas.html#particle-mesh-codes-in-cosmology",
+    "title": "Possible Final project topics",
+    "section": "Particle-Mesh Codes in Cosmology",
+    "text": "Particle-Mesh Codes in Cosmology\nAndrey Kravtsov wrote a wonderful set of instructions on how to approach writing your own particle mesh code specifically for numerical cosmology. There is now a beautifully implemented python version of cosmological PM by Breton (2024), called pysco, which also includes well developed initial conditions generation. I have many example Jupyter notebooks I can share with you also ones related to the Simplex in Cell technique Hahn and Angulo (2016). There are multiple possible projects building on this work.\n\nMake pysco use the phase-space sheet\nE.g. you might incorporate the ideas from Abel, Hahn, and Kaehler (2012), Sousbie and Colombi (2016), and Hahn and Angulo (2016) into pysco.\n\n\nExplore the statistics of 3D cosmological density\nYou might first just use fields as computed through the Lagrangian Perturbation theory implemented in pysco, i.e. the initial conditions. Once you have a pipeline to measure the spatial statistics you are interested in - Kymatio implements 1, 2 and 3D wavelet scattering transforms. Follow Cheng et al. (2023) and characterize the scattering coefficients for evolved cosmological density fields. - Measure the PDFs for the density fields for many different smoothing lengths and compare to the predictions given by pyLDT from Cataneo et al. (2021). - Explore kNN-CDFs from Banerjee and Abel (2021)."
+  },
+  {
+    "objectID": "final_project/project_ideas.html#statistical-properties-of-12-and-3d-turbulence",
+    "href": "final_project/project_ideas.html#statistical-properties-of-12-and-3d-turbulence",
+    "title": "Possible Final project topics",
+    "section": "Statistical properties of 1,2 and 3D turbulence",
+    "text": "Statistical properties of 1,2 and 3D turbulence\nThe novelty in this project is that we will try to do very high dynamic range estimates of the statistical properties of turbulence by running a set of simulations which we connect in a one way approach. We will start with a 1D model which will help us practice everything we need. If we manage that we can extend it to 2 and 3D. Beattie et al. (2022) study the density PDF in supersonic MHD turbulence. We start by reading this paper to get a sense of the current questions in the field. First step then is to use 1D hydro"
+  },
+  {
+    "objectID": "final_project/project_ideas.html#numerical-cosmology",
+    "href": "final_project/project_ideas.html#numerical-cosmology",
+    "title": "Possible Final project topics",
+    "section": "Numerical Cosmology",
+    "text": "Numerical Cosmology"
+  },
+  {
+    "objectID": "final_project/project_ideas.html#very-fast-chemical-reaction-network-solvers-using-neural-nets",
+    "href": "final_project/project_ideas.html#very-fast-chemical-reaction-network-solvers-using-neural-nets",
+    "title": "Possible Final project topics",
+    "section": "Very fast chemical reaction network solvers using neural nets",
+    "text": "Very fast chemical reaction network solvers using neural nets"
+  },
+  {
+    "objectID": "final_project/project_ideas.html#fast-non-equilibrium-cooling-functions-high-dimensional-interpolation",
+    "href": "final_project/project_ideas.html#fast-non-equilibrium-cooling-functions-high-dimensional-interpolation",
+    "title": "Possible Final project topics",
+    "section": "Fast non-equilibrium cooling functions: high dimensional interpolation",
+    "text": "Fast non-equilibrium cooling functions: high dimensional interpolation"
+  },
+  {
+    "objectID": "final_project/project_ideas.html#differentiable-emission-line-modeling-for-galaxies",
+    "href": "final_project/project_ideas.html#differentiable-emission-line-modeling-for-galaxies",
+    "title": "Possible Final project topics",
+    "section": "Differentiable emission line modeling for galaxies",
+    "text": "Differentiable emission line modeling for galaxies"
+  },
+  {
+    "objectID": "final_project/project_ideas.html#differentiable-dust-emission-and-absorption",
+    "href": "final_project/project_ideas.html#differentiable-dust-emission-and-absorption",
+    "title": "Possible Final project topics",
+    "section": "Differentiable Dust emission and absorption",
+    "text": "Differentiable Dust emission and absorption"
+  },
+  {
     "objectID": "website/index.html",
     "href": "website/index.html",
     "title": "Physics 360: Modern Astrophysics",
@@ -11,6 +102,6 @@
     "href": "lectures/lecture1.html",
     "title": "Lecture 1: Course Introduction",
     "section": "",
-    "text": "Learning Goals\n\nHave a good understanding of what to expect from this course\nLearn about the grading policy, assignments and final project scope\nBegin our exploration of “Gravity 3 ways”\nTake first steps with the gala package.\n\n\n\nModern Astrophysics\nThis course is directed at first/second year graduate students interested in astrophysics research. We cover a few of the important physical processes necessary to understand astronomical objects and observations. The course will use python notebooks throughout helping with experiential learning and give the student resources to explore the code/formulas and algorithms behind the plots and animations.\n\n\nCourse Notes and Schedule\n\nTexts and resources\nUseful free textbook for a number of theoretical concepts. - Kaiser: Elements of Astrophysics: Link to PDF\n\n\nSyllabus: Calendar, Reading, and Problem Sets\nCalendar                                         Reading                Problem Set              \nTu  1 Jan 7   Intro/Overview/Gravity             K:285-300              K: 26.7.1 p295 + 1-2 page Proposal \nTh  2 Jan 9   Gravity 3 ways | Stellar dynamics\nTu  3 Jan 14  Cosmology + Spherical Collapse     K:303-308,337-340,385-388  Bertschinger Dust Solution      \nTh  4 Jan 16  Hydrodynamics           I)         K:246-247,251-253                                   \nTu  5 Jan 21  Hydrodynamics          II)                                                                     \nTh  6 Jan 23  Sound Waves, Shocks & Sedov Taylor K:258,22.2,23.2         K:20.10.3 + Bertsch. g=5/3  \nTu  7 Jan 28  Radiation                          K:61-69                                             \nTh  8 Jan 30  Radiation Transport                K:81-89                 K:6.12.1-4 +                \nTu  9 Feb  4  Radiative Processes   I)                                                               \nTh 10 Feb  6  Radiative Processes  II)                                                               \nTu 11 Feb 11  Radiative Processes III)                                   K:14.9.2-3 +                \nTh 12 Feb 13  AT   I)  Spectra of Galaxies       Notes\nTu 13 Feb 18  AT  II)  HII regions               Notes                                           \nTh 14 Feb 20  AT III)  Press Schechter theory    Notes                   reproduce Mo & White 98                                            \nTu 15 Feb 25  AT  IV)  Summary Statistics        Notes \nTh 16 Feb 27  AT   V)  Plasmas/Acceleration      Notes                                          \nTu 17 Mar  4  Presentations   I\nTh 18 Mar  6  Presentations  II                                                                       \nTu 19 Mar 11  Presentations III                                                                       \nTh 20 Mar 13  Presentations  IV                                                                       \n\n\nGrading\n\n40% Final project and presentation\n\n60% Problem set (worst dropped)\n\n\n\nimport sys\nsys.path.append('../code')\nfrom astro_utils import hello_astrophysics\n\nhello_astrophysics()\nimport sys\nprint(sys.executable)\n\nHello astrophysics! \n/opt/hostedtoolcache/Python/3.12.8/x64/bin/python3"
+    "text": "Learning Goals\n\nHave a good understanding of what to expect from this course\nLearn about the grading policy, assignments and final project scope\nBegin our exploration of “Gravity 3 ways”\nTake first steps with the gala package.\n\n\n\nModern Astrophysics\nThis course is directed at first/second year graduate students interested in astrophysics research. We cover a few of the important physical processes necessary to understand astronomical objects and observations. The course will use python notebooks throughout helping with experiential learning and give the student resources to explore the code/formulas and algorithms behind the plots and animations.\n\n\nCourse Notes and Schedule\n\nTexts and resources\nUseful free textbook for a number of theoretical concepts. - Kaiser: Elements of Astrophysics: Link to PDF\n\n\nSyllabus: Calendar, Reading, and Problem Sets\nCalendar                                         Reading                Problem Set              \nTu  1 Jan 7   Intro/Overview/Gravity             K:285-300              K: 26.7.1 p295 + 1-2 page Proposal \nTh  2 Jan 9   Gravity 3 ways | Stellar dynamics\nTu  3 Jan 14  Cosmology + Spherical Collapse     K:303-308,337-340,385-388  Bertschinger Dust Solution      \nTh  4 Jan 16  Hydrodynamics           I)         K:246-247,251-253                                   \nTu  5 Jan 21  Hydrodynamics          II)                                                                     \nTh  6 Jan 23  Sound Waves, Shocks & Sedov Taylor K:258,22.2,23.2         K:20.10.3 + Bertsch. g=5/3  \nTu  7 Jan 28  Radiation                          K:61-69                                             \nTh  8 Jan 30  Radiation Transport                K:81-89                 K:6.12.1-4 +                \nTu  9 Feb  4  Radiative Processes   I)                                                               \nTh 10 Feb  6  Radiative Processes  II)                                                               \nTu 11 Feb 11  Radiative Processes III)                                   K:14.9.2-3 +                \nTh 12 Feb 13  AT   I)  Spectra of Galaxies       Notes\nTu 13 Feb 18  AT  II)  HII regions               Notes                                           \nTh 14 Feb 20  AT III)  Press Schechter theory    Notes                   reproduce Mo & White 98                                            \nTu 15 Feb 25  AT  IV)  Summary Statistics        Notes \nTh 16 Feb 27  AT   V)  Plasmas/Acceleration      Notes                                          \nTu 17 Mar  4  Presentations   I\nTh 18 Mar  6  Presentations  II                                                                       \nTu 19 Mar 11  Presentations III                                                                       \nTh 20 Mar 13  Presentations  IV                                                                       \n\n\nGrading\n\n40% Final project and presentation\n\n60% Problem set (worst dropped)\n\n\nTesting our python code setup:\n\nimport sys\nsys.path.append('../code')\nfrom astro_utils import hello_astrophysics\n\nhello_astrophysics()\nimport sys\nprint(sys.executable)\n\nHello astrophysics! \n/opt/hostedtoolcache/Python/3.12.8/x64/bin/python3"
   }
 ]
