@@ -1,0 +1,22 @@
+---
+title: "Describe your Workflow"
+lightbox:
+    match: auto
+    effect: zoom
+    desc-position: right
+    loop: false
+format: html
+---
+
+One key aspect of all our work is that we communicate with a wide range of audiences our research methodology, our approach and our findings. These reports come in a wide range of formats as well. From talk slides, to research blogs, to popular science writing, to github repositories, to code pull requests, to research articles and even a PhD thesis. Very often this means that we have similar content but variations of our work. The same figures I made for my research paper are usually not adequate for a talk slide. We need larger fonts, more legible axes labels, titles, backgrounds, etc. The publications style, citations style, and style guidance all change depending on which journal we are writing for.
+
+Similarly for our daily work flow, time management and project progress tracking we employ productivity hacks. We strive to get to know ourselves better and experiment with what works and what doesn't. There are many ways to personalize how we approach tracking and keeping progress towards our goals. 
+
+Last but not least we work a lot with code and data. Whether we are experimental, observational, theoretical, computational, historical, philosophical physicists, or any combination of those labels, chances are we are wrangling quite a bit of data, CAD files, survey data, telescope archives, simulation suites, to thesis mile-stones. 
+
+In this **first assignment** we are asking to describe a workflow that is helpful to these goals. I.e. how to best organize everything needed to write a successful thesis and the many other things related to it. The talk for the thesis defense, the qual exam, the assembly of the thesis. Make the assignment follow more the "do as I say, rather than do what I do" mantra. I.e. talk more about how you think it might best be done and how you might try to change your own workflow rather than describing parts that do not work to well. Let us know about any tools that are helping you and any tips you may have for using them. Nothing is too small a tip. *Which keyboard shortcuts are your most useful ones?*, *what directory structure keeps things organized*, *what cloud-service / external hard-drives powers your backup strategy?*, *What web bookmarks are essential for a Physics PhD at Stanford? Which for research at KIPAC/SLAC?*. 
+
+Hand in you personal take on this next week. This version can happily offer strong opinions. However, also already think about organizing yourself so you can turn all this eventually into a large shared document that can be helpful to all of us as a resource. For the larger resource we may tone down our strongest opinions. 
+I would suggest a structure that separates the writing on publishing/authoring from time management, project tracking as well as from data wrangling and coding while at the same explicitly highlights the threads that connect these areas in as much as it makes sense in your approach. 
+
+Hand it in through Canvas. 

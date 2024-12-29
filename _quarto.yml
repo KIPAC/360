@@ -19,7 +19,9 @@ website:
           - text: "Lecture 2"
             href: ./lectures/lecture2.qmd
       - text: "Assignments"
-        href: ../assignments/
+        menu:
+          - text: "Workflow"
+            href: ./assignments/workflow_description.qmd
       - text: "Final Project"
         menu:
           - text: "Project Suggestions"
