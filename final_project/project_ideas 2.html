@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Physics 360: Modern Astrophysics</title>
+<title>Possible Final project topics – Physics 360: Modern Astrophysics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
 }
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
 }
-</style>
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -73,6 +59,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -101,6 +90,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -122,10 +140,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="../website/index.html" aria-current="page"> 
-<span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Lectures</span>
@@ -141,17 +155,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-assignments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Assignments</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-assignments">    
-        <li>
-    <a class="dropdown-item" href="../assignments/workflow_description.html">
- <span class="dropdown-text">Workflow</span></a>
+  <li class="nav-item">
+    <a class="nav-link" href="../../assignments/"> 
+<span class="menu-text">Assignments</span></a>
   </li>  
-    </ul>
-  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-final-project" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Final Project</span>
@@ -178,15 +185,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/KIPAC/360/" target="_blank"><i class="bi bi-github"></i>GitHub Repo</a></li></ul></div></div>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Physics 360: Modern Astrophysics</h1>
+<h1 class="title">Possible Final project topics</h1>
 </div>
 
 
@@ -202,60 +208,182 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<nav id="TOC" role="doc-toc">
+   
+  <ul>
+  <li><a href="#forward-models" id="toc-forward-models">Forward models</a>
+  <ul>
+  <li><a href="#globular-star-clusters-observations-by-hst-and-jwst" id="toc-globular-star-clusters-observations-by-hst-and-jwst">Globular Star Clusters observations by HST and JWST</a></li>
+  <li><a href="#model-galaxy-imagesspectra-from-3d-simulations" id="toc-model-galaxy-imagesspectra-from-3d-simulations">Model Galaxy images/spectra from 3D Simulations</a></li>
+  <li><a href="#model-galaxy-imagesspectra" id="toc-model-galaxy-imagesspectra">Model Galaxy images/spectra</a></li>
+  <li><a href="#radiation-from-a-3d-hii-region" id="toc-radiation-from-a-3d-hii-region">Radiation from a 3D HII region</a></li>
+  <li><a href="#radiation-hydro-dynamics-of-a-3d-hii-region" id="toc-radiation-hydro-dynamics-of-a-3d-hii-region">Radiation Hydro-Dynamics of a 3D HII region</a></li>
+  </ul></li>
+  <li><a href="#dynamics" id="toc-dynamics">Dynamics</a>
+  <ul>
+  <li><a href="#model-a-dwarf-galaxygc-disruption-in-gala" id="toc-model-a-dwarf-galaxygc-disruption-in-gala">Model a dwarf galaxy/GC disruption in gala</a></li>
+  <li><a href="#particle-mesh-codes-in-cosmology" id="toc-particle-mesh-codes-in-cosmology">Particle-Mesh Codes in Cosmology</a></li>
+  <li><a href="#statistical-properties-of-12-and-3d-turbulence" id="toc-statistical-properties-of-12-and-3d-turbulence">Statistical properties of 1,2 and 3D turbulence</a></li>
+  <li><a href="#numerical-cosmology" id="toc-numerical-cosmology">Numerical Cosmology</a></li>
+  </ul></li>
+  <li><a href="#micro-physics" id="toc-micro-physics">Micro-physics</a>
+  <ul>
+  <li><a href="#very-fast-chemical-reaction-network-solvers-using-neural-nets" id="toc-very-fast-chemical-reaction-network-solvers-using-neural-nets">Very fast chemical reaction network solvers using neural nets</a></li>
+  <li><a href="#fast-non-equilibrium-cooling-functions-high-dimensional-interpolation" id="toc-fast-non-equilibrium-cooling-functions-high-dimensional-interpolation">Fast non-equilibrium cooling functions: high dimensional interpolation</a></li>
+  <li><a href="#differentiable-emission-line-modeling-for-galaxies" id="toc-differentiable-emission-line-modeling-for-galaxies">Differentiable emission line modeling for galaxies</a></li>
+  <li><a href="#differentiable-dust-emission-and-absorption" id="toc-differentiable-dust-emission-and-absorption">Differentiable Dust emission and absorption</a></li>
+  </ul></li>
+  <li><a href="#statistics-related" id="toc-statistics-related">Statistics related</a>
+  <ul>
+  <li><a href="#counting-with-fourier-transforms-fast-2pt-correlation-functions-for-large-radii" id="toc-counting-with-fourier-transforms-fast-2pt-correlation-functions-for-large-radii">Counting with Fourier Transforms: Fast 2pt correlation functions for large radii</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/KIPAC/360/" target="_blank"><i class="bi bi-github"></i>GitHub Repo</a></li></ul></div></nav>
+<section id="forward-models" class="level1">
+<h1>Forward models</h1>
+<section id="globular-star-clusters-observations-by-hst-and-jwst" class="level2">
+<h2 class="anchored" data-anchor-id="globular-star-clusters-observations-by-hst-and-jwst">Globular Star Clusters observations by HST and JWST</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a signficant project and breaks up into sub tasks. It likely is a good project for a group of students.</p>
+</div>
+</div>
+<div style="float: right; width: 30%; text-align: right;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../resources/Images/M13.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="M13 as seen by HST"><img src="../resources/Images/M13.jpg" class="img-fluid figure-img" style="width:100.0%" alt="An HST observation of the central regions of M13."></a></p>
+<figcaption>M13 as seen by HST</figcaption>
+</figure>
+</div>
+</div>
+<p>HST observations of Globular Clusters in the Milky Way are stunning. We want to build a forward model which uses a library of stellar spectra which we convolve with the correct broad band filters of the specific observations we want to match. We then want to build a forward model which aims to combine our theoretical stars into an image which once the point spread function of HST is applied matches our input data.</p>
+</section>
+<section id="model-galaxy-imagesspectra-from-3d-simulations" class="level2">
+<h2 class="anchored" data-anchor-id="model-galaxy-imagesspectra-from-3d-simulations">Model Galaxy images/spectra from 3D Simulations</h2>
+<p>We have access to many different galaxy formation simulations and want to explore to make virtual observations that we can compare directly with real observations. We want to explore what is required to make very fast predictions.</p>
+</section>
+<section id="model-galaxy-imagesspectra" class="level2">
+<h2 class="anchored" data-anchor-id="model-galaxy-imagesspectra">Model Galaxy images/spectra</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a signficant project and breaks up into sub tasks. It likely is a good project for a group of students.</p>
+</div>
+</div>
+The <a href="https://zenodo.org/records/3565489#.Y3vFKS-l0eY">image data</a> of <a href="https://data.galaxyzoo.org/#section-7">Galaxy Zoo 2</a> <span class="citation" data-cites="Willett:2019aa">(<a href="#ref-Willett:2019aa" role="doc-biblioref">Willett et al. 2019</a>)</span> is available online. This is supplemented by classifications carried out by a large number of volunteers.
+<div style="float: right; width: 30%; text-align: right;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../resources/Images/GalaxyZoo2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Galaxy in Galaxy Zoo 2"><img src="../resources/Images/GalaxyZoo2.jpg" class="img-fluid figure-img" style="width:100.0%" alt="An SDSS image in Galaxy Zoo 2."></a></p>
+<figcaption>Galaxy in Galaxy Zoo 2</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="radiation-from-a-3d-hii-region" class="level2">
+<h2 class="anchored" data-anchor-id="radiation-from-a-3d-hii-region">Radiation from a 3D HII region</h2>
+</section>
+<section id="radiation-hydro-dynamics-of-a-3d-hii-region" class="level2">
+<h2 class="anchored" data-anchor-id="radiation-hydro-dynamics-of-a-3d-hii-region">Radiation Hydro-Dynamics of a 3D HII region</h2>
+</section>
+</section>
+<section id="dynamics" class="level1">
+<h1>Dynamics</h1>
+<section id="model-a-dwarf-galaxygc-disruption-in-gala" class="level2">
+<h2 class="anchored" data-anchor-id="model-a-dwarf-galaxygc-disruption-in-gala">Model a dwarf galaxy/GC disruption in <a href="https://gala-astro.readthedocs.io/en/latest/">gala</a></h2>
+</section>
+<section id="particle-mesh-codes-in-cosmology" class="level2">
+<h2 class="anchored" data-anchor-id="particle-mesh-codes-in-cosmology">Particle-Mesh Codes in Cosmology</h2>
+<p>Andrey Kravtsov wrote a <a href="../../resources/PDFs/WriteAPMCode_Kravtsov.pdf">wonderful set of instructions</a> on how to approach writing your own particle mesh code specifically for numerical cosmology. There is now a beautifully implemented python version of cosmological PM by <span class="citation" data-cites="Breton:2024aa">Breton (<a href="#ref-Breton:2024aa" role="doc-biblioref">2024</a>)</span>, called <a href="https://github.com/mianbreton/pysco">pysco</a>, which also includes well developed initial conditions generation. I have many example Jupyter notebooks I can share with you also ones related to the Simplex in Cell technique <span class="citation" data-cites="Abel:2012aa">Hahn and Angulo (<a href="#ref-Hahn:2016aa" role="doc-biblioref">2016</a>)</span>. There are multiple possible projects building on this work.</p>
+<section id="make-pysco-use-the-phase-space-sheet" class="level4">
+<h4 class="anchored" data-anchor-id="make-pysco-use-the-phase-space-sheet">Make pysco use the phase-space sheet</h4>
+<p>E.g. you might incorporate the ideas from <span class="citation" data-cites="Abel:2012aa">Abel, Hahn, and Kaehler (<a href="#ref-Abel:2012aa" role="doc-biblioref">2012</a>)</span>, <span class="citation" data-cites="Sousbie:2016aa">Sousbie and Colombi (<a href="#ref-Sousbie:2016aa" role="doc-biblioref">2016</a>)</span>, and <span class="citation" data-cites="Hahn:2016aa">Hahn and Angulo (<a href="#ref-Hahn:2016aa" role="doc-biblioref">2016</a>)</span> into pysco.</p>
+</section>
+<section id="explore-the-statistics-of-3d-cosmological-density" class="level4">
+<h4 class="anchored" data-anchor-id="explore-the-statistics-of-3d-cosmological-density">Explore the statistics of 3D cosmological density</h4>
+<p>You might first just use fields as computed through the Lagrangian Perturbation theory implemented in pysco, i.e.&nbsp;the initial conditions. Once you have a pipeline to measure the spatial statistics you are interested in - <a href="https://www.kymat.io">Kymatio</a> implements 1, 2 and 3D wavelet scattering transforms. Follow <span class="citation" data-cites="Cheng:2023aa">Cheng et al. (<a href="#ref-Cheng:2023aa" role="doc-biblioref">2023</a>)</span> and characterize the scattering coefficients for evolved cosmological density fields. - Measure the PDFs for the density fields for many different smoothing lengths and compare to the predictions given by <a href="https://github.com/mcataneo/pyLDT-cosmo">pyLDT</a> from <span class="citation" data-cites="Cataneo:2021aa">Cataneo et al. (<a href="#ref-Cataneo:2021aa" role="doc-biblioref">2021</a>)</span>. - Explore <a href="https://github.com/yipihey/kNN-CDFs">kNN-CDFs</a> from <span class="citation" data-cites="Banerjee:2021ws">Banerjee and Abel (<a href="#ref-Banerjee:2021ws" role="doc-biblioref">2021</a>)</span>.</p>
+</section>
+</section>
+<section id="statistical-properties-of-12-and-3d-turbulence" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-properties-of-12-and-3d-turbulence">Statistical properties of 1,2 and 3D turbulence</h2>
+<p>The novelty in this project is that we will try to do very high dynamic range estimates of the statistical properties of turbulence by running a set of simulations which we connect in a one way approach. We will start with a 1D model which will help us practice everything we need. If we manage that we can extend it to 2 and 3D. <span class="citation" data-cites="Beattie:2022aa">Beattie et al. (<a href="#ref-Beattie:2022aa" role="doc-biblioref">2022</a>)</span> study the density PDF in supersonic MHD turbulence. We start by reading this paper to get a sense of the current questions in the field. First step then is to use 1D hydro</p>
+</section>
+<section id="numerical-cosmology" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-cosmology">Numerical Cosmology</h2>
+</section>
+</section>
+<section id="micro-physics" class="level1">
+<h1>Micro-physics</h1>
+<section id="very-fast-chemical-reaction-network-solvers-using-neural-nets" class="level2">
+<h2 class="anchored" data-anchor-id="very-fast-chemical-reaction-network-solvers-using-neural-nets">Very fast chemical reaction network solvers using neural nets</h2>
+</section>
+<section id="fast-non-equilibrium-cooling-functions-high-dimensional-interpolation" class="level2">
+<h2 class="anchored" data-anchor-id="fast-non-equilibrium-cooling-functions-high-dimensional-interpolation">Fast non-equilibrium cooling functions: high dimensional interpolation</h2>
+</section>
+<section id="differentiable-emission-line-modeling-for-galaxies" class="level2">
+<h2 class="anchored" data-anchor-id="differentiable-emission-line-modeling-for-galaxies">Differentiable emission line modeling for galaxies</h2>
+</section>
+<section id="differentiable-dust-emission-and-absorption" class="level2">
+<h2 class="anchored" data-anchor-id="differentiable-dust-emission-and-absorption">Differentiable Dust emission and absorption</h2>
+</section>
+</section>
+<section id="statistics-related" class="level1">
+<h1>Statistics related</h1>
+<section id="counting-with-fourier-transforms-fast-2pt-correlation-functions-for-large-radii" class="level2">
 
-<section id="welcome-to-physics-360" class="level1">
-<h1>Welcome to Physics 360</h1>
-<p><strong>Instructor</strong>: Dr.&nbsp;Tom Abel <strong>Email</strong>: tabel@stanford.edu</p>
-<p>This website hosts all materials for Physics 360: Modern Astrophysics, including lectures, assignments, final projects, and resources.</p>
-</section>
-<section id="modern-astrophysics" class="level1">
-<h1>Modern Astrophysics</h1>
-<p>This course is directed at first/second year graduate students interested in astrophysics research. We cover a few of the important physical processes necessary to understand astronomical objects and observations. The course will use python notebooks throughout helping with experiential learning and give the student resources to explore the code/formulas and algorithms behind the plots and animations.</p>
-</section>
-<section id="course-notes-and-schedule" class="level1">
-<h1>Course Notes and Schedule</h1>
-<section id="texts-and-resources" class="level3">
-<h3 class="anchored" data-anchor-id="texts-and-resources">Texts and resources</h3>
-<p>Useful free textbook for a number of theoretical concepts. - <strong>Kaiser</strong>: <em>Elements of Astrophysics</em>: <a href="https://www.astroarts.org/downloads/pdfs/elements.pdf">Link to PDF</a></p>
-</section>
-<section id="syllabus-calendar-reading-and-problem-sets" class="level3">
-<h3 class="anchored" data-anchor-id="syllabus-calendar-reading-and-problem-sets">Syllabus: Calendar, Reading, and Problem Sets</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Calendar                                         Reading                Problem Set              </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Tu  1 Jan 7   Intro/Overview/Gravity             K:285-300              K: 26.7.1 p295 + 1-2 page Proposal </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Th  2 Jan 9   Gravity 3 ways | Stellar dynamics</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Tu  3 Jan 14  Cosmology + Spherical Collapse     K:303-308,337-340,385-388  Bertschinger Dust Solution      </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Th  4 Jan 16  Hydrodynamics           I)         K:246-247,251-253                                   </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Tu  5 Jan 21  Hydrodynamics          II)                                                                     </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Th  6 Jan 23  Sound Waves, Shocks &amp; Sedov Taylor K:258,22.2,23.2         K:20.10.3 + Bertsch. g=5/3  </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Tu  7 Jan 28  Radiation                          K:61-69                                             </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Th  8 Jan 30  Radiation Transport                K:81-89                 K:6.12.1-4 +                </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Tu  9 Feb  4  Radiative Processes   I)                                                               </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Th 10 Feb  6  Radiative Processes  II)                                                               </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Tu 11 Feb 11  Radiative Processes III)                                   K:14.9.2-3 +                </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>Th 12 Feb 13  AT   I)  Spectra of Galaxies       Notes</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Tu 13 Feb 18  AT  II)  HII regions               Notes                                           </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Th 14 Feb 20  AT III)  Press Schechter theory    Notes                   reproduce Mo &amp; White 98                                            </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Tu 15 Feb 25  AT  IV)  Summary Statistics        Notes </span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Th 16 Feb 27  AT   V)  Plasmas/Acceleration      Notes                                          </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>Tu 17 Mar  4  Presentations   I</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Th 18 Mar  6  Presentations  II                                                                       </span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>Tu 19 Mar 11  Presentations III                                                                       </span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>Th 20 Mar 13  Presentations  IV                                                                       </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="grading" class="level3">
-<h3 class="anchored" data-anchor-id="grading">Grading</h3>
-<ul>
-<li><strong>40%</strong> Final project and presentation<br>
-</li>
-<li><strong>60%</strong> Problem set (worst dropped)</li>
-</ul>
-<hr>
+
 
 
 </section>
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Counting with Fourier Transforms: Fast 2pt correlation functions for large radii</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Abel:2012aa" class="csl-entry" role="listitem">
+Abel, T., O. Hahn, and R. Kaehler. 2012. <span>“<span class="nocase">Tracing the dark matter sheet in phase space</span>”</span> 427 (November): 61–76. <a href="https://doi.org/10.1111/j.1365-2966.2012.21754.x">https://doi.org/10.1111/j.1365-2966.2012.21754.x</a>.
+</div>
+<div id="ref-Banerjee:2021ws" class="csl-entry" role="listitem">
+Banerjee, Arka, and Tom Abel. 2021. <span>“<span class="nocase">Nearest neighbour distributions: New statistical measures for cosmological clustering</span>”</span> 500 (4): 5479–99. <a href="https://doi.org/10.1093/mnras/staa3604">https://doi.org/10.1093/mnras/staa3604</a>.
+</div>
+<div id="ref-Beattie:2022aa" class="csl-entry" role="listitem">
+Beattie, James R, Philip Mocz, Christoph Federrath, and Ralf S Klessen. 2022. <span>“The Density Distribution and Physical Origins of Intermittency in Supersonic, Highly Magnetized Turbulence with Diverse Modes of Driving.”</span> <em>Monthly Notices of the Royal Astronomical Society</em> 517 (4): 5003–31. <a href="https://doi.org/10.1093/mnras/stac3005">https://doi.org/10.1093/mnras/stac3005</a>.
+</div>
+<div id="ref-Breton:2024aa" class="csl-entry" role="listitem">
+Breton, Michel-Andrès. 2024. <span>“<span class="nocase">PySCo: A fast Particle-Mesh <span class="math inline">\(N\)</span>-body code for modified gravity simulations in Python</span>.”</span> <em>arXiv e-Prints</em>, October, arXiv:2410.20501. <a href="https://doi.org/10.48550/arXiv.2410.20501">https://doi.org/10.48550/arXiv.2410.20501</a>.
+</div>
+<div id="ref-Cataneo:2021aa" class="csl-entry" role="listitem">
+Cataneo, Matteo, Cora Uhlemann, Christian Arnold, Alex Gough, Baojiu Li, and Catherine Heymans. 2021. <span>“<span class="nocase">The matter density PDF for modified gravity and dark energy with Large Deviations Theory</span>.”</span> <em>arXiv e-Prints</em>, September, arXiv:2109.02636. <a href="https://arxiv.org/abs/2109.02636">https://arxiv.org/abs/2109.02636</a>.
+</div>
+<div id="ref-Cheng:2023aa" class="csl-entry" role="listitem">
+Cheng, Sihao, Rudy Morel, Erwan Allys, Brice Ménard, and Stéphane Mallat. 2023. <span>“<span class="nocase">Scattering Spectra Models for Physics</span>.”</span> <em>arXiv e-Prints</em>, June, arXiv:2306.17210. <a href="https://doi.org/10.48550/arXiv.2306.17210">https://doi.org/10.48550/arXiv.2306.17210</a>.
+</div>
+<div id="ref-Hahn:2016aa" class="csl-entry" role="listitem">
+Hahn, O., and R. E. Angulo. 2016. <span>“<span class="nocase">An adaptively refined phase-space element method for cosmological simulations and collisionless dynamics</span>”</span> 455 (January): 1115–33. <a href="https://doi.org/10.1093/mnras/stv2304">https://doi.org/10.1093/mnras/stv2304</a>.
+</div>
+<div id="ref-Kates-Harbeck:2016aa" class="csl-entry" role="listitem">
+Kates-Harbeck, J., S. Totorica, J. Zrake, and T. Abel. 2016. <span>“<span class="nocase">Simplex-in-cell technique for collisionless plasma simulations</span>.”</span> <em>Journal of Computational Physics</em> 304 (January): 231–51. <a href="https://doi.org/10.1016/j.jcp.2015.10.017">https://doi.org/10.1016/j.jcp.2015.10.017</a>.
+</div>
+<div id="ref-Sousbie:2016aa" class="csl-entry" role="listitem">
+Sousbie, T., and S. Colombi. 2016. <span>“<span class="nocase">ColDICE: A parallel Vlasov-Poisson solver using moving adaptive simplicial tessellation</span>.”</span> <em>Journal of Computational Physics</em> 321 (September): 644–97. <a href="https://doi.org/10.1016/j.jcp.2016.05.048">https://doi.org/10.1016/j.jcp.2016.05.048</a>.
+</div>
+<div id="ref-Willett:2019aa" class="csl-entry" role="listitem">
+Willett, Kyle W., Chris J. Lintott, Steven P. Bamford, Karen L. Masters, Brooke D. Simmons, Kevin R. V. Casteels, Edward M. Edmonson, et al. 2019. <span>“Galaxy Zoo 2: Images from Original Sample.”</span> Zenodo. <a href="https://doi.org/10.5281/zenodo.3565489">https://doi.org/10.5281/zenodo.3565489</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -346,7 +474,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/KIPAC\.github\.io\/360\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -674,6 +802,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"right","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
