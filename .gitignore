@@ -177,3 +177,27 @@ cython_debug/
 lectures/lecture1 2.quarto_ipynb
 lectures/lecture1 3.quarto_ipynb
 website/_site/
+README.html
+README_files/libs/quarto-html/anchor.min.js
+README_files/libs/quarto-html/popper.min.js
+README_files/libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css
+README_files/libs/quarto-html/quarto.js
+README_files/libs/quarto-html/tippy.css
+README_files/libs/quarto-html/tippy.umd.min.js
+README_files/libs/clipboard/clipboard.min.js
+README_files/libs/bootstrap/bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css
+README_files/libs/bootstrap/bootstrap-icons.css
+README_files/libs/bootstrap/bootstrap-icons.woff
+README_files/libs/bootstrap/bootstrap.min.js
+assignments/Assignment_1_files/libs/bootstrap/bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css
+assignments/Assignment_1_files/libs/bootstrap/bootstrap-icons.css
+assignments/Assignment_1_files/libs/bootstrap/bootstrap-icons.woff
+assignments/Assignment_1_files/libs/bootstrap/bootstrap.min.js
+assignments/Assignment_1_files/libs/clipboard/clipboard.min.js
+assignments/Assignment_1_files/libs/quarto-html/anchor.min.js
+assignments/Assignment_1_files/libs/quarto-html/popper.min.js
+assignments/Assignment_1_files/libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css
+assignments/Assignment_1_files/libs/quarto-html/quarto.js
+assignments/Assignment_1_files/libs/quarto-html/tippy.css
+assignments/Assignment_1_files/libs/quarto-html/tippy.umd.min.js
+assignments/Assignment_1.html
