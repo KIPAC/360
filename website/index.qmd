@@ -11,14 +11,18 @@ format:
 **Instructor**: Dr. Tom Abel
 **Email**: tabel@stanford.edu
 
-This website hosts all materials for Physics 360: Modern Astrophysics, including lectures, assignments, final projects, and resources.
+**Meets**: [Tu Th 1:30-2:50pm in 60-109](https://explorecourses.stanford.edu/search;jsessionid=184oy9umvgmev1w5a5b62s9u42?q=PHYSICS+360%3a+Modern+Astrophysics&view=catalog&filter-coursestatus-Active=on&)
 
+This website hosts all materials for Physics 360: Modern Astrophysics, including lectures, assignments, final projects, and resources.
 
 # Modern Astrophysics
 
 This course is directed at first/second year graduate students interested in astrophysics research. We cover a few of the important physical processes necessary to understand astronomical objects and observations. The course will use python notebooks throughout helping with experiential learning and give the student resources to explore the code/formulas and algorithms behind the plots and animations.
 
 # Course Notes and Schedule
+
+### Bring laptop to class
+During most lectures we will do some coding and/or run some example code I provide. Please bring your laptop. We recommend to [create a class specific virtual environment](tutorials/python_setup.qmd)
 
 ### Texts and resources
 Useful free textbook for a number of theoretical concepts. 

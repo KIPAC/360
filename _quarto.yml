@@ -20,10 +20,14 @@ website:
             href: ./lectures/lecture1.qmd
           - text: "Lecture 2"
             href: ./lectures/lecture2.qmd
+      - text: "Tutorials"
+        menu:
+          - text: "Setup python"
+            href: ./tutorials/python_setup.qmd
       - text: "Assignments"
         menu:
           - text: "Workflow"
-            href: ./assignments/workflow_description.qmd
+            href: ./assignments/assignment_1.qmd
       - text: "Final Project"
         menu:
           - text: "Project Suggestions"
