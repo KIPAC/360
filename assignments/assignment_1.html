@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Physics 360: Modern Astrophysics</title>
+<title>Assignment 1 – Physics 360: Modern Astrophysics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -69,10 +35,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-41ce87c438ccaeb35f64ae41c48547a8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -123,7 +89,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../website/index.html" aria-current="page"> 
+    <a class="nav-link" href="../website/index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -142,12 +108,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorials</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">    
+        <li>
+    <a class="dropdown-item" href="../tutorials/python_setup.html">
+ <span class="dropdown-text">Setup python</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-assignments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Assignments</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-assignments">    
         <li>
-    <a class="dropdown-item" href="../assignments/workflow_description.html">
+    <a class="dropdown-item" href="../assignments/assignment_1.html">
  <span class="dropdown-text">Workflow</span></a>
   </li>  
     </ul>
@@ -178,15 +155,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/KIPAC/360/" target="_blank"><i class="bi bi-github"></i>GitHub Repo</a></li></ul></div></div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Physics 360: Modern Astrophysics</h1>
+<h1 class="title">Assignment 1</h1>
 </div>
 
 
@@ -203,56 +178,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="welcome-to-physics-360" class="level1">
-<h1>Welcome to Physics 360</h1>
-<p><strong>Instructor</strong>: Dr.&nbsp;Tom Abel <strong>Email</strong>: tabel@stanford.edu</p>
-<p>This website hosts all materials for Physics 360: Modern Astrophysics, including lectures, assignments, final projects, and resources.</p>
+<section id="describe-your-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="describe-your-workflow">Describe your Workflow</h2>
+<p>One key aspect of all our work is that we communicate with a wide range of audiences our research methodology, our approach and our findings. These reports come in a wide range of formats as well. From talk slides, to research blogs, to popular science writing, to github repositories, to code pull requests, to research articles and even a PhD thesis. Very often this means that we have similar content but variations of our work. The same figures I made for my research paper are usually not adequate for a talk slide. We need larger fonts, more legible axes labels, titles, backgrounds, etc. The publications style, citations style, and style guidance all change depending on which journal we are writing for.</p>
+<p>Similarly for our daily work flow, time management and project progress tracking we employ productivity hacks. We strive to get to know ourselves better and experiment with what works and what doesn’t. There are many ways to personalize how we approach tracking and keeping progress towards our goals.</p>
+<p>Last but not least we work a lot with code and data. Whether we are experimental, observational, theoretical, computational, historical, philosophical physicists, or any combination of those labels, chances are we are wrangling quite a bit of data, CAD files, survey data, telescope archives, simulation suites, to thesis mile-stones.</p>
+<p>In this <strong>first assignment</strong> we are asking to describe a workflow that is helpful to these goals. I.e. how to best organize everything needed to write a successful thesis and the many other things related to it. The talk for the thesis defense, the qual exam, the assembly of the thesis. Make the assignment follow more the “do as I say, rather than do what I do” mantra. I.e. talk more about how you think it might best be done and how you might try to change your own workflow rather than describing parts that do not work to well. Let us know about any tools that are helping you and any tips you may have for using them. Nothing is too small a tip. <em>Which keyboard shortcuts are your most useful ones?</em>, <em>what directory structure keeps things organized</em>, <em>what cloud-service / external hard-drives powers your backup strategy?</em>, <em>What web bookmarks are essential for a Physics PhD at Stanford? Which for research at KIPAC/SLAC?</em>.</p>
+<p>Hand in you personal take on this next week. This version can happily offer strong opinions. However, also already think about organizing yourself so you can <strong>turn all this eventually into a large shared document</strong> that can be helpful to all of us as a resource. For the larger resource we may tone down our strongest opinions. I would suggest a structure that separates the writing on publishing/authoring from time management, project tracking as well as from data wrangling and coding while at the same explicitly highlights the threads that connect these areas in as much as it makes sense in your approach.</p>
+<p>Hand in your write up through Canvas.</p>
 </section>
-<section id="modern-astrophysics" class="level1">
-<h1>Modern Astrophysics</h1>
-<p>This course is directed at first/second year graduate students interested in astrophysics research. We cover a few of the important physical processes necessary to understand astronomical objects and observations. The course will use python notebooks throughout helping with experiential learning and give the student resources to explore the code/formulas and algorithms behind the plots and animations.</p>
-</section>
-<section id="course-notes-and-schedule" class="level1">
-<h1>Course Notes and Schedule</h1>
-<section id="texts-and-resources" class="level3">
-<h3 class="anchored" data-anchor-id="texts-and-resources">Texts and resources</h3>
-<p>Useful free textbook for a number of theoretical concepts. - <strong>Kaiser</strong>: <em>Elements of Astrophysics</em>: <a href="https://www.astroarts.org/downloads/pdfs/elements.pdf">Link to PDF</a></p>
-</section>
-<section id="syllabus-calendar-reading-and-problem-sets" class="level3">
-<h3 class="anchored" data-anchor-id="syllabus-calendar-reading-and-problem-sets">Syllabus: Calendar, Reading, and Problem Sets</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Calendar                                         Reading                Problem Set              </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Tu  1 Jan 7   Intro/Overview/Gravity             K:285-300              K: 26.7.1 p295 + 1-2 page Proposal </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Th  2 Jan 9   Gravity 3 ways | Stellar dynamics</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Tu  3 Jan 14  Cosmology + Spherical Collapse     K:303-308,337-340,385-388  Bertschinger Dust Solution      </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Th  4 Jan 16  Hydrodynamics           I)         K:246-247,251-253                                   </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Tu  5 Jan 21  Hydrodynamics          II)                                                                     </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Th  6 Jan 23  Sound Waves, Shocks &amp; Sedov Taylor K:258,22.2,23.2         K:20.10.3 + Bertsch. g=5/3  </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Tu  7 Jan 28  Radiation                          K:61-69                                             </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Th  8 Jan 30  Radiation Transport                K:81-89                 K:6.12.1-4 +                </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Tu  9 Feb  4  Radiative Processes   I)                                                               </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Th 10 Feb  6  Radiative Processes  II)                                                               </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Tu 11 Feb 11  Radiative Processes III)                                   K:14.9.2-3 +                </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>Th 12 Feb 13  AT   I)  Spectra of Galaxies       Notes</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Tu 13 Feb 18  AT  II)  HII regions               Notes                                           </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Th 14 Feb 20  AT III)  Press Schechter theory    Notes                   reproduce Mo &amp; White 98                                            </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Tu 15 Feb 25  AT  IV)  Summary Statistics        Notes </span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Th 16 Feb 27  AT   V)  Plasmas/Acceleration      Notes                                          </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>Tu 17 Mar  4  Presentations   I</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Th 18 Mar  6  Presentations  II                                                                       </span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>Tu 19 Mar 11  Presentations III                                                                       </span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>Th 20 Mar 13  Presentations  IV                                                                       </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="grading" class="level3">
-<h3 class="anchored" data-anchor-id="grading">Grading</h3>
-<ul>
-<li><strong>40%</strong> Final project and presentation<br>
-</li>
-<li><strong>60%</strong> Problem set (worst dropped)</li>
-</ul>
-<hr>
+<section id="install-gala-and-plotly-libraries-in-your-own-python-setup" class="level2">
+<h2 class="anchored" data-anchor-id="install-gala-and-plotly-libraries-in-your-own-python-setup">Install gala and plotly libraries in your own python setup</h2>
+<p>We will carry out a few galactic dynamics calculations using <a href="https://gala-astro.readthedocs.io/en/latest/index.html">gala</a> and visualize some of it with <a href="https://plotly.com">plotly</a>. Make sure to install these before next class time on Thursday.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -346,7 +285,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/KIPAC\.github\.io\/360\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
