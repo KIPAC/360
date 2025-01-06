@@ -1,0 +1,61 @@
+---
+title: "Preliminaries"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+#    number-sections: true
+    code-fold: true
+    code-tools: true
+    css: ../styles.css
+  pdf:
+    toc: true
+    number-sections: true
+    code: true
+jupyter: python3
+---
+
+# Course Overview
+## Learning Goals
+
+- Have a good understanding of what to expect from this course 
+- Learn about the grading policy, assignments and final project scope
+
+## Modern Astrophysics
+
+This course is directed at first/second year graduate students interested in astrophysics research. We cover a few of the important physical processes necessary to understand astronomical objects and observations. The course will use python notebooks throughout helping with experiential learning and give the student resources to explore the code/formulas and algorithms behind the plots and animations.
+
+## Course Notes and Schedule
+
+### Texts and resources
+
+- A useful free textbook for a number of theoretical concepts by Nick Kaiser: *Elements of Astrophysics*: [Link to PDF](https://www.astroarts.org/downloads/pdfs/elements.pdf)
+
+- @Binney:2008aa is a key reference for Galactic Dynamics. 
+
+- Fundamentals of Astrophysical Fluid Dynamics by @Kato:2020aa is recent and has a large scope with interesting discussion of fluids and radiation physics. 
+
+- If you have access through Stanford libraries I'll also add some .pdf files to the files section in the course Canvas site.
+
+### Syllabus: Calendar, Reading, and Problem Sets
+
+
+{{< include ../resources/calendar.txt >}}
+
+
+### Grading
+- **40%** Final project and presentation  
+- **60%** Problem set (worst dropped)
+
+---
+
+Testing our python code setup:
+```{python}
+import sys
+sys.path.append('../code')
+from astro_utils import hello_astrophysics
+
+hello_astrophysics()
+import sys
+print(sys.executable)
+```
