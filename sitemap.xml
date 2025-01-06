@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://KIPAC.github.io/360/lectures/lecture1.html</loc>
-    <lastmod>2025-01-06T02:11:07.097Z</lastmod>
-  </url>
-  <url>
-    <loc>https://KIPAC.github.io/360/website/index.html</loc>
-    <lastmod>2025-01-06T02:08:18.663Z</lastmod>
-  </url>
-  <url>
     <loc>https://KIPAC.github.io/360/final_project/project_ideas.html</loc>
-    <lastmod>2025-01-05T22:51:15.292Z</lastmod>
+    <lastmod>2025-01-06T21:33:18.178Z</lastmod>
   </url>
   <url>
     <loc>https://KIPAC.github.io/360/assignments/assignment_1.html</loc>
-    <lastmod>2025-01-06T02:19:52.883Z</lastmod>
-  </url>
-  <url>
-    <loc>https://KIPAC.github.io/360/final_project/projects/project1.html</loc>
-    <lastmod>2024-12-28T00:44:06.964Z</lastmod>
+    <lastmod>2025-01-06T21:33:18.178Z</lastmod>
   </url>
   <url>
     <loc>https://KIPAC.github.io/360/resources/resources.html</loc>
-    <lastmod>2024-12-28T00:44:06.964Z</lastmod>
+    <lastmod>2025-01-06T21:33:18.218Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/lectures/gravity.html</loc>
+    <lastmod>2025-01-06T21:33:18.178Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/lectures/preliminaries.html</loc>
+    <lastmod>2025-01-06T21:33:18.178Z</lastmod>
   </url>
   <url>
     <loc>https://KIPAC.github.io/360/tutorials/python_setup.html</loc>
-    <lastmod>2025-01-06T02:05:12.846Z</lastmod>
+    <lastmod>2025-01-06T21:33:18.218Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/website/index.html</loc>
+    <lastmod>2025-01-06T21:33:18.218Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/final_project/projects/project1.html</loc>
+    <lastmod>2025-01-06T21:33:18.178Z</lastmod>
   </url>
 </urlset>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -55,10 +55,10 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-41ce87c438ccaeb35f64ae41c48547a8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -150,8 +150,12 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
         <li>
-    <a class="dropdown-item" href="../lectures/lecture1.html">
- <span class="dropdown-text">Lecture 1</span></a>
+    <a class="dropdown-item" href="../lectures/preliminaries.html">
+ <span class="dropdown-text">Preliminaries</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/gravity.html">
+ <span class="dropdown-text">Gravity</span></a>
   </li>  
     </ul>
   </li>
@@ -241,9 +245,14 @@ window.Quarto = {
   <li><a href="#dynamics" id="toc-dynamics">Dynamics</a>
   <ul>
   <li><a href="#model-a-dwarf-galaxygc-disruption-in-gala" id="toc-model-a-dwarf-galaxygc-disruption-in-gala">Model a dwarf galaxy/GC disruption in gala</a></li>
+  <li><a href="#study-the-spitzer-equipartition-instability-in-globular-clusters" id="toc-study-the-spitzer-equipartition-instability-in-globular-clusters">Study the Spitzer (equipartition) Instability in Globular Clusters</a></li>
   <li><a href="#particle-mesh-codes-in-cosmology" id="toc-particle-mesh-codes-in-cosmology">Particle-Mesh Codes in Cosmology</a></li>
   <li><a href="#statistical-properties-of-12-and-3d-turbulence" id="toc-statistical-properties-of-12-and-3d-turbulence">Statistical properties of 1,2 and 3D turbulence</a></li>
   <li><a href="#numerical-cosmology" id="toc-numerical-cosmology">Numerical Cosmology</a></li>
+  </ul></li>
+  <li><a href="#radiation" id="toc-radiation">Radiation</a>
+  <ul>
+  <li><a href="#study-lyman-alpha-radiation-transport" id="toc-study-lyman-alpha-radiation-transport">Study Lyman-<span class="math inline">\(\alpha\)</span> Radiation Transport</a></li>
   </ul></li>
   <li><a href="#micro-physics" id="toc-micro-physics">Micro-physics</a>
   <ul>
@@ -258,6 +267,7 @@ window.Quarto = {
   </ul></li>
   </ul>
 <div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/KIPAC/360/" target="_blank"><i class="bi bi-github"></i>GitHub Repo</a></li></ul></div></nav>
+<p>You are very much encouraged to develop your own final project idea and project plan and deliverable. It has to fit inside this arguably very broad topic of “Modern Astrophysics” and should be not exactly what you are already doing for research. However, it is ok if it is adjacent to your research and the final project gives you a chance to explore something you wouldn’t have done without thinking about the tools, physics and methodology we are discussing in this course.</p>
 <section id="forward-models" class="level1">
 <h1>Forward models</h1>
 <section id="globular-star-clusters-observations-by-hst-and-jwst" class="level2">
@@ -338,9 +348,13 @@ Note
 <section id="model-a-dwarf-galaxygc-disruption-in-gala" class="level2">
 <h2 class="anchored" data-anchor-id="model-a-dwarf-galaxygc-disruption-in-gala">Model a dwarf galaxy/GC disruption in <a href="https://gala-astro.readthedocs.io/en/latest/">gala</a></h2>
 </section>
+<section id="study-the-spitzer-equipartition-instability-in-globular-clusters" class="level2">
+<h2 class="anchored" data-anchor-id="study-the-spitzer-equipartition-instability-in-globular-clusters">Study the Spitzer (equipartition) Instability in Globular Clusters</h2>
+<p>Use our N-body code, write your own, or use a professional one such like <a href="https://github.com/hannorein/rebound">rebound</a> to set up initial conditions that illustrate various aspects of Spitzer’s instability. The instability relates to having heavy stars mass segregate towards the center of a star cluster. Once they are more common they tend to dissipate energy to the lowe mass stars in the out parts via two body scattering. This leads the heavy masses to move to smaller radii moving away from equi-partition rather than towards equilibrium. See chapter 7.5.5 of <span class="citation" data-cites="Binney:2008aa">Binney and Tremaine (<a href="#ref-Binney:2008aa" role="doc-biblioref">2008</a>)</span>.</p>
+</section>
 <section id="particle-mesh-codes-in-cosmology" class="level2">
 <h2 class="anchored" data-anchor-id="particle-mesh-codes-in-cosmology">Particle-Mesh Codes in Cosmology</h2>
-<p>Andrey Kravtsov wrote a <a href="../../resources/PDFs/WriteAPMCode_Kravtsov.pdf">wonderful set of instructions</a> on how to approach writing your own particle mesh code specifically for numerical cosmology. There is now a beautifully implemented python version of cosmological PM by <span class="citation" data-cites="Breton:2024aa">Breton (<a href="#ref-Breton:2024aa" role="doc-biblioref">2024</a>)</span>, called <a href="https://github.com/mianbreton/pysco">pysco</a>, which also includes well developed initial conditions generation. I have many example Jupyter notebooks I can share with you also ones related to the Simplex in Cell technique <span class="citation" data-cites="Abel:2012aa">Hahn and Angulo (<a href="#ref-Hahn:2016aa" role="doc-biblioref">2016</a>)</span>. There are multiple possible projects building on this work.</p>
+<p>Andrey Kravtsov wrote a <a href="../../resources/PDFs/WriteAPMCode_Kravtsov.pdf">wonderful set of instructions</a> on how to approach writing your own particle mesh code specifically for numerical cosmology. There is now a beautifully implemented python version of cosmological PM by <span class="citation" data-cites="Breton:2024aa">Breton (<a href="#ref-Breton:2024aa" role="doc-biblioref">2024</a>)</span>, called <a href="https://github.com/mianbreton/pysco">pysco</a>, which also includes well developed initial conditions generation. I have many example Jupyter notebooks I can share with you also ones related to the Simplex in Cell technique <span class="citation" data-cites="Abel:2012aa">Hahn and Angulo (<a href="#ref-Hahn:2016aa" role="doc-biblioref">2016</a>)</span>. There are multiple possible projects building on this work. Our own <strong>Delon Shen</strong> wrote a <a href="https://github.com/DelonShen/pm_handouts/">beautiful set of notes</a> that are even more pedagogical and interactive.</p>
 <section id="make-pysco-use-the-phase-space-sheet" class="level4">
 <h4 class="anchored" data-anchor-id="make-pysco-use-the-phase-space-sheet">Make pysco use the phase-space sheet</h4>
 <p>E.g. you might incorporate the ideas from <span class="citation" data-cites="Abel:2012aa">Abel, Hahn, and Kaehler (<a href="#ref-Abel:2012aa" role="doc-biblioref">2012</a>)</span>, <span class="citation" data-cites="Sousbie:2016aa">Sousbie and Colombi (<a href="#ref-Sousbie:2016aa" role="doc-biblioref">2016</a>)</span>, and <span class="citation" data-cites="Hahn:2016aa">Hahn and Angulo (<a href="#ref-Hahn:2016aa" role="doc-biblioref">2016</a>)</span> into pysco.</p>
@@ -356,6 +370,13 @@ Note
 </section>
 <section id="numerical-cosmology" class="level2">
 <h2 class="anchored" data-anchor-id="numerical-cosmology">Numerical Cosmology</h2>
+</section>
+</section>
+<section id="radiation" class="level1">
+<h1>Radiation</h1>
+<section id="study-lyman-alpha-radiation-transport" class="level2">
+<h2 class="anchored" data-anchor-id="study-lyman-alpha-radiation-transport">Study Lyman-<span class="math inline">\(\alpha\)</span> Radiation Transport</h2>
+<p>Implement the grid-less monte carlo transfer approach of <span class="citation" data-cites="Smith:2025aa">Smith et al. (<a href="#ref-Smith:2025aa" role="doc-biblioref">2025</a>)</span>, reproduce some of their plots and discuss the approach. <strong>Stretch goal</strong>: Make a differentiable version. Feeding it one of its own solutions can you write a pipeline which recovers all input parameters and (further stretch) error bars on them?</p>
 </section>
 </section>
 <section id="micro-physics" class="level1">
@@ -393,6 +414,9 @@ Banerjee, Arka, and Tom Abel. 2021. <span>“<span class="nocase">Nearest neighb
 <div id="ref-Beattie:2022aa" class="csl-entry" role="listitem">
 Beattie, James R, Philip Mocz, Christoph Federrath, and Ralf S Klessen. 2022. <span>“The Density Distribution and Physical Origins of Intermittency in Supersonic, Highly Magnetized Turbulence with Diverse Modes of Driving.”</span> <em>Monthly Notices of the Royal Astronomical Society</em> 517 (4): 5003–31. <a href="https://doi.org/10.1093/mnras/stac3005">https://doi.org/10.1093/mnras/stac3005</a>.
 </div>
+<div id="ref-Binney:2008aa" class="csl-entry" role="listitem">
+Binney, James, and Scott Tremaine. 2008. <em>Second Edition</em>. Princeton: Princeton University Press. <a href="https://doi.org/doi:10.1515/9781400828722">https://doi.org/doi:10.1515/9781400828722</a>.
+</div>
 <div id="ref-Breton:2024aa" class="csl-entry" role="listitem">
 Breton, Michel-Andrès. 2024. <span>“<span class="nocase">PySCo: A fast Particle-Mesh <span class="math inline">\(N\)</span>-body code for modified gravity simulations in Python</span>.”</span> <em>arXiv e-Prints</em>, October, arXiv:2410.20501. <a href="https://doi.org/10.48550/arXiv.2410.20501">https://doi.org/10.48550/arXiv.2410.20501</a>.
 </div>
@@ -410,6 +434,9 @@ Hearin, Andrew P., Jonás Chaves-Montero, Alex Alarcon, Matthew R. Becker, and A
 </div>
 <div id="ref-Kates-Harbeck:2016aa" class="csl-entry" role="listitem">
 Kates-Harbeck, J., S. Totorica, J. Zrake, and T. Abel. 2016. <span>“<span class="nocase">Simplex-in-cell technique for collisionless plasma simulations</span>.”</span> <em>Journal of Computational Physics</em> 304 (January): 231–51. <a href="https://doi.org/10.1016/j.jcp.2015.10.017">https://doi.org/10.1016/j.jcp.2015.10.017</a>.
+</div>
+<div id="ref-Smith:2025aa" class="csl-entry" role="listitem">
+Smith, Aaron, Kevin Lorinc, Olof Nebrin, and Bing-Xin Lao. 2025. <span>“<span class="nocase">Lyman-alpha resonant-line radiative transfer in expanding media</span>.”</span> <em>arXiv e-Prints</em>, January, arXiv:2501.01928. <a href="https://arxiv.org/abs/2501.01928">https://arxiv.org/abs/2501.01928</a>.
 </div>
 <div id="ref-Sousbie:2016aa" class="csl-entry" role="listitem">
 Sousbie, T., and S. Colombi. 2016. <span>“<span class="nocase">ColDICE: A parallel Vlasov-Poisson solver using moving adaptive simplicial tessellation</span>.”</span> <em>Journal of Computational Physics</em> 321 (September): 644–97. <a href="https://doi.org/10.1016/j.jcp.2016.05.048">https://doi.org/10.1016/j.jcp.2016.05.048</a>.
