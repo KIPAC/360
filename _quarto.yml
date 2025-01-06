@@ -16,8 +16,10 @@ website:
         href: ./website/index.qmd
       - text: "Lectures"
         menu:
-          - text: "Lecture 1"
-            href: ./lectures/lecture1.qmd
+          - text: "Preliminaries"
+            href: ./lectures/preliminaries.qmd
+          - text: "Gravity"
+            href: ./lectures/gravity.qmd
       - text: "Tutorials"
         menu:
           - text: "Setup python"

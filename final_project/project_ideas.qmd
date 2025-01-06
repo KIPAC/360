@@ -13,8 +13,9 @@ format:
         toc-title: " "
 ---
 
-# Forward models
+You are very much encouraged to develop your own final project idea and project plan and deliverable. It has to fit inside this arguably very broad topic of "Modern Astrophysics" and should be not exactly what you are already doing for research. However, it is ok if it is adjacent to your research and the final project gives you a chance to explore something you wouldn't have done without thinking about the tools, physics and methodology we are discussing in this course. 
 
+# Forward models
 
 ## Globular Star Clusters observations by HST and JWST 
 
@@ -60,9 +61,13 @@ The X-ray emission comes from hot plasma in the galaxy cluster. In this project 
 
 ## Model a dwarf galaxy/GC disruption in [gala](https://gala-astro.readthedocs.io/en/latest/)
 
+## Study the Spitzer (equipartition) Instability in Globular Clusters
+
+Use our N-body code, write your own, or use a professional one such like [rebound](https://github.com/hannorein/rebound) to set up initial conditions that illustrate various aspects of Spitzer's instability. The instability relates to having heavy stars mass segregate towards the center of a star cluster. Once they are more common they tend to dissipate energy to the lowe mass stars in the out parts via two body scattering. This leads the heavy masses to move to smaller radii moving away from equi-partition rather than towards equilibrium. See chapter 7.5.5 of @Binney:2008aa.
+
 ## Particle-Mesh Codes in Cosmology
 
-Andrey Kravtsov wrote a [wonderful set of instructions](../../resources/PDFs/WriteAPMCode_Kravtsov.pdf) on how to approach writing your own particle mesh code specifically for numerical cosmology. There is now a beautifully implemented python version of cosmological PM by @Breton:2024aa, called [pysco](https://github.com/mianbreton/pysco), which also includes well developed initial conditions generation. I have many example Jupyter notebooks I can share with you also ones related to the Simplex in Cell technique [@Abel:2012aa, @Kates-Harbeck:2016aa, @Sousbie:2016aa, @Hahn:2016aa]. There are multiple possible projects building on this work. 
+Andrey Kravtsov wrote a [wonderful set of instructions](../../resources/PDFs/WriteAPMCode_Kravtsov.pdf) on how to approach writing your own particle mesh code specifically for numerical cosmology. There is now a beautifully implemented python version of cosmological PM by @Breton:2024aa, called [pysco](https://github.com/mianbreton/pysco), which also includes well developed initial conditions generation. I have many example Jupyter notebooks I can share with you also ones related to the Simplex in Cell technique [@Abel:2012aa, @Kates-Harbeck:2016aa, @Sousbie:2016aa, @Hahn:2016aa]. There are multiple possible projects building on this work. Our own **Delon Shen** wrote a [beautiful set of notes](https://github.com/DelonShen/pm_handouts/) that are even more pedagogical and interactive. 
 
 #### Make pysco use the phase-space sheet
 E.g. you might incorporate the ideas from @Abel:2012aa, @Sousbie:2016aa, and @Hahn:2016aa into pysco. 
@@ -73,21 +78,23 @@ You might first just use fields as computed through the Lagrangian Perturbation 
 - Measure the PDFs for the density fields for many different smoothing lengths and compare to the predictions given by [pyLDT](https://github.com/mcataneo/pyLDT-cosmo) from @Cataneo:2021aa.
 - Explore [kNN-CDFs](https://github.com/yipihey/kNN-CDFs) from @Banerjee:2021ws.
 
-
 ## Statistical properties of 1,2 and 3D turbulence
 
 The novelty in this project is that we will try to do very high dynamic range estimates of the statistical properties of turbulence by running a set of simulations which we connect in a one way approach. We will start with a 1D model which will help us practice everything we need. If we manage that we can extend it to 2 and 3D. 
-@Beattie:2022aa study the density PDF in supersonic MHD turbulence. We start by reading  this paper to get a sense of the current questions in the field. 
-First step then is to use 1D hydro 
+@Beattie:2022aa study the density PDF in supersonic MHD turbulence. We start by reading  this paper to get a sense of the current questions in the field. We will assume as hypothesis that energy cascades only from large scales to samll scales. Hence when we simulate 
+First step then is to use 1D hydro and look at decaying supersonic turbulence. 
 
 ## Numerical Cosmology
 
+# Radiation
 
+## Study Lyman-$\alpha$ Radiation Transport
+
+Implement the grid-less monte carlo transfer approach of @Smith:2025aa, reproduce some of their plots and discuss the approach. **Stretch goal**: Make a differentiable version. Feeding it one of its own solutions can you write a pipeline which recovers all input parameters and (further stretch) error bars on them?
 
 # Micro-physics
 
 ##  Very fast chemical reaction network solvers using neural nets
-
 
 
 ## Fast non-equilibrium cooling functions: high dimensional interpolation

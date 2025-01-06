@@ -52,7 +52,7 @@ After activation, your terminal prompt will change to indicate that the virtual 
 ### Step 4: Install Required Packages
 With the virtual environment activated, you can now install the required Python packages for this class. Use `pip` to install packages:
 ```bash
-pip install numpy matplotlib scipy gala taichi plotly
+pip install numpy matplotlib scipy gala jax taichi plotly
 ```
 
 ### Step 5: Deactivate the Virtual Environment
