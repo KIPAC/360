@@ -18,8 +18,6 @@ website:
         menu:
           - text: "Lecture 1"
             href: ./lectures/lecture1.qmd
-          - text: "Lecture 2"
-            href: ./lectures/lecture2.qmd
       - text: "Tutorials"
         menu:
           - text: "Setup python"

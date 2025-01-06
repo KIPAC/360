@@ -166,7 +166,9 @@ U = - \frac{1}{2} \sum_{i=1}^N \sum_{j \neq i}^N \frac{G m_i m_j}{\|\mathbf{r}_i
 $$
 
 where:
+
 - $G$ is the gravitational constant.
+- 
 - $\|\mathbf{r}_i - \mathbf{r}_j\|$ is the Euclidean distance between the $i$-th and $j$-th particles.
 
 The factor $\frac{1}{2}$ accounts for double-counting each pair of interactions.

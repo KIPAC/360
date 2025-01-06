@@ -26,4 +26,4 @@ Hand in your write up through Canvas.
 
 ## Install gala and plotly libraries in your own python setup
 
-We will carry out a few galactic dynamics calculations using [gala](https://gala-astro.readthedocs.io/en/latest/index.html) and visualize some of it with [plotly](https://plotly.com). Make sure to install these before next class time on Thursday.
+We will carry out a few galactic dynamics calculations using [gala](https://gala-astro.readthedocs.io/en/latest/index.html) and visualize some of it with [plotly](https://plotly.com). Make sure to install these before next class time on Thursday. Our [setup python tutorial](tutorials/python_setup.qmd) maybe helpful to you to get started. 
