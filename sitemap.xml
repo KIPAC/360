@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://KIPAC.github.io/360/final_project/project_ideas.html</loc>
-    <lastmod>2025-01-06T22:27:16.402Z</lastmod>
-  </url>
-  <url>
-    <loc>https://KIPAC.github.io/360/assignments/assignment_1.html</loc>
-    <lastmod>2025-01-06T22:27:16.402Z</lastmod>
-  </url>
-  <url>
-    <loc>https://KIPAC.github.io/360/resources/resources.html</loc>
-    <lastmod>2025-01-06T22:27:16.442Z</lastmod>
-  </url>
-  <url>
-    <loc>https://KIPAC.github.io/360/lectures/gravity.html</loc>
-    <lastmod>2025-01-06T22:27:16.402Z</lastmod>
-  </url>
-  <url>
     <loc>https://KIPAC.github.io/360/lectures/preliminaries.html</loc>
-    <lastmod>2025-01-06T22:27:16.402Z</lastmod>
+    <lastmod>2025-01-06T21:31:01.131Z</lastmod>
   </url>
   <url>
     <loc>https://KIPAC.github.io/360/tutorials/python_setup.html</loc>
-    <lastmod>2025-01-06T22:27:16.442Z</lastmod>
+    <lastmod>2025-01-06T21:36:38.294Z</lastmod>
   </url>
   <url>
     <loc>https://KIPAC.github.io/360/website/index.html</loc>
-    <lastmod>2025-01-06T22:27:16.442Z</lastmod>
+    <lastmod>2025-01-06T21:40:56.973Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/final_project/project_ideas.html</loc>
+    <lastmod>2025-01-06T21:31:03.736Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/assignments/assignment_1.html</loc>
+    <lastmod>2025-01-06T02:19:52.883Z</lastmod>
   </url>
   <url>
     <loc>https://KIPAC.github.io/360/final_project/projects/project1.html</loc>
-    <lastmod>2025-01-06T22:27:16.402Z</lastmod>
+    <lastmod>2024-12-28T00:44:06.964Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/resources/resources.html</loc>
+    <lastmod>2024-12-28T00:44:06.964Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/tutorials/gala_tutorial.html</loc>
+    <lastmod>2025-01-06T23:45:00.726Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/lectures/gravity.html</loc>
+    <lastmod>2025-01-06T21:45:26.961Z</lastmod>
   </url>
 </urlset>
