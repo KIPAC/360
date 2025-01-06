@@ -19,7 +19,7 @@ jobs:
     - name: Install Python dependencies
       run: |
         python3 -m pip install --upgrade pip
-        python3 -m pip install jupyter nbformat ipykernel
+        python3 -m pip install jupyter nbformat ipykernel astropy gala
 
     - name: Set up Quarto
       uses: quarto-dev/quarto-actions/setup@v2
