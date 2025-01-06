@@ -1,9 +1,7 @@
 ---
 title: "Physics 360: Modern Astrophysics"
 format: 
-    html:
-        code-links: repo
-
+    html
 ---
 
 # Welcome to Physics 360
@@ -19,21 +17,7 @@ This website hosts all materials for Physics 360: Modern Astrophysics, including
 
 This course is directed at first/second year graduate students interested in astrophysics research. We cover a few of the important physical processes necessary to understand astronomical objects and observations. The course will use python notebooks throughout helping with experiential learning and give the student resources to explore the code/formulas and algorithms behind the plots and animations.
 
-# Course Notes and Schedule
+## Bring laptop to class
 
-### Bring laptop to class
-During most lectures we will do some coding and/or run some example code I provide. Please bring your laptop. We recommend to [create a class specific virtual environment](tutorials/python_setup.qmd)
+During most lectures we will do some coding and/or run some example code I provide. Please bring your laptop. We recommend to [create a class specific virtual environment](tutorials/python_setup.qmd) for your local python installation. 
 
-### Texts and resources
-Useful free textbook for a number of theoretical concepts. 
-- **Kaiser**: *Elements of Astrophysics*: [Link to PDF](https://www.astroarts.org/downloads/pdfs/elements.pdf)
-
-### Syllabus: Calendar, Reading, and Problem Sets
-
-{{< include ../resources/calendar.txt >}}
-
-### Grading
-- **40%** Final project and presentation  
-- **60%** Problem set (worst dropped)
-
----

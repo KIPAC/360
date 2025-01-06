@@ -32,8 +32,8 @@ website:
         menu:
           - text: "Project Suggestions"
             href: ./final_project/project_ideas.qmd
-      - text: "Resources"
-        href: resources.qmd
+#      - text: "Resources"
+#        href: resources.qmd
 
 format:
   html:

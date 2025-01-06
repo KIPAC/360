@@ -10,7 +10,7 @@ format:
     css: ../styles.css
   pdf:
     toc: true
-    number-sections: true
+#    number-sections: true
     code: true
 jupyter: python3
 ---
