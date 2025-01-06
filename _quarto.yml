@@ -24,6 +24,8 @@ website:
         menu:
           - text: "Setup python"
             href: ./tutorials/python_setup.qmd
+          - text: "gala tutorial"
+            href: ./tutorials/gala_tutorial.qmd
       - text: "Assignments"
         menu:
           - text: "Workflow"
