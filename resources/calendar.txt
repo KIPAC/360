@@ -1,11 +1,11 @@
 ```markdown
 In short: 4 lectures on gravity,  4 on fluids,  4 on radiation, 
-          4 on special topics and 4 student with presentations = 20 weeks
+          4 on special topics and 4 with student presentations = 20 weeks
 
 Rough Calendar [will change]                     Reading              Problem Set              
 Tu  1 Jan 7   Intro/Overview/Gravity             K:285-300            Workflow+
 Th  2 Jan 9   Gravity 3 ways | Stellar dynamics                       K: 26.7.1 p295 + 1-2 page Proposal
-Tu  3 Jan 14  Cosmology + Spherical Collapse     K:303+5,337+3,385+3  Bertschinger Dust Solution      
+Tu  3 Jan 14  Cosmology + Zeldovich approx.      K:303+5,337+3,385+3  Bertschinger Dust Solution      
 Th  4 Jan 16  Hydrodynamics           I)         K:246-247,251-253                                   
 Tu  5 Jan 21  Hydrodynamics          II)                                                                     
 Th  6 Jan 23  Sound Waves, Shocks & Sedov Taylor K:258,22.2,23.2      K:20.10.3 + Bertsch. g=5/3  
