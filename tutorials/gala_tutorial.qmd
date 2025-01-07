@@ -24,6 +24,7 @@ jupyter: python3
 ```{python}
 # Orbits
 import astropy.units as u
+%matplotlib widget
 import matplotlib.pyplot as plt
 import numpy as np
 import gala.integrate as gi

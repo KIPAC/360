@@ -1,6 +1,6 @@
 ```markdown
 In short: 4 lectures on gravity,  4 on fluids,  4 on radiation, 
-          4 on special topics and 4 with student presentations = 20 weeks
+          4 on special topics and 4 with student presentations = 20 meeting times
 
 Rough Calendar [will change]                     Reading              Problem Set              
 Tu  1 Jan 7   Intro/Overview/Gravity             K:285-300            Workflow+

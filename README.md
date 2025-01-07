@@ -16,3 +16,28 @@ In vscode or from the terminal we publish the quarto source to github.io pages u
 ```bash
 quarto publish gh-pages
 ```
+
+# Workflow
+
+We can edit the .qmd files directly or follow the recipe below which does all the editing in jupyter notebooks but uses .qmd for the repository. 
+We took this from [Berkleys DS100 course worflow](https://github.com/DS-100/course-notes).
+
+#### Editing a note:
+
+Convert the .qmd file to an .ipynb: ```quarto convert path/to/note.qmd```
+
+Make edits on the .ipynb file
+
+Preview notebook: ```quarto preview path/to/note.ipynb```
+
+Convert to .qmd for rendering: quarto convert note_name.ipynb (must cancel quarto preview first)
+
+Delete the path/to/note.ipynb and path/to/note.html
+
+#### Rendering a Note:
+
+Update _quarto.yml with the new note to be added
+
+Render HTML docs: ```quarto render``` (must cancel quarto preview first)
+
+check that the search.json file was generated. If not, quarto preview and click into every note.
