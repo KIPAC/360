@@ -1,18 +1,15 @@
 project:
   type: website
-  output-dir: ./website/_site  # Where Quarto places the rendered site
-  
+  output-dir: ./website/_site  # Where Quarto places the rendered site 
 bibliography: ./resources/references.bib
-
 metadata-files:
   - _metadata.yml
 
 website:
-  title: "Physics 360: Modern Astrophysics"
   navbar:
   # Global navigation bar for the website
     left:
-      - text: "Home"
+      - text: "Physics 360: Modern Astrophysics"
         href: ./website/index.qmd
       - text: "Lectures"
         menu:
