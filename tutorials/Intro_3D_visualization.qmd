@@ -1,0 +1,67 @@
+---
+title: Intro to 3D Visualization in python
+execute:
+  echo: true
+format:
+  html:
+    plotly: true
+    code-fold: true
+    code-tools: true
+    toc: true
+    toc-title: gala tutorial
+    page-layout: full
+    callout-icon: false
+jupyter: python3
+---
+
+```{{python}}
+import numpy as np
+import pyvista as pv
+import ipywidgets as widgets
+import gala.potential as gp
+import astropy.units as u
+pv.set_jupyter_backend('trame')  # or 'server'
+
+nx, ny, nz = 140, 140, 140
+extent = 60. 
+x = np.linspace(-extent, extent, nx)
+y = np.linspace(-extent, extent, ny)
+z = np.linspace(-extent, extent, nz)
+X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
+
+
+potential = gp.MilkyWayPotential()
+rho = potential.density([X, Y, Z] * u.kpc).to_value(u.Msun / u.pc**3) #.reshape(nx, ny, nz)
+r = rho.flatten()
+
+grid = pv.StructuredGrid(X, Y, Z)
+grid["rho"] = rho.ravel()
+
+plotter = pv.Plotter(notebook=True,lighting='three lights')
+plotter.enable_shadows()
+
+def plot_iso(threshold=np.log10(np.percentile(r, 75.))):
+    plotter.clear()
+    iso = grid.contour(isosurfaces=[10**threshold/2,10**threshold,10**threshold*2], scalars='rho')
+    
+    # Compute per-vertex normals
+    iso = iso.compute_normals(cell_normals=False, split_vertices=True, auto_orient_normals=True)
+    
+    # Add the isosurface mesh
+    plotter.add_mesh(
+        iso, opacity=0.3,
+        smooth_shading=False, 
+        show_edges=False, cmap="plasma")
+
+    
+    # Eye-dome lighting can help
+#    plotter.enable_eye_dome_lighting()
+
+    # Update the scene in the same cell
+    plotter.show(interactive_update=True)
+
+widgets.interact(plot_iso, threshold=((np.log10(np.percentile(r, 0.1)), np.log10(np.percentile(r, 99.9)), 
+                                    (np.log10(np.percentile(r, 99.9))-np.log10(np.percentile(r, 0.1)))/100)));
+```
+
+
