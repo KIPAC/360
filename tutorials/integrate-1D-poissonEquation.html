@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Solving the Poisson Equation tutorial</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../website/index.html"> 
+<span class="menu-text">Physics 360: Modern Astrophysics</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/preliminaries.html">
+ <span class="dropdown-text">Preliminaries</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/gravity.html">
+ <span class="dropdown-text">Gravity</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorials</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">    
+        <li>
+    <a class="dropdown-item" href="../tutorials/python_setup.html">
+ <span class="dropdown-text">Setup python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/gala_tutorial.html">
+ <span class="dropdown-text">gala tutorial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/integrate-1D-poissonEquation.html">
+ <span class="dropdown-text">Poisson equation tutorial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/Intro_3D_visualization.html">
+ <span class="dropdown-text">3D vis tutorial</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-assignments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Assignments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-assignments">    
+        <li>
+    <a class="dropdown-item" href="../assignments/assignment_1.html">
+ <span class="dropdown-text">Workflow</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-final-project" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Final Project</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-final-project">    
+        <li>
+    <a class="dropdown-item" href="../final_project/project_ideas.html">
+ <span class="dropdown-text">Project Suggestions</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Poisson equation tutorial</h2>
+   
+  <ul>
+  <li><a href="#solving-the-poisson-equation-deltaphicrho" id="toc-solving-the-poisson-equation-deltaphicrho" class="nav-link active" data-scroll-target="#solving-the-poisson-equation-deltaphicrho">Solving the Poisson equation <span class="math inline">\(\Delta\Phi=C\rho\)</span></a>
+  <ul class="collapse">
+  <li><a href="#in-class-exercise" id="toc-in-class-exercise" class="nav-link" data-scroll-target="#in-class-exercise">In class Exercise</a></li>
+  <li><a href="#using-relaxation" id="toc-using-relaxation" class="nav-link" data-scroll-target="#using-relaxation">Using relaxation</a></li>
+  <li><a href="#using-successive-over-relaxation" id="toc-using-successive-over-relaxation" class="nav-link" data-scroll-target="#using-successive-over-relaxation">Using Successive Over Relaxation</a></li>
+  <li><a href="#succesive-over-relaxation-with-red-black-ordering" id="toc-succesive-over-relaxation-with-red-black-ordering" class="nav-link" data-scroll-target="#succesive-over-relaxation-with-red-black-ordering">Succesive Over-Relaxation with Red Black Ordering</a></li>
+  <li><a href="#recognizing-this-is-a-linear-algebra-problem" id="toc-recognizing-this-is-a-linear-algebra-problem" class="nav-link" data-scroll-target="#recognizing-this-is-a-linear-algebra-problem">Recognizing this is a linear algebra problem</a></li>
+  <li><a href="#using-fast-fourier-transforms" id="toc-using-fast-fourier-transforms" class="nav-link" data-scroll-target="#using-fast-fourier-transforms">Using Fast Fourier Transforms</a></li>
+  </ul></li>
+  <li><a href="#the-conjugate-gradient-method" id="toc-the-conjugate-gradient-method" class="nav-link" data-scroll-target="#the-conjugate-gradient-method">The Conjugate Gradient Method <img src="http://upload.wikimedia.org/wikipedia/commons/b/bf/Conjugate_gradient_illustration.svg" width="300" align="right"></a>
+  <ul class="collapse">
+  <li><a href="#in-class-exercise-1" id="toc-in-class-exercise-1" class="nav-link" data-scroll-target="#in-class-exercise-1">In class Exercise:</a></li>
+  <li><a href="#the-laplace-operator-in-spherical-coordinates" id="toc-the-laplace-operator-in-spherical-coordinates" class="nav-link" data-scroll-target="#the-laplace-operator-in-spherical-coordinates">The Laplace operator in spherical coordinates</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Solving the Poisson Equation tutorial</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="solving-the-poisson-equation-deltaphicrho" class="level1">
+<h1>Solving the Poisson equation <span class="math inline">\(\Delta\Phi=C\rho\)</span></h1>
+<p>In physics we often write <span class="math inline">\(\nabla^2\)</span> instead of <span class="math inline">\(\Delta\)</span> but we mean the same thing, suming the second derivatives along each value.</p>
+<div id="87868e4a" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="1">
+<div class="cell-output cell-output-stdout">
+<pre><code>%pylab is deprecated, use %matplotlib inline and import the required libraries.
+Populating the interactive namespace from numpy and matplotlib</code></pre>
+</div>
+</div>
+<p>Here we explore a solution strategy for the one dimensional Poisson equation. This is purely an example and most of the solution strategies will work for almost all second order partial differential equations. Let us first make the equation dimension-less. We can use the mean density <span class="math inline">\(\bar{\rho}=\int\rho dV/\int dV\)</span> to define the <b>overdensity</b> <span class="math display">\[D\equiv \frac{\rho}{\bar{\rho}}\]</span> and rescale the potential</p>
+<p><span class="math display">\[
+\tilde{\Phi}\equiv (C \bar{\rho} L^2)^{-1}\Phi
+\]</span></p>
+<p>which we can insert into the original equation <span class="math inline">\(\Delta \tilde{\Phi} C \bar{\rho} L^2 = C \rho\)</span> and get a new equation for <span class="math inline">\(\tilde{\Phi}\)</span>:</p>
+<p><span class="math display">\[
+L^{2}\Delta \tilde{\Phi} =  D.
+\]</span></p>
+<p><span class="math inline">\(L\)</span> is just a constant length. It could be just a typical length scale of the problem. This is now convenient as the over density is a nice dimensionless intuitively easy to grasp description of the density. Also all the length intervals we have in the problem as just measured in units of <span class="math inline">\(L\)</span> and once we have a solution we can use these relations to back out the SI/cgs values of the potential.</p>
+<p>So let us also measure all distances in units of <span class="math inline">\(L\)</span> so we define <span class="math display">\[\tilde{x}\equiv x/L\]</span> and have <span class="math inline">\(d\tilde{x}/dx = 1/L\)</span></p>
+<p>The Force is just <span class="math inline">\(-\nabla \tilde{\Phi}\)</span>, so in one dimension</p>
+<p><span class="math display">\[
+-\frac{\partial F}{\partial \tilde{x}} = D
+\]</span></p>
+<p>we now simply have</p>
+<p><span class="math display">\[
+F(X) = -\int_0^X D(\tilde{x}) d\tilde{x} + F(x=0),
+\]</span></p>
+<p>with the integration constant being recognized as <span class="math inline">\(F(x=0)\)</span> which must be obtained from a boundary condition. Its meaning is clear it is the Force at <span class="math inline">\(x=0\)</span>. Also the integral over the density on the right hand side has a simple meaning. It is the mass (charge) in the interval <span class="math inline">\([0..X]\)</span>. We also can see this from Gauss’ law that</p>
+<p><span class="math display">\[
+F(1)-F(0)= -\int_0^1 D(\tilde{x}) d\tilde{x}
+\]</span></p>
+<p>so that in a periodic domain where we have <span class="math inline">\(F(0)=F(1)\)</span> it follows that <span class="math inline">\(C_1 = F(0)\)</span>. The problem is though that a priori we do not know <span class="math inline">\(F(0)\)</span>. However, in the case where no external forces are applied the system must conserve momentum. I.e. the total momentum change must remain zero</p>
+<p><span class="math display">\[
+\int_0^1 \frac{dp}{dt} d\tilde{x} = \int_0^1 F(\tilde{x}) d\tilde{x} = 0
+\]</span></p>
+<p>So we have</p>
+<p><span class="math display">\[
+-\int_0^X \int_0^X D(\tilde{x})d\tilde{x} + X F(x=0) = 0
+\]</span></p>
+<p>so</p>
+<p><span class="math display">\[
+F(0) = -\int_0^1 \int_0^1 D(\tilde{x})d\tilde{x}  
+\]</span></p>
+<p>Integrating this once more and we get the Potential</p>
+<p><span class="math display">\[
+- \tilde{\Phi}(X) = \int_0^X F(\tilde{x}) d\tilde{x}  + C_2
+\]</span></p>
+<div id="970686db" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="2">
+<div class="cell-output cell-output-stdout">
+<pre><code>F(x=0) =  -0.07082481931956612</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-3-output-2.png" width="962" height="671" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="in-class-exercise" class="level3">
+<h3 class="anchored" data-anchor-id="in-class-exercise">In class Exercise</h3>
+<pre><code>- Calculate the potential and force in and around a homogeneous sphere reusing the numerical integration and differentiation as in the example above. 
+- Have the sphere be at position x=0.4 and have a radius 0.025
+- What did you notice about our assumption of periodic boundaries? How does the mean density enter?
+- Plot it for the grid resolution 60 and 240
+- Discuss the solution</code></pre>
+<div id="39f8aa9d" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-stdout">
+<pre><code>F(x=0) =  0.6019793898581776</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-4-output-2.png" width="954" height="671" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="using-relaxation" class="level2">
+<h2 class="anchored" data-anchor-id="using-relaxation">Using relaxation</h2>
+<p>The trick we just used above is only possible in one dimensions. In two or more the Poisson equation is essentially always a boundary value problem. I.e. we need to specify the values of <span class="math inline">\(\Phi\)</span> on the boundary and the interate to find a convergent solution. We introduce this style of solving it here next but stay in one dimensions to keep things simple at first. So we start out by discretizing the Poisson equation using the <a href="https://en.wikipedia.org/wiki/Numerical_differentiation">central difference</a> for the second derivative.</p>
+<p><span class="math display">\[
+\frac{1}{h^2} \left( \Phi_{i+1} + \Phi_{i-1} - 2\Phi_i \right) = C\ D(x_i)
+\]</span></p>
+<p>where we took the liberty and drop the ~ symbols for <span class="math inline">\(\tilde{\Phi}\)</span> and <span class="math inline">\(d\tilde{x}\)</span> while still working in these dimensionless quantities.</p>
+<p>This gives us an obvious solution strategy. We just solve for <span class="math inline">\(\Phi_i\)</span> and remember to specify boundary values on the left and right so that the resulting formula is always defined. I.e.</p>
+<p><span class="math display">\[
+\Phi_i = \frac{1}{2}\left( \Phi_{i+1} + \Phi_{i-1} - C\ D(x_i)\ h^2 \right)
+\]</span></p>
+<p>For our first implementation we will assume periodic boundaries.</p>
+<p>The overdensity <span class="math inline">\(D(x)\)</span> will be defined at cell centers and similarly <span class="math inline">\(\Phi\)</span> is recorded at the same positions.</p>
+<div id="fac285a3" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-5-output-1.png" width="962" height="671" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wow. That takes an enormous amount of iterations to converge. In particular if the solution has long wavelength components. This method is known an <b>Jacobi’s iterative method</b>.</p>
+<p>Ah yes. But we could use the update values as we march through. Perhaps that converges faster?</p>
+<div id="e990d68d" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-6-output-1.png" width="962" height="671" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>That is indeed somewhat of an improvement. It is called the <b>Gauss Seidel</b> iteration.</p>
+</section>
+<section id="using-successive-over-relaxation" class="level2">
+<h2 class="anchored" data-anchor-id="using-successive-over-relaxation">Using Successive Over Relaxation</h2>
+<p>If we wouldn’ change the values completely just on the neighbors but keep some information from previous steps we can weight the update. This is known as successive over-relaxation. <span class="math display">\[
+\Phi_i^{n+1} = (1-\omega)\ \Phi_i^n + \omega/2\ \left( \Phi^n_{i+1} + \Phi^n_{i-1} - c h^2 D \right),
+\]</span> first for <span class="math inline">\(i=0,2,4,\cdots\)</span> and then for <span class="math inline">\(i=1,3,5,\cdots\)</span>. It is the same number of operations as before but does converge somewhat quicker.</p>
+<div id="ce554480" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-7-output-1.png" width="962" height="671" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ok. This is better! It, however, added another parameter which is left to the user to choose. It is only convergent in $ 0 &lt; w &lt; 2 $.</p>
+</section>
+<section id="succesive-over-relaxation-with-red-black-ordering" class="level2">
+<h2 class="anchored" data-anchor-id="succesive-over-relaxation-with-red-black-ordering">Succesive Over-Relaxation with Red Black Ordering</h2>
+<p>There is a variant of <b>Gauss Seidel</b> and succesive over-relaxation that is known as <b>red-black</b> ordering. This realizes that even positions are only dependent on odd neighbors and odd ones only on even. So first updates the one half and then the other. We do our SOR update <span class="math display">\[
+\Phi_i^{n+1} = (1-\omega)\ \Phi_i^N + \omega/2\ \left( \Phi^n_{i+1} + \Phi^n_{i-1} - c h^2 D \right),
+\]</span> first for <span class="math inline">\(i=0,2,4,\cdots\)</span> and then for <span class="math inline">\(i=1,3,5,\cdots\)</span>. It is the same number of operations as before but does converge somewhat quicker.</p>
+<div id="74533f42" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-8-output-1.png" width="962" height="671" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is indeed a further improvement.</p>
+</section>
+<section id="recognizing-this-is-a-linear-algebra-problem" class="level2">
+<h2 class="anchored" data-anchor-id="recognizing-this-is-a-linear-algebra-problem">Recognizing this is a linear algebra problem</h2>
+<p>Our discretization we used in the relaxation method can also be written in matrix form:</p>
+<p><span class="math display">\[ A\ \Phi = h^2 C\ D =
+\begin{pmatrix}
+-2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 &amp; 1 \\\\
+1 &amp; -2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\\\
+0 &amp; 1 &amp; -2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 \\\\
+\vdots  &amp; \vdots  &amp; \ddots &amp; \ddots &amp; \ddots &amp; \vdots &amp; \vdots \\\\
+0 &amp; 0 &amp; ... &amp; 0 &amp; 1 &amp; -2 &amp; 1 \\\\
+1 &amp; 0 &amp; 0 &amp; ... &amp; 0 &amp; 1 &amp; -2
+\end{pmatrix}
+\
+\begin{pmatrix}
+\Phi_1 \\\\
+\Phi_2 \\\\
+\Phi_3 \\\\
+\vdots \\\\
+\Phi_{n-1} \\\\
+\Phi_n
+\end{pmatrix}
+= h^2 C\
+\begin{pmatrix}
+D_1 \\\\
+D_2 \\\\
+D_3 \\\\
+\vdots \\\\
+D_{n-1} \\\\
+D_n
+\end{pmatrix}
+\]</span></p>
+<p>So in the relaxation technique we iterated until we got <span class="math inline">\(\Phi\)</span> to agree with this formula.</p>
+<p>So let us define this Matrix:</p>
+<div id="335f87e7" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="8">
+<div class="cell-output cell-output-stdout">
+<pre><code>[[-2.  1.  0. ...  0.  0.  1.]
+ [ 1. -2.  1. ...  0.  0.  0.]
+ [ 0.  1. -2. ...  0.  0.  0.]
+ ...
+ [ 0.  0.  0. ... -2.  1.  0.]
+ [ 0.  0.  0. ...  1. -2.  1.]
+ [ 1.  0.  0. ...  0.  1. -2.]]
+Determinant of A is: 1.1147087742196166e-13</code></pre>
+</div>
+</div>
+<p>and now invert it</p>
+<div id="cd1eaa3b" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>array([[ 1.   , -0.125, -0.125, ...,  0.   ,  0.   ,  0.   ],
+       [ 0.   ,  1.   , -0.25 , ...,  0.   ,  0.   ,  0.   ],
+       [-0.125, -0.125,  0.875, ...,  0.   ,  0.   ,  0.   ],
+       ...,
+       [-0.125,  0.   , -0.125, ...,  1.125,  0.   ,  0.   ],
+       [ 0.   , -0.125, -0.125, ...,  0.125,  1.   ,  0.   ],
+       [ 0.   , -0.125, -0.125, ...,  0.   ,  0.   ,  1.   ]],
+      shape=(100, 100))</code></pre>
+</div>
+</div>
+<p>This did not work … It failed to correctly invert the matrix. I.e. we do not get identity matrix back when we multiply the original matrix and its supposed inverse. In hindsight we may have guessed that since the potential is not fixed up to a constant. So consequently the matrix has a determinant of zero and no unique solution is obtained.</p>
+<p>However, we can add one row in which we set a constant <span class="math inline">\(\Phi\)</span> value. I.e.</p>
+<p><span class="math display">\[ A\ \Phi = h^2 C\ D =
+\begin{pmatrix}
+-2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 &amp; 1&amp; 0  \\\\
+1 &amp; -2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0&amp; 0 \\\\
+0 &amp; 1 &amp; -2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0&amp; 0 \\\\
+\vdots  &amp; \vdots  &amp; \ddots &amp; \ddots &amp; \ddots &amp; \vdots &amp; \vdots \\\\
+0 &amp; 0 &amp; ... &amp; 0 &amp; 1 &amp; -2 &amp; 1&amp; 0 \\\\
+1 &amp; 0 &amp; 0 &amp; ... &amp; 0 &amp; 1 &amp; -2&amp; 0 \\\\
+1 &amp; 1 &amp; 1 &amp; ... &amp; 1 &amp; 1 &amp; 1 &amp; 0
+\end{pmatrix}
+\
+\begin{pmatrix}
+\Phi_1 \\\\
+\Phi_2 \\\\
+\Phi_3 \\\\
+\vdots \\\\
+\Phi_{n-1} \\\\
+\Phi_n \\\\
+\Phi_{n+1}
+\end{pmatrix}
+= h^2 C\
+\begin{pmatrix}
+D_1 \\\\
+D_2 \\\\
+D_3 \\\\
+\vdots \\\\
+D_{n-1} \\\\
+D_n \\\\
+0
+\end{pmatrix}
+\]</span></p>
+<p>Once we have the solution to <span class="math inline">\(\Phi\)</span> we throw away <span class="math inline">\(\Phi_{n+1}\)</span> and subtract the mean of the potential <span class="math inline">\(\int_0^1 \Phi dx\)</span> just by convention.</p>
+<div id="7365c8da" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="10">
+<div class="cell-output cell-output-stdout">
+<pre><code>[[ 5.55111512e-17  4.94444444e-01  9.77777778e-01 ...  9.77777778e-01
+   4.94444444e-01  1.11111111e-02]
+ [-5.55111512e-17 -4.94444444e-01 -1.66183640e-15 ...  9.55555556e-01
+   4.83333333e-01  1.11111111e-02]
+ [-1.66533454e-16 -4.83333333e-01 -9.77777778e-01 ...  9.33333333e-01
+   4.72222222e-01  1.11111111e-02]
+ ...
+ [ 0.00000000e+00  4.72222222e-01  9.33333333e-01 ... -9.77777778e-01
+  -4.83333333e-01  1.11111111e-02]
+ [ 1.66533454e-16  4.83333333e-01  9.55555556e-01 ...  1.47945607e-15
+  -4.94444444e-01  1.11111111e-02]
+ [ 1.00000000e+00  1.48333333e+00  1.95555556e+00 ...  1.00000000e+00
+   5.05555556e-01  1.11111111e-02]]
+Determinant of the input matrix is : 8100.000000000035</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-11-output-2.png" width="962" height="671" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="c57dc774" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="11">
+<div class="cell-output cell-output-stdout">
+<pre><code>Determinant of A is: 8100.000000000035</code></pre>
+</div>
+</div>
+<div id="f0326fda" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-13-output-1.png" width="949" height="633" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So clearly all the matrix values are filled. This is now very similar to the <span class="math inline">\(N^2\)</span> operations we saw in the gravitational N-body problem. Every cell contibutes to the potential of every other cell and our matrix inversion gives the formula of how to do that.</p>
+</section>
+<section id="using-fast-fourier-transforms" class="level2">
+<h2 class="anchored" data-anchor-id="using-fast-fourier-transforms">Using Fast Fourier Transforms</h2>
+<p>Let us for a second though think of what would happen if we had the density and the potential given by their Fourier transforms. <span class="math display">\[
+\Phi(x) =  \int \phi(k)\ e^{2\pi\ ikx} dk, \ \ D(x) =  \int \delta(k)\ e^{2\pi\ ikx} dk
+\]</span> If we enter this in our starting equation <span class="math inline">\(\Delta \Phi=c\ D\)</span> we find that <span class="math display">\[
+-4\pi\ k^2\phi(k) = c\ \delta(k), \ \ \rightarrow \ \ \phi(k) = -\frac{c}{4\pi}\ \delta(k)/k^2.
+\]</span> Oh fantastic. This means that if we Fourier transform the density, then multiply it with <span class="math inline">\(-c/k^2\)</span> in Fourier space we already get the Fourier transformed potential. If we then just do the inverse Fourier transform back to real space we should have the correct potential we were looking for!</p>
+<p>This may sound at first like a fairly complicated roundabaout way of getting at our problem. However, discrete Fourier transforms are only of complexity <span class="math inline">\(log\ N \ \ N\)</span> and some of the best optimized routines available on computers. So this can be an extraordinarily useful way of solving the Poisson equation in any dimension.</p>
+<p>This is so elegant we just have to try it. Fortunately python makes this easy for us since it comes with Fourier transforms and helper functions included.</p>
+<p>The conventions in numpy for the discrete Fourier transform are <span class="math display">\[
+A_k = \sum_{m=0}^{N-1}\ a_m\ e^{-2\pi\ i\ m\ k/N}, \ \ k=0,1,...,n-2,n-1
+\]</span> and the inverse transform is given by <span class="math display">\[
+a_m = \frac{1}{N}\sum_{m=0}^{n-1}\ A_m\ e^{2\pi\ i\ m\ k/N}
+\]</span> See the <a href="http://docs.scipy.org/doc/numpy/reference/routines.fft.html#module-numpy.fft" target="_blank">FFT documentation</a> for more details.</p>
+<div id="9c6f8b6a" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-14-output-1.png" width="962" height="671" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="99b07a36" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-15-output-1.png" width="938" height="633" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="the-conjugate-gradient-method" class="level1">
+<h1>The Conjugate Gradient Method <img src="http://upload.wikimedia.org/wikipedia/commons/b/bf/Conjugate_gradient_illustration.svg" width="300" align="right"></h1>
+<p>The <a href="http://en.wikipedia.org/wiki/Conjugate_gradient_method">conjugate gradient method</a> is typically employed as an iterative approach to solving the linear equation</p>
+<p><span class="math display">\[
+\mathbf{A}\,\mathbf{x}=\mathbf{b}
+\]</span></p>
+<p>where <b>A</b> is a matrix and <b>x</b> and <b>b</b> are vectors.</p>
+<p>So we want to find a good approximate solution <span class="math inline">\(\mathbf{x}_F\)</span>. We will want to start with a guess for <span class="math inline">\(x_0\)</span> and go through a number of iterations that we stop at <span class="math inline">\(\mathbf{x}_F\)</span> and call the intermediate results <span class="math inline">\(\mathbf{x}_k\)</span>.</p>
+<p>For any guess <span class="math inline">\(\mathbf{x}_k\)</span> we can measure how far off from the correct solution we are</p>
+<p><span class="math display">\[
+\mathbf{r} = \mathbf{b} - \mathbf{A}\,\mathbf{x}.
+\]</span></p>
+<p><span class="math inline">\(\mathbf{r}\)</span> is called the <b>residual</b> (or residue) at the <span class="math inline">\(k\)</span>-th step.</p>
+<p>If we now think of this quadratic equation:</p>
+<p><span class="math display">\[
+f(\mathbf{x}) = \frac12 \mathbf{x}^\mathrm{T} \mathbf{A}\mathbf{x} - \mathbf{x}^\mathrm{T} \mathbf{b} , \quad \mathbf{x}\in\mathbf{R}^n.
+\]</span></p>
+<p>we can see that <span class="math inline">\(-\mathbf{r}\)</span> is the gradient of <span class="math inline">\(f\)</span> at <span class="math inline">\(\mathbf{x}_k\)</span>. So to find an <span class="math inline">\(\mathbf{x}_F\)</span> for which <span class="math inline">\(\mathbf{r}\approx 0\)</span> is equivalent to finding the minimum of <span class="math inline">\(f\)</span>. There are methods which follow the steepest decent i.e.&nbsp;move along <span class="math inline">\(\mathbf{r}\)</span> to get towards the minimum. The trick in the conjugant gradient method is that it takes steps in orthogonal vectors to converge towards the minimum. The remarkable aspect of this algorithm is that it converges in at most <span class="math inline">\(n\)</span> steps where <span class="math inline">\(\mathbf{A}\)</span> is a <span class="math inline">\(n\times n\)</span> matrix.</p>
+<p>So the key is to learn how to pick the search directions <span class="math inline">\(\mathbf{p}_k\)</span>. The most common choice here is to find vectors ortho-normal to the last residue so our quantities only depend on the last step taken and not say on a large number of previous steps.</p>
+<p>For the first step we pick <span class="math inline">\(\mathbf{p}_0=\mathbf{r}_0=\mathbf{b}-\mathbf{A\,x}_0\)</span> as the search direction.</p>
+<p>Let us pick</p>
+<p><span class="math display">\[
+\mathbf{x}_{k+1} = \mathbf{x}_k+\alpha_k\,\mathbf{p}_k,\ \ \ \  \alpha_k=\frac{\mathbf{r}^T_k \mathbf{r}_k}{\mathbf{p}_k^T\,\mathbf{A}\,\mathbf{p}_k}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\mathbf{p}_{k+1} = \mathbf{r}_{k+1} + \beta_k \, \mathbf{p}_k, \ \ \ \ \beta = \frac{\mathbf{r}_{k+1}^T\, \mathbf{r}_{k+1}}{ \mathbf{r}_{k}^T \, \mathbf{r}_{k}}
+\]</span></p>
+<p>i.e.&nbsp;a combination of the current residual and the previous search direction, for the next search direction. Different conjugate gradient methods differ typically in their choice of <span class="math inline">\(\beta\)</span> and of how many previous search directions are considered. Please also have a look at <a href="http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf">Jonathan Shewchuk’s fantastic detailed description</a> of this method.</p>
+<div id="7a29d65e" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="15">
+<div class="cell-output cell-output-stdout">
+<pre><code>2.23606797749979 1e-10
+iterated  6  times to get to tolerance= 1e-10
+x= [0.09073552 0.63642149]</code></pre>
+</div>
+</div>
+<p>Double check the Answer. Is <span class="math inline">\(\mathbf{A\,x}=\mathbf{b}\)</span> ?</p>
+<div id="7603c08e" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>matrix([[5.40056888e-12],
+        [3.98747702e-12]])</code></pre>
+</div>
+</div>
+<div id="8ba0a8a2" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="17">
+<div class="cell-output cell-output-stdout">
+<pre><code>step: 1  distance to minimum: 0.4880232063220932
+step: 2  distance to minimum: 0.00019970168811959504
+step: 3  distance to minimum: 1.33331579273615e-05
+step: 4  distance to minimum: 1.604829311924901e-08
+step: 5  distance to minimum: 5.532337408608809e-10
+step: 6  distance to minimum: 1.519990794322524e-12
+step: 7  distance to minimum: 2.675290464622487e-14
+step: 8  distance to minimum: 1.5362729766613488e-16</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-18-output-2.png" width="652" height="638" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="c760370c" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="18">
+<div class="cell-output cell-output-stdout">
+<pre><code>F(x=0) =  -0.07086394966370409
+8.122607918947157 0.1
+iterated  56  times to get to tolerance= 0.1
+8.122607918947157 0.0001
+iterated  65  times to get to tolerance= 0.0001
+8.122607918947157 1e-05
+iterated  65  times to get to tolerance= 1e-05
+8.122607918947157 1e-07
+iterated  65  times to get to tolerance= 1e-07</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="integrate-1D-poissonEquation_files/figure-html/cell-19-output-2.png" width="553" height="434" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="in-class-exercise-1" class="level3">
+<h3 class="anchored" data-anchor-id="in-class-exercise-1">In class Exercise:</h3>
+<ul>
+<li>Let’s see whether we can figure out how to use the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.cg.html">conjugate gradient method in scipy</a>.</li>
+<li>Explore <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html#numpy.linalg.lstsq">Best least square solution</a></li>
+</ul>
+</section>
+<section id="the-laplace-operator-in-spherical-coordinates" class="level2">
+<h2 class="anchored" data-anchor-id="the-laplace-operator-in-spherical-coordinates">The Laplace operator in spherical coordinates</h2>
+<p>The Laplace operator in spherical coordinates is: <span class="math display">\[
+\begin{align}
+\nabla^2 f &amp;=&amp; {1 \over r^2}{\partial \over \partial r}\!\left(r^2 {\partial f \over \partial r}\right)
+  \!+\!{1 \over r^2\!\sin\theta}{\partial \over \partial \theta}\!\left(\sin\theta {\partial f \over \partial \theta}\right)
+  \!+\!{1 \over r^2\!\sin^2\theta}{\partial^2 f \over \partial \varphi^2}
+= \\
+&amp; = &amp;\left(\frac{\partial^2}{\partial r^2} + \frac{2}{r} \frac{\partial}{\partial r}\right)f \!+
+{1 \over r^2\!\sin\theta}{\partial \over \partial \theta}\!\left(\sin\theta \frac{\partial}{\partial \theta}\right)f +\frac{1}{r^2\!\sin^2\theta}\frac{\partial^2}{\partial \varphi^2}f.
+\end{align}
+\]</span></p>
+<p>Here we care only for the radial part: <span class="math display">\[
+\nabla^2_r f =  {1 \over r^2}{\partial \over \partial r}\!\left(r^2 {\partial f \over \partial r}\right) = \left(\frac{\partial^2}{\partial r^2} + \frac{2}{r} \frac{\partial}{\partial r}\right)f
+\]</span> and also make note of the gradient in radial direction: <span class="math display">\[
+\nabla_r\ f = {\partial f \over \partial r}
+\]</span></p>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/KIPAC\.github\.io\/360\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb13" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Solving the Poisson Equation tutorial</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: false</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: Poisson equation tutorial</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">    page-layout: full</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">    callout-icon: false</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="fu"># Solving the Poisson equation $\Delta\Phi=C\rho$</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>In physics we often write $\nabla^2$ instead of $\Delta$ but we mean the same thing, suming the second derivatives along each value. </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pylab inline</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.integrate <span class="im">as</span> integrate</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> (<span class="dv">12</span>, <span class="dv">8</span>)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>Here we explore a solution strategy for the one dimensional Poisson equation. This is purely an example and most of the solution strategies will work for almost all second order partial differential equations. Let us first make the equation dimension-less. We can use the mean density $\bar{\rho}=\int\rho dV/\int dV$ to define the &lt;b&gt;overdensity&lt;/b&gt; $$D\equiv \frac{\rho}{\bar{\rho}}$$ and rescale the potential </span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>\tilde{\Phi}\equiv (C \bar{\rho} L^2)^{-1}\Phi</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>which we can insert into the original equation $\Delta \tilde{\Phi} C \bar{\rho} L^2 = C \rho$ and get a new equation for $\tilde{\Phi}$:</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>L^{2}\Delta \tilde{\Phi} =  D.</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>$L$ is just a constant length. It could be just a typical length scale of the problem. This is now convenient as the over density is a nice dimensionless intuitively easy to grasp description of the density. Also all the length intervals we have in the problem as just measured in units of $L$ and once we have a solution we can use these relations to back out the SI/cgs values of the potential. </span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>So let us also measure all distances in units of $L$ so we define </span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>$$\tilde{x}\equiv x/L$$ </span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>and have $d\tilde{x}/dx = 1/L$</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>The Force is just $-\nabla \tilde{\Phi}$, so in one dimension </span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>-\frac{\partial F}{\partial \tilde{x}} = D</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>we now simply have </span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>F(X) = -\int_0^X D(\tilde{x}) d\tilde{x} + F(x=0),</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>with the integration constant being recognized as $F(x=0)$ which must be obtained from a boundary condition. Its meaning is clear it is the Force at $x=0$. </span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>Also the integral over the density on the right hand side has a simple meaning. It is the mass (charge) in the interval $<span class="co">[</span><span class="ot">0..X</span><span class="co">]</span>$.</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>We also can see this from Gauss' law that </span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>F(1)-F(0)= -\int_0^1 D(\tilde{x}) d\tilde{x}</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>so that in a periodic domain where we have $F(0)=F(1)$ it follows that $C_1 = F(0)$.</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>The problem is though that a priori we do not know $F(0)$. However, in the case where no external forces are applied the system must conserve momentum. I.e. the total momentum change must remain zero </span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>\int_0^1 \frac{dp}{dt} d\tilde{x} = \int_0^1 F(\tilde{x}) d\tilde{x} = 0</span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>So we have </span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>-\int_0^X \int_0^X D(\tilde{x})d\tilde{x} + X F(x=0) = 0</span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>so </span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>F(0) = -\int_0^1 \int_0^1 D(\tilde{x})d\tilde{x}  </span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a>Integrating this once more and we get the Potential </span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>\tilde{\Phi}(X) = \int_0^X F(\tilde{x}) d\tilde{x}  + C_2 </span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> density(x,k<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a>    phase <span class="op">=</span> <span class="fl">1.1</span></span>
+<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a>    od <span class="op">=</span> np.cos(k <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> x <span class="op">+</span> phase) <span class="co"># set up a periodic density</span></span>
+<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> od</span>
+<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a><span class="co">#    dmean = integrate.simps(od,x=x)/1.   # mean density </span></span>
+<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a><span class="co">#    d = od - dmean # for periodic forces the mean of the right hand side needs to be zero</span></span>
+<span id="cb13-106"><a href="#cb13-106" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb13-107"><a href="#cb13-107" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> d</span>
+<span id="cb13-108"><a href="#cb13-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-109"><a href="#cb13-109" aria-hidden="true" tabindex="-1"></a>N<span class="op">=</span><span class="dv">100</span></span>
+<span id="cb13-110"><a href="#cb13-110" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">1</span>,N) <span class="co"># uniform grid </span></span>
+<span id="cb13-111"><a href="#cb13-111" aria-hidden="true" tabindex="-1"></a><span class="co">#x = np.insert(np.insert(sort(np.random.rand(N-2)),0,0),N-1,1) # non-uniform grid</span></span>
+<span id="cb13-112"><a href="#cb13-112" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> density(x)</span>
+<span id="cb13-113"><a href="#cb13-113" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-114"><a href="#cb13-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-115"><a href="#cb13-115" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> <span class="op">-</span>integrate.cumulative_trapezoid(c<span class="op">*</span>d,x<span class="op">=</span>x,initial<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-116"><a href="#cb13-116" aria-hidden="true" tabindex="-1"></a>F0 <span class="op">=</span> <span class="op">-</span>integrate.simpson(F,x<span class="op">=</span>x) <span class="co"># fix the force constant to keep momentum change=0</span></span>
+<span id="cb13-117"><a href="#cb13-117" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'F(x=0) = '</span>, F0)</span>
+<span id="cb13-118"><a href="#cb13-118" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> F <span class="op">+</span> F0</span>
+<span id="cb13-119"><a href="#cb13-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-120"><a href="#cb13-120" aria-hidden="true" tabindex="-1"></a>Phi <span class="op">=</span> <span class="op">-</span>integrate.cumulative_trapezoid(F,x,initial<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-121"><a href="#cb13-121" aria-hidden="true" tabindex="-1"></a>Phi <span class="op">=</span> Phi <span class="op">-</span> integrate.simpson(Phi,x<span class="op">=</span>x)<span class="op">/</span><span class="fl">1.</span>    <span class="co"># set potential to mean</span></span>
+<span id="cb13-122"><a href="#cb13-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-123"><a href="#cb13-123" aria-hidden="true" tabindex="-1"></a>plt.plot(x,d<span class="op">/</span>N,<span class="st">'x'</span>,label<span class="op">=</span><span class="st">"$\delta$"</span>)<span class="op">;</span></span>
+<span id="cb13-124"><a href="#cb13-124" aria-hidden="true" tabindex="-1"></a>plt.plot(x,F,label<span class="op">=</span><span class="st">"Force"</span>)<span class="op">;</span></span>
+<span id="cb13-125"><a href="#cb13-125" aria-hidden="true" tabindex="-1"></a>plt.plot(x,Phi,label<span class="op">=</span><span class="st">"$\Phi$"</span>)<span class="op">;</span></span>
+<span id="cb13-126"><a href="#cb13-126" aria-hidden="true" tabindex="-1"></a>plt.plot(np.zeros(<span class="dv">2</span>))</span>
+<span id="cb13-127"><a href="#cb13-127" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-128"><a href="#cb13-128" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Solution to the 1D Poisson equation'</span>)</span>
+<span id="cb13-129"><a href="#cb13-129" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span>
+<span id="cb13-130"><a href="#cb13-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-131"><a href="#cb13-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-132"><a href="#cb13-132" aria-hidden="true" tabindex="-1"></a><span class="fu">### In class Exercise</span></span>
+<span id="cb13-133"><a href="#cb13-133" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Calculate the potential and force in and around a homogeneous sphere reusing the numerical integration and differentiation as in the example above. </span>
+<span id="cb13-134"><a href="#cb13-134" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Have the sphere be at position x=0.4 and have a radius 0.025</span>
+<span id="cb13-135"><a href="#cb13-135" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>What did you notice about our assumption of periodic boundaries? How does the mean density enter?</span>
+<span id="cb13-136"><a href="#cb13-136" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Plot it for the grid resolution 60 and 240</span>
+<span id="cb13-137"><a href="#cb13-137" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Discuss the solution</span>
+<span id="cb13-138"><a href="#cb13-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-141"><a href="#cb13-141" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-142"><a href="#cb13-142" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mydensity(x,k<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb13-143"><a href="#cb13-143" aria-hidden="true" tabindex="-1"></a><span class="co">#    phase = 1.1</span></span>
+<span id="cb13-144"><a href="#cb13-144" aria-hidden="true" tabindex="-1"></a><span class="co">#    od = np.cos(k * 2 * math.pi * x + phase) # set up a periodic density</span></span>
+<span id="cb13-145"><a href="#cb13-145" aria-hidden="true" tabindex="-1"></a>    od <span class="op">=</span> np.ones_like(x)<span class="op">*</span><span class="dv">20</span></span>
+<span id="cb13-146"><a href="#cb13-146" aria-hidden="true" tabindex="-1"></a>    od[np.<span class="bu">abs</span>((x <span class="op">-</span><span class="fl">0.4</span>)) <span class="op">&gt;</span> <span class="fl">0.025</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-147"><a href="#cb13-147" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> od</span>
+<span id="cb13-148"><a href="#cb13-148" aria-hidden="true" tabindex="-1"></a><span class="co">#    dmean = integrate.simpson(od,x=x)/1.   # mean density </span></span>
+<span id="cb13-149"><a href="#cb13-149" aria-hidden="true" tabindex="-1"></a><span class="co">#    d = od - dmean # for periodic forces the mean of the right hand side needs to be zero</span></span>
+<span id="cb13-150"><a href="#cb13-150" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb13-151"><a href="#cb13-151" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> d</span>
+<span id="cb13-152"><a href="#cb13-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-153"><a href="#cb13-153" aria-hidden="true" tabindex="-1"></a>N<span class="op">=</span><span class="dv">100</span></span>
+<span id="cb13-154"><a href="#cb13-154" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">1</span>,N) <span class="co"># uniform grid </span></span>
+<span id="cb13-155"><a href="#cb13-155" aria-hidden="true" tabindex="-1"></a><span class="co">#x = np.insert(np.insert(sort(np.random.rand(N-2)),0,0),N-1,1) # non-uniform grid</span></span>
+<span id="cb13-156"><a href="#cb13-156" aria-hidden="true" tabindex="-1"></a>md <span class="op">=</span> mydensity(x)</span>
+<span id="cb13-157"><a href="#cb13-157" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-158"><a href="#cb13-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-159"><a href="#cb13-159" aria-hidden="true" tabindex="-1"></a>mF <span class="op">=</span> <span class="op">-</span>integrate.cumulative_trapezoid(c<span class="op">*</span>md,x<span class="op">=</span>x,initial<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-160"><a href="#cb13-160" aria-hidden="true" tabindex="-1"></a>mF0 <span class="op">=</span> <span class="op">-</span>integrate.simpson(mF,x<span class="op">=</span>x) <span class="co"># fix the force constant to keep momentum change=0</span></span>
+<span id="cb13-161"><a href="#cb13-161" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'F(x=0) = '</span>, mF0)</span>
+<span id="cb13-162"><a href="#cb13-162" aria-hidden="true" tabindex="-1"></a>mF <span class="op">=</span> mF <span class="op">+</span> mF0</span>
+<span id="cb13-163"><a href="#cb13-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-164"><a href="#cb13-164" aria-hidden="true" tabindex="-1"></a>mPhi <span class="op">=</span> <span class="op">-</span>integrate.cumulative_trapezoid(mF,x,initial<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-165"><a href="#cb13-165" aria-hidden="true" tabindex="-1"></a>mPhi <span class="op">=</span> mPhi <span class="op">-</span> integrate.simpson(mPhi,x<span class="op">=</span>x)<span class="op">/</span><span class="fl">1.</span>    <span class="co"># set potential to mean</span></span>
+<span id="cb13-166"><a href="#cb13-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-167"><a href="#cb13-167" aria-hidden="true" tabindex="-1"></a>plt.plot(x,md<span class="op">/</span>N,<span class="st">'x'</span>,label<span class="op">=</span><span class="st">"$\delta$"</span>)<span class="op">;</span></span>
+<span id="cb13-168"><a href="#cb13-168" aria-hidden="true" tabindex="-1"></a>plt.plot(x,mF,label<span class="op">=</span><span class="st">"Force"</span>)<span class="op">;</span></span>
+<span id="cb13-169"><a href="#cb13-169" aria-hidden="true" tabindex="-1"></a>plt.plot(x,mPhi,label<span class="op">=</span><span class="st">"$\Phi$"</span>)<span class="op">;</span></span>
+<span id="cb13-170"><a href="#cb13-170" aria-hidden="true" tabindex="-1"></a>plt.plot(np.zeros(<span class="dv">2</span>))</span>
+<span id="cb13-171"><a href="#cb13-171" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-172"><a href="#cb13-172" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Solution to the 1D Poisson equation'</span>)</span>
+<span id="cb13-173"><a href="#cb13-173" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span>
+<span id="cb13-174"><a href="#cb13-174" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-175"><a href="#cb13-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-176"><a href="#cb13-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using relaxation</span></span>
+<span id="cb13-177"><a href="#cb13-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-178"><a href="#cb13-178" aria-hidden="true" tabindex="-1"></a>The trick we just used above is only possible in one dimensions. In two or more the Poisson equation is essentially always a boundary value problem. I.e. we need to specify the values of $\Phi$ on the boundary and the interate to find a convergent solution. We introduce this style of solving it here next but stay in one dimensions to keep things simple at first. So we start out by discretizing the Poisson equation using the <span class="co">[</span><span class="ot">central difference</span><span class="co">](https://en.wikipedia.org/wiki/Numerical_differentiation)</span> for the second derivative. </span>
+<span id="cb13-179"><a href="#cb13-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-180"><a href="#cb13-180" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-181"><a href="#cb13-181" aria-hidden="true" tabindex="-1"></a>\frac{1}{h^2} \left( \Phi_{i+1} + \Phi_{i-1} - 2\Phi_i \right) = C\ D(x_i)</span>
+<span id="cb13-182"><a href="#cb13-182" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-183"><a href="#cb13-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-184"><a href="#cb13-184" aria-hidden="true" tabindex="-1"></a>where we took the liberty and drop the ~ symbols for $\tilde{\Phi}$ and $d\tilde{x}$ while still working in these dimensionless quantities.</span>
+<span id="cb13-185"><a href="#cb13-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-186"><a href="#cb13-186" aria-hidden="true" tabindex="-1"></a>This gives us an obvious solution strategy. We just solve for $\Phi_i$ and remember to specify boundary values on the left and right so that the resulting formula is always defined. I.e.</span>
+<span id="cb13-187"><a href="#cb13-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-188"><a href="#cb13-188" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-189"><a href="#cb13-189" aria-hidden="true" tabindex="-1"></a>\Phi_i = \frac{1}{2}\left( \Phi_{i+1} + \Phi_{i-1} - C\ D(x_i)\ h^2 \right) </span>
+<span id="cb13-190"><a href="#cb13-190" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-191"><a href="#cb13-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-192"><a href="#cb13-192" aria-hidden="true" tabindex="-1"></a>For our first implementation we will assume periodic boundaries. </span>
+<span id="cb13-193"><a href="#cb13-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-194"><a href="#cb13-194" aria-hidden="true" tabindex="-1"></a>The overdensity $D(x)$ will be defined at cell centers and similarly $\Phi$ is recorded at the same positions. </span>
+<span id="cb13-195"><a href="#cb13-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-198"><a href="#cb13-198" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-199"><a href="#cb13-199" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-200"><a href="#cb13-200" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-201"><a href="#cb13-201" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100</span> </span>
+<span id="cb13-202"><a href="#cb13-202" aria-hidden="true" tabindex="-1"></a>rx <span class="op">=</span> (<span class="fl">0.5</span><span class="op">+</span>np.arange(N))<span class="op">/</span>N</span>
+<span id="cb13-203"><a href="#cb13-203" aria-hidden="true" tabindex="-1"></a>rd <span class="op">=</span> density(rx)</span>
+<span id="cb13-204"><a href="#cb13-204" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb13-205"><a href="#cb13-205" aria-hidden="true" tabindex="-1"></a>Niter <span class="op">=</span> <span class="dv">140</span></span>
+<span id="cb13-206"><a href="#cb13-206" aria-hidden="true" tabindex="-1"></a>ip1 <span class="op">=</span> (np.arange(N) <span class="op">+</span> <span class="dv">1</span>) <span class="co"># define arrays that are the indeces i+1 and i-1</span></span>
+<span id="cb13-207"><a href="#cb13-207" aria-hidden="true" tabindex="-1"></a>ip1[N<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-208"><a href="#cb13-208" aria-hidden="true" tabindex="-1"></a>im1 <span class="op">=</span> (np.arange(N) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb13-209"><a href="#cb13-209" aria-hidden="true" tabindex="-1"></a>rPhi <span class="op">=</span> np.zeros(N,dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb13-210"><a href="#cb13-210" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(Niter):</span>
+<span id="cb13-211"><a href="#cb13-211" aria-hidden="true" tabindex="-1"></a>    rPhi <span class="op">=</span> (rPhi[ip1]<span class="op">+</span>rPhi[im1] <span class="op">-</span> c<span class="op">*</span>rd<span class="op">*</span>dx<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="fl">2.</span></span>
+<span id="cb13-212"><a href="#cb13-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-213"><a href="#cb13-213" aria-hidden="true" tabindex="-1"></a>rF <span class="op">=</span> <span class="op">-</span>(rPhi[ip1]<span class="op">-</span>rPhi[im1])<span class="op">/</span>(<span class="fl">2.</span><span class="op">*</span>dx)</span>
+<span id="cb13-214"><a href="#cb13-214" aria-hidden="true" tabindex="-1"></a><span class="co"># show results</span></span>
+<span id="cb13-215"><a href="#cb13-215" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,rd<span class="op">/</span>N,<span class="st">'x'</span>,label<span class="op">=</span><span class="st">"$\delta$"</span>)<span class="op">;</span></span>
+<span id="cb13-216"><a href="#cb13-216" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,rF,label<span class="op">=</span><span class="st">"Force"</span>)<span class="op">;</span></span>
+<span id="cb13-217"><a href="#cb13-217" aria-hidden="true" tabindex="-1"></a>plt.plot(x,F,<span class="st">':'</span>, label<span class="op">=</span><span class="st">"Force Ref."</span>)</span>
+<span id="cb13-218"><a href="#cb13-218" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,rPhi,label<span class="op">=</span><span class="st">"$\Phi$"</span>)<span class="op">;</span></span>
+<span id="cb13-219"><a href="#cb13-219" aria-hidden="true" tabindex="-1"></a>plt.plot(np.zeros(<span class="dv">2</span>))</span>
+<span id="cb13-220"><a href="#cb13-220" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-221"><a href="#cb13-221" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Solution to the 1D Poisson equation using '</span><span class="op">+</span><span class="bu">str</span>(Niter)<span class="op">+</span><span class="st">' iterations'</span>)</span>
+<span id="cb13-222"><a href="#cb13-222" aria-hidden="true" tabindex="-1"></a>leg<span class="op">=</span>plt.legend()<span class="op">;</span></span>
+<span id="cb13-223"><a href="#cb13-223" aria-hidden="true" tabindex="-1"></a>leg.get_frame().set_alpha(<span class="fl">0.7</span>)</span>
+<span id="cb13-224"><a href="#cb13-224" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-225"><a href="#cb13-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-226"><a href="#cb13-226" aria-hidden="true" tabindex="-1"></a>Wow. That takes an enormous amount of iterations to converge. In particular if the solution has long wavelength components. This method is known an &lt;b&gt;Jacobi's iterative method&lt;/b&gt;.</span>
+<span id="cb13-227"><a href="#cb13-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-228"><a href="#cb13-228" aria-hidden="true" tabindex="-1"></a>Ah yes. But we could use the update values as we march through. Perhaps that converges faster?</span>
+<span id="cb13-229"><a href="#cb13-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-232"><a href="#cb13-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-233"><a href="#cb13-233" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-234"><a href="#cb13-234" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-235"><a href="#cb13-235" aria-hidden="true" tabindex="-1"></a>rx <span class="op">=</span> (<span class="fl">0.5</span><span class="op">+</span>np.arange(N))<span class="op">/</span>N</span>
+<span id="cb13-236"><a href="#cb13-236" aria-hidden="true" tabindex="-1"></a>rd <span class="op">=</span> density(rx)</span>
+<span id="cb13-237"><a href="#cb13-237" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb13-238"><a href="#cb13-238" aria-hidden="true" tabindex="-1"></a>Niter <span class="op">=</span> <span class="dv">199</span></span>
+<span id="cb13-239"><a href="#cb13-239" aria-hidden="true" tabindex="-1"></a>ip1 <span class="op">=</span> (np.arange(N) <span class="op">+</span> <span class="dv">1</span>) <span class="co"># define arrays that are the indeces i+1 and i-1</span></span>
+<span id="cb13-240"><a href="#cb13-240" aria-hidden="true" tabindex="-1"></a>ip1[N<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-241"><a href="#cb13-241" aria-hidden="true" tabindex="-1"></a>im1 <span class="op">=</span> (np.arange(N) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb13-242"><a href="#cb13-242" aria-hidden="true" tabindex="-1"></a>rPhi <span class="op">=</span> np.zeros(N,dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb13-243"><a href="#cb13-243" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> count <span class="kw">in</span> <span class="bu">range</span>(Niter):</span>
+<span id="cb13-244"><a href="#cb13-244" aria-hidden="true" tabindex="-1"></a><span class="co">#    rPhi = (rPhi[ip1]+rPhi[im1] - c*rd*dx**2)/2.</span></span>
+<span id="cb13-245"><a href="#cb13-245" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N):</span>
+<span id="cb13-246"><a href="#cb13-246" aria-hidden="true" tabindex="-1"></a>        rPhi[i] <span class="op">=</span> (rPhi[ip1[i]]<span class="op">+</span>rPhi[im1[i]] <span class="op">-</span> c<span class="op">*</span>rd[i]<span class="op">*</span>dx<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="fl">2.</span>    </span>
+<span id="cb13-247"><a href="#cb13-247" aria-hidden="true" tabindex="-1"></a>rF <span class="op">=</span> <span class="op">-</span>(rPhi[ip1]<span class="op">-</span>rPhi[im1])<span class="op">/</span>(<span class="fl">2.</span><span class="op">*</span>dx)</span>
+<span id="cb13-248"><a href="#cb13-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-249"><a href="#cb13-249" aria-hidden="true" tabindex="-1"></a><span class="co"># show results</span></span>
+<span id="cb13-250"><a href="#cb13-250" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,rd<span class="op">/</span>N,<span class="st">'x'</span>,label<span class="op">=</span><span class="st">"$\delta$"</span>)<span class="op">;</span></span>
+<span id="cb13-251"><a href="#cb13-251" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,rF,label<span class="op">=</span><span class="st">"Force"</span>)<span class="op">;</span></span>
+<span id="cb13-252"><a href="#cb13-252" aria-hidden="true" tabindex="-1"></a>plt.plot(x,F,<span class="st">':'</span>, label<span class="op">=</span><span class="st">"Force Ref."</span>)</span>
+<span id="cb13-253"><a href="#cb13-253" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,rPhi,label<span class="op">=</span><span class="st">"$\Phi$"</span>)<span class="op">;</span></span>
+<span id="cb13-254"><a href="#cb13-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-255"><a href="#cb13-255" aria-hidden="true" tabindex="-1"></a>plt.plot(np.zeros(<span class="dv">2</span>))</span>
+<span id="cb13-256"><a href="#cb13-256" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-257"><a href="#cb13-257" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Solution to the 1D Poisson equation using '</span><span class="op">+</span><span class="bu">str</span>(Niter)<span class="op">+</span><span class="st">' iterations'</span>)</span>
+<span id="cb13-258"><a href="#cb13-258" aria-hidden="true" tabindex="-1"></a>leg<span class="op">=</span>plt.legend()<span class="op">;</span></span>
+<span id="cb13-259"><a href="#cb13-259" aria-hidden="true" tabindex="-1"></a>leg.get_frame().set_alpha(<span class="fl">0.7</span>)</span>
+<span id="cb13-260"><a href="#cb13-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-261"><a href="#cb13-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-262"><a href="#cb13-262" aria-hidden="true" tabindex="-1"></a>That is indeed somewhat of an improvement. It is called the &lt;b&gt;Gauss Seidel&lt;/b&gt; iteration. </span>
+<span id="cb13-263"><a href="#cb13-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-264"><a href="#cb13-264" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using Successive Over Relaxation</span></span>
+<span id="cb13-265"><a href="#cb13-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-266"><a href="#cb13-266" aria-hidden="true" tabindex="-1"></a>If we wouldn' change the values completely just on the neighbors but keep some information from previous steps we can weight the update. This is known as successive over-relaxation. </span>
+<span id="cb13-267"><a href="#cb13-267" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-268"><a href="#cb13-268" aria-hidden="true" tabindex="-1"></a>\Phi_i^{n+1} = (1-\omega)\ \Phi_i^n + \omega/2\ \left( \Phi^n_{i+1} + \Phi^n_{i-1} - c h^2 D \right),</span>
+<span id="cb13-269"><a href="#cb13-269" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-270"><a href="#cb13-270" aria-hidden="true" tabindex="-1"></a>first for $i=0,2,4,\cdots$ and then for $i=1,3,5,\cdots$. It is the same number of operations as before but does converge somewhat quicker. </span>
+<span id="cb13-271"><a href="#cb13-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-274"><a href="#cb13-274" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-275"><a href="#cb13-275" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-276"><a href="#cb13-276" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-277"><a href="#cb13-277" aria-hidden="true" tabindex="-1"></a>srx <span class="op">=</span> (<span class="fl">0.5</span><span class="op">+</span>np.arange(N))<span class="op">/</span>N</span>
+<span id="cb13-278"><a href="#cb13-278" aria-hidden="true" tabindex="-1"></a>srd <span class="op">=</span> density(x)</span>
+<span id="cb13-279"><a href="#cb13-279" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb13-280"><a href="#cb13-280" aria-hidden="true" tabindex="-1"></a>Niter <span class="op">=</span> <span class="dv">80</span></span>
+<span id="cb13-281"><a href="#cb13-281" aria-hidden="true" tabindex="-1"></a>ip1 <span class="op">=</span> (np.arange(N) <span class="op">+</span> <span class="dv">1</span>) <span class="co"># define arrays that are the indeces i+1 and i-1</span></span>
+<span id="cb13-282"><a href="#cb13-282" aria-hidden="true" tabindex="-1"></a>ip1[N<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-283"><a href="#cb13-283" aria-hidden="true" tabindex="-1"></a>im1 <span class="op">=</span> (np.arange(N) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb13-284"><a href="#cb13-284" aria-hidden="true" tabindex="-1"></a>srPhi <span class="op">=</span> np.zeros(N,dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb13-285"><a href="#cb13-285" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="fl">1.8</span></span>
+<span id="cb13-286"><a href="#cb13-286" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> count <span class="kw">in</span> <span class="bu">range</span>(Niter):</span>
+<span id="cb13-287"><a href="#cb13-287" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N):</span>
+<span id="cb13-288"><a href="#cb13-288" aria-hidden="true" tabindex="-1"></a>        sigma <span class="op">=</span> srPhi[ip1[i]]<span class="op">+</span> srPhi[im1[i]]</span>
+<span id="cb13-289"><a href="#cb13-289" aria-hidden="true" tabindex="-1"></a>        srPhi[i] <span class="op">=</span> (<span class="fl">1.</span><span class="op">-</span>w)<span class="op">*</span>srPhi[i] <span class="op">-</span> w<span class="op">/</span><span class="dv">2</span><span class="op">*</span>(c<span class="op">*</span>rd[i]<span class="op">*</span>dx<span class="op">**</span><span class="dv">2</span><span class="op">-</span>sigma)</span>
+<span id="cb13-290"><a href="#cb13-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-291"><a href="#cb13-291" aria-hidden="true" tabindex="-1"></a>srF <span class="op">=</span> <span class="op">-</span>(srPhi[ip1]<span class="op">-</span>srPhi[im1])<span class="op">/</span>(<span class="fl">2.</span><span class="op">*</span>dx)</span>
+<span id="cb13-292"><a href="#cb13-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-293"><a href="#cb13-293" aria-hidden="true" tabindex="-1"></a><span class="co"># show results</span></span>
+<span id="cb13-294"><a href="#cb13-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-295"><a href="#cb13-295" aria-hidden="true" tabindex="-1"></a>plt.plot(srx,rd<span class="op">/</span>N,<span class="st">'x'</span>,label<span class="op">=</span><span class="st">"$\delta$"</span>)<span class="op">;</span></span>
+<span id="cb13-296"><a href="#cb13-296" aria-hidden="true" tabindex="-1"></a>plt.plot(srx,srF,label<span class="op">=</span><span class="st">"Force"</span>)<span class="op">;</span></span>
+<span id="cb13-297"><a href="#cb13-297" aria-hidden="true" tabindex="-1"></a>plt.plot(x,F,<span class="st">':'</span>, label<span class="op">=</span><span class="st">"Force Ref."</span>)</span>
+<span id="cb13-298"><a href="#cb13-298" aria-hidden="true" tabindex="-1"></a>plt.plot(srx,srPhi,label<span class="op">=</span><span class="st">"$\Phi$"</span>)<span class="op">;</span></span>
+<span id="cb13-299"><a href="#cb13-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-300"><a href="#cb13-300" aria-hidden="true" tabindex="-1"></a>plt.plot(np.zeros(<span class="dv">2</span>))</span>
+<span id="cb13-301"><a href="#cb13-301" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-302"><a href="#cb13-302" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Solution to the 1D Poisson equation using '</span><span class="op">+</span><span class="bu">str</span>(Niter)<span class="op">+</span><span class="st">' iterations'</span>)</span>
+<span id="cb13-303"><a href="#cb13-303" aria-hidden="true" tabindex="-1"></a>leg<span class="op">=</span>plt.legend()<span class="op">;</span></span>
+<span id="cb13-304"><a href="#cb13-304" aria-hidden="true" tabindex="-1"></a>leg.get_frame().set_alpha(<span class="fl">0.7</span>)</span>
+<span id="cb13-305"><a href="#cb13-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-306"><a href="#cb13-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-307"><a href="#cb13-307" aria-hidden="true" tabindex="-1"></a>Ok. This is better!  It, however, added another parameter which is left to the user to choose. It is only convergent in $ 0 &lt; w &lt; 2 $.</span>
+<span id="cb13-308"><a href="#cb13-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-309"><a href="#cb13-309" aria-hidden="true" tabindex="-1"></a><span class="fu">## Succesive Over-Relaxation with Red Black Ordering</span></span>
+<span id="cb13-310"><a href="#cb13-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-311"><a href="#cb13-311" aria-hidden="true" tabindex="-1"></a>There is a variant of &lt;b&gt;Gauss Seidel&lt;/b&gt; and succesive over-relaxation that is known as &lt;b&gt;red-black&lt;/b&gt; ordering. This realizes that even positions are only dependent on odd neighbors and odd ones only on even. So first updates the one half and then the other. We do our SOR update</span>
+<span id="cb13-312"><a href="#cb13-312" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-313"><a href="#cb13-313" aria-hidden="true" tabindex="-1"></a>\Phi_i^{n+1} = (1-\omega)\ \Phi_i^N + \omega/2\ \left( \Phi^n_{i+1} + \Phi^n_{i-1} - c h^2 D \right),</span>
+<span id="cb13-314"><a href="#cb13-314" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-315"><a href="#cb13-315" aria-hidden="true" tabindex="-1"></a>first for $i=0,2,4,\cdots$ and then for $i=1,3,5,\cdots$. It is the same number of operations as before but does converge somewhat quicker.</span>
+<span id="cb13-316"><a href="#cb13-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-319"><a href="#cb13-319" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-320"><a href="#cb13-320" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-321"><a href="#cb13-321" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-322"><a href="#cb13-322" aria-hidden="true" tabindex="-1"></a>srx <span class="op">=</span> (<span class="fl">0.5</span><span class="op">+</span>np.arange(N))<span class="op">/</span>N</span>
+<span id="cb13-323"><a href="#cb13-323" aria-hidden="true" tabindex="-1"></a>srd <span class="op">=</span> density(srx)</span>
+<span id="cb13-324"><a href="#cb13-324" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb13-325"><a href="#cb13-325" aria-hidden="true" tabindex="-1"></a>Niter <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb13-326"><a href="#cb13-326" aria-hidden="true" tabindex="-1"></a>ip1 <span class="op">=</span> (np.arange(N) <span class="op">+</span> <span class="dv">1</span>) <span class="co"># define arrays that are the indeces i+1 and i-1</span></span>
+<span id="cb13-327"><a href="#cb13-327" aria-hidden="true" tabindex="-1"></a>ip1[N<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-328"><a href="#cb13-328" aria-hidden="true" tabindex="-1"></a>im1 <span class="op">=</span> (np.arange(N) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb13-329"><a href="#cb13-329" aria-hidden="true" tabindex="-1"></a>srPhi <span class="op">=</span> np.zeros(N,dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb13-330"><a href="#cb13-330" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="fl">1.8</span></span>
+<span id="cb13-331"><a href="#cb13-331" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> count <span class="kw">in</span> <span class="bu">range</span>(Niter):</span>
+<span id="cb13-332"><a href="#cb13-332" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,N,<span class="dv">2</span>):</span>
+<span id="cb13-333"><a href="#cb13-333" aria-hidden="true" tabindex="-1"></a>        sigma <span class="op">=</span> srPhi[ip1[i]]<span class="op">+</span> srPhi[im1[i]]</span>
+<span id="cb13-334"><a href="#cb13-334" aria-hidden="true" tabindex="-1"></a>        srPhi[i] <span class="op">=</span> (<span class="fl">1.</span><span class="op">-</span>w)<span class="op">*</span>srPhi[i] <span class="op">-</span> w<span class="op">/</span><span class="dv">2</span><span class="op">*</span>(c<span class="op">*</span>srd[i]<span class="op">*</span>dx<span class="op">**</span><span class="dv">2</span><span class="op">-</span>sigma)</span>
+<span id="cb13-335"><a href="#cb13-335" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,N,<span class="dv">2</span>):</span>
+<span id="cb13-336"><a href="#cb13-336" aria-hidden="true" tabindex="-1"></a>        sigma <span class="op">=</span> srPhi[ip1[i]]<span class="op">+</span> srPhi[im1[i]]</span>
+<span id="cb13-337"><a href="#cb13-337" aria-hidden="true" tabindex="-1"></a>        srPhi[i] <span class="op">=</span> (<span class="fl">1.</span><span class="op">-</span>w)<span class="op">*</span>srPhi[i] <span class="op">-</span> w<span class="op">/</span><span class="dv">2</span><span class="op">*</span>(c<span class="op">*</span>srd[i]<span class="op">*</span>dx<span class="op">**</span><span class="dv">2</span><span class="op">-</span>sigma)</span>
+<span id="cb13-338"><a href="#cb13-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-339"><a href="#cb13-339" aria-hidden="true" tabindex="-1"></a>srF <span class="op">=</span> <span class="op">-</span>(srPhi[ip1]<span class="op">-</span>srPhi[im1])<span class="op">/</span>(<span class="fl">2.</span><span class="op">*</span>dx)</span>
+<span id="cb13-340"><a href="#cb13-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-341"><a href="#cb13-341" aria-hidden="true" tabindex="-1"></a><span class="co"># show results</span></span>
+<span id="cb13-342"><a href="#cb13-342" aria-hidden="true" tabindex="-1"></a>plt.plot(srx,srd<span class="op">/</span>N,<span class="st">'x'</span>,label<span class="op">=</span><span class="st">"$\delta$"</span>)<span class="op">;</span></span>
+<span id="cb13-343"><a href="#cb13-343" aria-hidden="true" tabindex="-1"></a>plt.plot(srx,srF,label<span class="op">=</span><span class="st">"Force"</span>)<span class="op">;</span></span>
+<span id="cb13-344"><a href="#cb13-344" aria-hidden="true" tabindex="-1"></a>plt.plot(x,F,<span class="st">':'</span>, label<span class="op">=</span><span class="st">"Force Ref."</span>)</span>
+<span id="cb13-345"><a href="#cb13-345" aria-hidden="true" tabindex="-1"></a>plt.plot(srx,srPhi,label<span class="op">=</span><span class="st">"$\Phi$"</span>)<span class="op">;</span></span>
+<span id="cb13-346"><a href="#cb13-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-347"><a href="#cb13-347" aria-hidden="true" tabindex="-1"></a>plt.plot(x,Phi,<span class="st">':'</span>,label<span class="op">=</span><span class="st">"$\Phi$ Ref"</span>)<span class="op">;</span></span>
+<span id="cb13-348"><a href="#cb13-348" aria-hidden="true" tabindex="-1"></a>plt.plot(np.zeros(<span class="dv">2</span>))</span>
+<span id="cb13-349"><a href="#cb13-349" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-350"><a href="#cb13-350" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Solution to the 1D Poisson equation using '</span><span class="op">+</span><span class="bu">str</span>(Niter)<span class="op">+</span><span class="st">' iterations'</span>)</span>
+<span id="cb13-351"><a href="#cb13-351" aria-hidden="true" tabindex="-1"></a>leg<span class="op">=</span>plt.legend()<span class="op">;</span></span>
+<span id="cb13-352"><a href="#cb13-352" aria-hidden="true" tabindex="-1"></a>leg.get_frame().set_alpha(<span class="fl">0.7</span>)</span>
+<span id="cb13-353"><a href="#cb13-353" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-354"><a href="#cb13-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-355"><a href="#cb13-355" aria-hidden="true" tabindex="-1"></a>This is indeed a further improvement. </span>
+<span id="cb13-356"><a href="#cb13-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-357"><a href="#cb13-357" aria-hidden="true" tabindex="-1"></a><span class="fu">## Recognizing this is a linear algebra problem</span></span>
+<span id="cb13-358"><a href="#cb13-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-359"><a href="#cb13-359" aria-hidden="true" tabindex="-1"></a>Our discretization we used in the relaxation method can also be written in matrix form:</span>
+<span id="cb13-360"><a href="#cb13-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-361"><a href="#cb13-361" aria-hidden="true" tabindex="-1"></a>$$ A\ \Phi = h^2 C\ D = </span>
+<span id="cb13-362"><a href="#cb13-362" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix} </span>
+<span id="cb13-363"><a href="#cb13-363" aria-hidden="true" tabindex="-1"></a>-2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 &amp; 1 <span class="sc">\\\\</span> </span>
+<span id="cb13-364"><a href="#cb13-364" aria-hidden="true" tabindex="-1"></a>1 &amp; -2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 <span class="sc">\\\\</span> </span>
+<span id="cb13-365"><a href="#cb13-365" aria-hidden="true" tabindex="-1"></a>0 &amp; 1 &amp; -2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 <span class="sc">\\\\</span> </span>
+<span id="cb13-366"><a href="#cb13-366" aria-hidden="true" tabindex="-1"></a>\vdots  &amp; \vdots  &amp; \ddots &amp; \ddots &amp; \ddots &amp; \vdots &amp; \vdots <span class="sc">\\\\</span> </span>
+<span id="cb13-367"><a href="#cb13-367" aria-hidden="true" tabindex="-1"></a>0 &amp; 0 &amp; ... &amp; 0 &amp; 1 &amp; -2 &amp; 1 <span class="sc">\\\\</span> </span>
+<span id="cb13-368"><a href="#cb13-368" aria-hidden="true" tabindex="-1"></a>1 &amp; 0 &amp; 0 &amp; ... &amp; 0 &amp; 1 &amp; -2 </span>
+<span id="cb13-369"><a href="#cb13-369" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb13-370"><a href="#cb13-370" aria-hidden="true" tabindex="-1"></a>\ </span>
+<span id="cb13-371"><a href="#cb13-371" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix} </span>
+<span id="cb13-372"><a href="#cb13-372" aria-hidden="true" tabindex="-1"></a>\Phi_1 <span class="sc">\\\\</span></span>
+<span id="cb13-373"><a href="#cb13-373" aria-hidden="true" tabindex="-1"></a>\Phi_2 <span class="sc">\\\\</span></span>
+<span id="cb13-374"><a href="#cb13-374" aria-hidden="true" tabindex="-1"></a>\Phi_3 <span class="sc">\\\\</span></span>
+<span id="cb13-375"><a href="#cb13-375" aria-hidden="true" tabindex="-1"></a>\vdots <span class="sc">\\\\</span></span>
+<span id="cb13-376"><a href="#cb13-376" aria-hidden="true" tabindex="-1"></a>\Phi_{n-1} <span class="sc">\\\\</span></span>
+<span id="cb13-377"><a href="#cb13-377" aria-hidden="true" tabindex="-1"></a>\Phi_n </span>
+<span id="cb13-378"><a href="#cb13-378" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb13-379"><a href="#cb13-379" aria-hidden="true" tabindex="-1"></a>= h^2 C\ </span>
+<span id="cb13-380"><a href="#cb13-380" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix} </span>
+<span id="cb13-381"><a href="#cb13-381" aria-hidden="true" tabindex="-1"></a>D_1 <span class="sc">\\\\</span></span>
+<span id="cb13-382"><a href="#cb13-382" aria-hidden="true" tabindex="-1"></a>D_2 <span class="sc">\\\\</span></span>
+<span id="cb13-383"><a href="#cb13-383" aria-hidden="true" tabindex="-1"></a>D_3 <span class="sc">\\\\</span></span>
+<span id="cb13-384"><a href="#cb13-384" aria-hidden="true" tabindex="-1"></a>\vdots <span class="sc">\\\\</span></span>
+<span id="cb13-385"><a href="#cb13-385" aria-hidden="true" tabindex="-1"></a>D_{n-1} <span class="sc">\\\\</span></span>
+<span id="cb13-386"><a href="#cb13-386" aria-hidden="true" tabindex="-1"></a>D_n</span>
+<span id="cb13-387"><a href="#cb13-387" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb13-388"><a href="#cb13-388" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-389"><a href="#cb13-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-390"><a href="#cb13-390" aria-hidden="true" tabindex="-1"></a>So in the relaxation technique we iterated until we got $\Phi$ to agree with this formula. </span>
+<span id="cb13-391"><a href="#cb13-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-392"><a href="#cb13-392" aria-hidden="true" tabindex="-1"></a>So let us define this Matrix:</span>
+<span id="cb13-393"><a href="#cb13-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-396"><a href="#cb13-396" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-397"><a href="#cb13-397" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-398"><a href="#cb13-398" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-399"><a href="#cb13-399" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> linalg</span>
+<span id="cb13-400"><a href="#cb13-400" aria-hidden="true" tabindex="-1"></a><span class="co">#A = np.asmatrix(np.zeros((N,N))) # mat turns the numpy array into an object of matrix type</span></span>
+<span id="cb13-401"><a href="#cb13-401" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> (np.zeros((N,N))) <span class="co"># numpy array  of matrix type</span></span>
+<span id="cb13-402"><a href="#cb13-402" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,<span class="bu">len</span>(A)):</span>
+<span id="cb13-403"><a href="#cb13-403" aria-hidden="true" tabindex="-1"></a>    A[i,i]<span class="op">=-</span><span class="dv">2</span></span>
+<span id="cb13-404"><a href="#cb13-404" aria-hidden="true" tabindex="-1"></a>    A[i,im1[i]] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-405"><a href="#cb13-405" aria-hidden="true" tabindex="-1"></a>    A[i,ip1[i]] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-406"><a href="#cb13-406" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A.view())</span>
+<span id="cb13-407"><a href="#cb13-407" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Determinant of A is:'</span>, linalg.det(A))</span>
+<span id="cb13-408"><a href="#cb13-408" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-409"><a href="#cb13-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-410"><a href="#cb13-410" aria-hidden="true" tabindex="-1"></a>and now invert it</span>
+<span id="cb13-411"><a href="#cb13-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-414"><a href="#cb13-414" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-415"><a href="#cb13-415" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-416"><a href="#cb13-416" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-417"><a href="#cb13-417" aria-hidden="true" tabindex="-1"></a>Am1 <span class="op">=</span> linalg.inv(A)</span>
+<span id="cb13-418"><a href="#cb13-418" aria-hidden="true" tabindex="-1"></a>np.matmul(Am1,A)</span>
+<span id="cb13-419"><a href="#cb13-419" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-420"><a href="#cb13-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-421"><a href="#cb13-421" aria-hidden="true" tabindex="-1"></a>This did not work ... It failed to correctly invert the matrix. I.e. we do not get identity matrix back when we multiply the original matrix and its supposed inverse. In hindsight we may have guessed that since the potential is not fixed up to a constant. So consequently the matrix has a determinant of zero and no unique solution is obtained. </span>
+<span id="cb13-422"><a href="#cb13-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-423"><a href="#cb13-423" aria-hidden="true" tabindex="-1"></a>However, we can add one row in which we set a constant $\Phi$ value. I.e. </span>
+<span id="cb13-424"><a href="#cb13-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-425"><a href="#cb13-425" aria-hidden="true" tabindex="-1"></a>$$ A\ \Phi = h^2 C\ D = </span>
+<span id="cb13-426"><a href="#cb13-426" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix} </span>
+<span id="cb13-427"><a href="#cb13-427" aria-hidden="true" tabindex="-1"></a>-2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 &amp; 1&amp; 0  <span class="sc">\\\\</span> </span>
+<span id="cb13-428"><a href="#cb13-428" aria-hidden="true" tabindex="-1"></a>1 &amp; -2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0&amp; 0 <span class="sc">\\\\</span> </span>
+<span id="cb13-429"><a href="#cb13-429" aria-hidden="true" tabindex="-1"></a>0 &amp; 1 &amp; -2 &amp; 1 &amp; 0 &amp; \cdots &amp; 0&amp; 0 <span class="sc">\\\\</span> </span>
+<span id="cb13-430"><a href="#cb13-430" aria-hidden="true" tabindex="-1"></a>\vdots  &amp; \vdots  &amp; \ddots &amp; \ddots &amp; \ddots &amp; \vdots &amp; \vdots <span class="sc">\\\\</span> </span>
+<span id="cb13-431"><a href="#cb13-431" aria-hidden="true" tabindex="-1"></a>0 &amp; 0 &amp; ... &amp; 0 &amp; 1 &amp; -2 &amp; 1&amp; 0 <span class="sc">\\\\</span> </span>
+<span id="cb13-432"><a href="#cb13-432" aria-hidden="true" tabindex="-1"></a>1 &amp; 0 &amp; 0 &amp; ... &amp; 0 &amp; 1 &amp; -2&amp; 0 <span class="sc">\\\\</span></span>
+<span id="cb13-433"><a href="#cb13-433" aria-hidden="true" tabindex="-1"></a>1 &amp; 1 &amp; 1 &amp; ... &amp; 1 &amp; 1 &amp; 1 &amp; 0 </span>
+<span id="cb13-434"><a href="#cb13-434" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb13-435"><a href="#cb13-435" aria-hidden="true" tabindex="-1"></a>\ </span>
+<span id="cb13-436"><a href="#cb13-436" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix} </span>
+<span id="cb13-437"><a href="#cb13-437" aria-hidden="true" tabindex="-1"></a>\Phi_1 <span class="sc">\\\\</span></span>
+<span id="cb13-438"><a href="#cb13-438" aria-hidden="true" tabindex="-1"></a>\Phi_2 <span class="sc">\\\\</span></span>
+<span id="cb13-439"><a href="#cb13-439" aria-hidden="true" tabindex="-1"></a>\Phi_3 <span class="sc">\\\\</span></span>
+<span id="cb13-440"><a href="#cb13-440" aria-hidden="true" tabindex="-1"></a>\vdots <span class="sc">\\\\</span></span>
+<span id="cb13-441"><a href="#cb13-441" aria-hidden="true" tabindex="-1"></a>\Phi_{n-1} <span class="sc">\\\\</span></span>
+<span id="cb13-442"><a href="#cb13-442" aria-hidden="true" tabindex="-1"></a>\Phi_n <span class="sc">\\\\</span></span>
+<span id="cb13-443"><a href="#cb13-443" aria-hidden="true" tabindex="-1"></a>\Phi_{n+1} </span>
+<span id="cb13-444"><a href="#cb13-444" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb13-445"><a href="#cb13-445" aria-hidden="true" tabindex="-1"></a>= h^2 C\ </span>
+<span id="cb13-446"><a href="#cb13-446" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix} </span>
+<span id="cb13-447"><a href="#cb13-447" aria-hidden="true" tabindex="-1"></a>D_1 <span class="sc">\\\\</span></span>
+<span id="cb13-448"><a href="#cb13-448" aria-hidden="true" tabindex="-1"></a>D_2 <span class="sc">\\\\</span></span>
+<span id="cb13-449"><a href="#cb13-449" aria-hidden="true" tabindex="-1"></a>D_3 <span class="sc">\\\\</span></span>
+<span id="cb13-450"><a href="#cb13-450" aria-hidden="true" tabindex="-1"></a>\vdots <span class="sc">\\\\</span></span>
+<span id="cb13-451"><a href="#cb13-451" aria-hidden="true" tabindex="-1"></a>D_{n-1} <span class="sc">\\\\</span></span>
+<span id="cb13-452"><a href="#cb13-452" aria-hidden="true" tabindex="-1"></a>D_n <span class="sc">\\\\</span></span>
+<span id="cb13-453"><a href="#cb13-453" aria-hidden="true" tabindex="-1"></a>0 </span>
+<span id="cb13-454"><a href="#cb13-454" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb13-455"><a href="#cb13-455" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-456"><a href="#cb13-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-457"><a href="#cb13-457" aria-hidden="true" tabindex="-1"></a>Once we have the solution to $\Phi$ we throw away $\Phi_{n+1}$ and subtract the mean of the potential $\int_0^1 \Phi dx$ just by convention.</span>
+<span id="cb13-458"><a href="#cb13-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-461"><a href="#cb13-461" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-462"><a href="#cb13-462" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-463"><a href="#cb13-463" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-464"><a href="#cb13-464" aria-hidden="true" tabindex="-1"></a>N<span class="op">=</span><span class="dv">90</span></span>
+<span id="cb13-465"><a href="#cb13-465" aria-hidden="true" tabindex="-1"></a>rx <span class="op">=</span> (<span class="fl">0.5</span><span class="op">+</span>np.arange(N))<span class="op">/</span>N</span>
+<span id="cb13-466"><a href="#cb13-466" aria-hidden="true" tabindex="-1"></a>rd <span class="op">=</span> density(rx)</span>
+<span id="cb13-467"><a href="#cb13-467" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb13-468"><a href="#cb13-468" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> (np.zeros((N<span class="op">+</span><span class="dv">1</span>,N<span class="op">+</span><span class="dv">1</span>))) <span class="co"># mat turns the numpy array into an object of matrix type</span></span>
+<span id="cb13-469"><a href="#cb13-469" aria-hidden="true" tabindex="-1"></a>ip1 <span class="op">=</span> (np.arange(N) <span class="op">+</span> <span class="dv">1</span>) <span class="co"># define arrays that are the indeces i+1 and i-1</span></span>
+<span id="cb13-470"><a href="#cb13-470" aria-hidden="true" tabindex="-1"></a>ip1[N<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-471"><a href="#cb13-471" aria-hidden="true" tabindex="-1"></a>im1 <span class="op">=</span> (np.arange(N) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb13-472"><a href="#cb13-472" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,<span class="bu">len</span>(A)<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb13-473"><a href="#cb13-473" aria-hidden="true" tabindex="-1"></a>    A[i,i]<span class="op">=-</span><span class="dv">2</span></span>
+<span id="cb13-474"><a href="#cb13-474" aria-hidden="true" tabindex="-1"></a>    A[i,im1[i]] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-475"><a href="#cb13-475" aria-hidden="true" tabindex="-1"></a>    A[i,ip1[i]] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-476"><a href="#cb13-476" aria-hidden="true" tabindex="-1"></a>A[N,:<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-477"><a href="#cb13-477" aria-hidden="true" tabindex="-1"></a><span class="co">#A[0,-1] = 0</span></span>
+<span id="cb13-478"><a href="#cb13-478" aria-hidden="true" tabindex="-1"></a><span class="co">#A[0,-2] = 1</span></span>
+<span id="cb13-479"><a href="#cb13-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-480"><a href="#cb13-480" aria-hidden="true" tabindex="-1"></a>rd <span class="op">=</span> np.concatenate((rd, [<span class="fl">0.</span>]))</span>
+<span id="cb13-481"><a href="#cb13-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-482"><a href="#cb13-482" aria-hidden="true" tabindex="-1"></a>Am1 <span class="op">=</span> linalg.inv(A)</span>
+<span id="cb13-483"><a href="#cb13-483" aria-hidden="true" tabindex="-1"></a>iPhi <span class="op">=</span> Am1<span class="op">*</span> np.asmatrix(rd).T <span class="op">*</span>c <span class="co"># *dx**2 let multiply this small number later</span></span>
+<span id="cb13-484"><a href="#cb13-484" aria-hidden="true" tabindex="-1"></a>iPhi <span class="op">=</span> np.delete(np.ravel(iPhi), N)</span>
+<span id="cb13-485"><a href="#cb13-485" aria-hidden="true" tabindex="-1"></a>iPhi <span class="op">*=</span> dx<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb13-486"><a href="#cb13-486" aria-hidden="true" tabindex="-1"></a>rd <span class="op">=</span> np.delete(rd,N)</span>
+<span id="cb13-487"><a href="#cb13-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-488"><a href="#cb13-488" aria-hidden="true" tabindex="-1"></a><span class="co">#iPhi = iPhi - integrate.simpson(iPhi,x=rx)/1 # subtract mean as convention</span></span>
+<span id="cb13-489"><a href="#cb13-489" aria-hidden="true" tabindex="-1"></a>iF <span class="op">=</span> <span class="op">-</span>(iPhi[ip1]<span class="op">-</span>iPhi[im1])<span class="op">/</span>(<span class="fl">2.</span><span class="op">*</span>dx)</span>
+<span id="cb13-490"><a href="#cb13-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-491"><a href="#cb13-491" aria-hidden="true" tabindex="-1"></a><span class="co"># show results</span></span>
+<span id="cb13-492"><a href="#cb13-492" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,rd<span class="op">/</span>N,<span class="st">'x'</span>,label<span class="op">=</span><span class="st">'$\delta$'</span>)<span class="op">;</span></span>
+<span id="cb13-493"><a href="#cb13-493" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,iF, label<span class="op">=</span><span class="st">'F$_</span><span class="sc">{inv}</span><span class="st">$'</span>)<span class="op">;</span></span>
+<span id="cb13-494"><a href="#cb13-494" aria-hidden="true" tabindex="-1"></a>plt.plot(x,F,<span class="st">':'</span>,label<span class="op">=</span><span class="st">'F$_</span><span class="sc">{ref}</span><span class="st">$'</span>)</span>
+<span id="cb13-495"><a href="#cb13-495" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,iPhi,label<span class="op">=</span><span class="st">"$\Phi$"</span>)<span class="op">;</span></span>
+<span id="cb13-496"><a href="#cb13-496" aria-hidden="true" tabindex="-1"></a>plt.plot(x,Phi,<span class="st">':'</span>, label<span class="op">=</span><span class="st">'$\Phi_</span><span class="sc">{ref}</span><span class="st">$'</span>)</span>
+<span id="cb13-497"><a href="#cb13-497" aria-hidden="true" tabindex="-1"></a>plt.plot(np.zeros(<span class="dv">2</span>))</span>
+<span id="cb13-498"><a href="#cb13-498" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-499"><a href="#cb13-499" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Solution to the 1D Poisson equation using matrix inversion'</span>)</span>
+<span id="cb13-500"><a href="#cb13-500" aria-hidden="true" tabindex="-1"></a>leg <span class="op">=</span> plt.legend()<span class="op">;</span></span>
+<span id="cb13-501"><a href="#cb13-501" aria-hidden="true" tabindex="-1"></a>leg.get_frame().set_alpha(<span class="fl">0.7</span>)</span>
+<span id="cb13-502"><a href="#cb13-502" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Am1.view())</span>
+<span id="cb13-503"><a href="#cb13-503" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Determinant of the input matrix is :'</span>, linalg.det(A))</span>
+<span id="cb13-504"><a href="#cb13-504" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-505"><a href="#cb13-505" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-508"><a href="#cb13-508" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-509"><a href="#cb13-509" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-510"><a href="#cb13-510" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-511"><a href="#cb13-511" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Determinant of A is:'</span>, linalg.det(A))</span>
+<span id="cb13-512"><a href="#cb13-512" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-513"><a href="#cb13-513" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-516"><a href="#cb13-516" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-517"><a href="#cb13-517" aria-hidden="true" tabindex="-1"></a>plt.plot(np.matmul(Am1[:,:<span class="op">-</span><span class="dv">1</span>], np.asmatrix(rd).T))</span>
+<span id="cb13-518"><a href="#cb13-518" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-519"><a href="#cb13-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-520"><a href="#cb13-520" aria-hidden="true" tabindex="-1"></a>So clearly all the matrix values are filled. This is now very similar to the $N^2$ operations we saw in the gravitational N-body problem. Every cell contibutes to the potential of every other cell and our matrix inversion gives the formula of how to do that. </span>
+<span id="cb13-521"><a href="#cb13-521" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-522"><a href="#cb13-522" aria-hidden="true" tabindex="-1"></a><span class="fu">## Using Fast Fourier Transforms</span></span>
+<span id="cb13-523"><a href="#cb13-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-524"><a href="#cb13-524" aria-hidden="true" tabindex="-1"></a>Let us for a second though think of what would happen if we had the density and the potential given by their Fourier transforms. </span>
+<span id="cb13-525"><a href="#cb13-525" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-526"><a href="#cb13-526" aria-hidden="true" tabindex="-1"></a>\Phi(x) =  \int \phi(k)\ e^{2\pi\ ikx} dk, \ \ D(x) =  \int \delta(k)\ e^{2\pi\ ikx} dk</span>
+<span id="cb13-527"><a href="#cb13-527" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-528"><a href="#cb13-528" aria-hidden="true" tabindex="-1"></a>If we enter this in our starting equation $\Delta \Phi=c\ D$ we find that</span>
+<span id="cb13-529"><a href="#cb13-529" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-530"><a href="#cb13-530" aria-hidden="true" tabindex="-1"></a>-4\pi\ k^2\phi(k) = c\ \delta(k), \ \ \rightarrow \ \ \phi(k) = -\frac{c}{4\pi}\ \delta(k)/k^2.</span>
+<span id="cb13-531"><a href="#cb13-531" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-532"><a href="#cb13-532" aria-hidden="true" tabindex="-1"></a>Oh fantastic. This means that if we Fourier transform the density, then multiply it with $-c/k^2$ in Fourier space we already get the Fourier transformed potential. If we then just do the inverse Fourier transform back to real space we should have the correct potential we were looking for! </span>
+<span id="cb13-533"><a href="#cb13-533" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-534"><a href="#cb13-534" aria-hidden="true" tabindex="-1"></a>This may sound at first like a fairly complicated roundabaout way of getting at our problem. However, discrete Fourier transforms are only of complexity $log\ N \ \ N$ and some of the best optimized routines available on computers. So this can be an extraordinarily useful way of solving the Poisson equation in any dimension. </span>
+<span id="cb13-535"><a href="#cb13-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-536"><a href="#cb13-536" aria-hidden="true" tabindex="-1"></a>This is so elegant we just have to try it. Fortunately python makes this easy for us since it comes with Fourier transforms and helper functions included. </span>
+<span id="cb13-537"><a href="#cb13-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-538"><a href="#cb13-538" aria-hidden="true" tabindex="-1"></a>The conventions in numpy for the discrete Fourier transform are</span>
+<span id="cb13-539"><a href="#cb13-539" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-540"><a href="#cb13-540" aria-hidden="true" tabindex="-1"></a>A_k = \sum_{m=0}^{N-1}\ a_m\ e^{-2\pi\ i\ m\ k/N}, \ \ k=0,1,...,n-2,n-1</span>
+<span id="cb13-541"><a href="#cb13-541" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-542"><a href="#cb13-542" aria-hidden="true" tabindex="-1"></a>and the inverse transform is given by</span>
+<span id="cb13-543"><a href="#cb13-543" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-544"><a href="#cb13-544" aria-hidden="true" tabindex="-1"></a>a_m = \frac{1}{N}\sum_{m=0}^{n-1}\ A_m\ e^{2\pi\ i\ m\ k/N}</span>
+<span id="cb13-545"><a href="#cb13-545" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-546"><a href="#cb13-546" aria-hidden="true" tabindex="-1"></a>See the &lt;A href="http://docs.scipy.org/doc/numpy/reference/routines.fft.html#module-numpy.fft" target="_blank"&gt;FFT documentation&lt;/A&gt; for more details.</span>
+<span id="cb13-547"><a href="#cb13-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-550"><a href="#cb13-550" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-551"><a href="#cb13-551" aria-hidden="true" tabindex="-1"></a>N<span class="op">=</span><span class="dv">90</span></span>
+<span id="cb13-552"><a href="#cb13-552" aria-hidden="true" tabindex="-1"></a>fx <span class="op">=</span> (np.arange(N)<span class="op">+</span><span class="fl">0.5</span>)<span class="op">/</span>N</span>
+<span id="cb13-553"><a href="#cb13-553" aria-hidden="true" tabindex="-1"></a>fd <span class="op">=</span> density(fx)</span>
+<span id="cb13-554"><a href="#cb13-554" aria-hidden="true" tabindex="-1"></a><span class="co">#fd=fd-fd.mean() # the mean has to be perfectly zero</span></span>
+<span id="cb13-555"><a href="#cb13-555" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb13-556"><a href="#cb13-556" aria-hidden="true" tabindex="-1"></a>lphi <span class="op">=</span> np.zeros(N<span class="op">//</span><span class="dv">2</span><span class="op">+</span><span class="dv">1</span>,dtype<span class="op">=</span><span class="bu">complex</span>)</span>
+<span id="cb13-557"><a href="#cb13-557" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-558"><a href="#cb13-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-559"><a href="#cb13-559" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> np.fft.rfft(fd)      <span class="co"># forward transform of density</span></span>
+<span id="cb13-560"><a href="#cb13-560" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>np.pi<span class="op">*</span>np.fft.rfftfreq(<span class="bu">len</span>(fd),dx) <span class="co"># returns the wave numbers </span></span>
+<span id="cb13-561"><a href="#cb13-561" aria-hidden="true" tabindex="-1"></a>lphi[<span class="dv">1</span>:] <span class="op">=</span> ((<span class="op">-</span>c<span class="op">*</span>delta[<span class="dv">1</span>:] <span class="op">/</span>k[<span class="dv">1</span>:]<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb13-562"><a href="#cb13-562" aria-hidden="true" tabindex="-1"></a>lphi[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.</span>  </span>
+<span id="cb13-563"><a href="#cb13-563" aria-hidden="true" tabindex="-1"></a>fPhi <span class="op">=</span> (np.fft.irfft(lphi)).real </span>
+<span id="cb13-564"><a href="#cb13-564" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-565"><a href="#cb13-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-566"><a href="#cb13-566" aria-hidden="true" tabindex="-1"></a>na <span class="op">=</span> np.arange(N)</span>
+<span id="cb13-567"><a href="#cb13-567" aria-hidden="true" tabindex="-1"></a>ip1 <span class="op">=</span> na.take(np.arange(N)<span class="op">+</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>, mode<span class="op">=</span><span class="st">'wrap'</span>)</span>
+<span id="cb13-568"><a href="#cb13-568" aria-hidden="true" tabindex="-1"></a>im1 <span class="op">=</span> na.take(np.arange(N)<span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>, mode<span class="op">=</span><span class="st">'wrap'</span>)</span>
+<span id="cb13-569"><a href="#cb13-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-570"><a href="#cb13-570" aria-hidden="true" tabindex="-1"></a>fF <span class="op">=</span> <span class="op">-</span>(fPhi[ip1]<span class="op">-</span>fPhi[im1])<span class="op">/</span>(<span class="fl">2.</span><span class="op">*</span>dx)  <span class="co"># central difference</span></span>
+<span id="cb13-571"><a href="#cb13-571" aria-hidden="true" tabindex="-1"></a><span class="co">#fF = -np.gradient(fPhi,dx)</span></span>
+<span id="cb13-572"><a href="#cb13-572" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-573"><a href="#cb13-573" aria-hidden="true" tabindex="-1"></a><span class="co"># show results</span></span>
+<span id="cb13-574"><a href="#cb13-574" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-575"><a href="#cb13-575" aria-hidden="true" tabindex="-1"></a>plt.plot(fx,fd<span class="op">/</span>N,<span class="st">'x'</span>,label<span class="op">=</span><span class="st">'$\delta$'</span>)<span class="op">;</span></span>
+<span id="cb13-576"><a href="#cb13-576" aria-hidden="true" tabindex="-1"></a>plt.plot(fx,fF, label<span class="op">=</span><span class="st">'F$_</span><span class="sc">{fft}</span><span class="st">$'</span>)<span class="op">;</span></span>
+<span id="cb13-577"><a href="#cb13-577" aria-hidden="true" tabindex="-1"></a>plt.plot(x,F,<span class="st">':'</span>,label<span class="op">=</span><span class="st">'F$_</span><span class="sc">{ref}</span><span class="st">$'</span>)</span>
+<span id="cb13-578"><a href="#cb13-578" aria-hidden="true" tabindex="-1"></a>plt.plot(fx,fPhi,label<span class="op">=</span><span class="st">"$\Phi$"</span>)<span class="op">;</span></span>
+<span id="cb13-579"><a href="#cb13-579" aria-hidden="true" tabindex="-1"></a>plt.plot(x,Phi,<span class="st">':'</span>, label<span class="op">=</span><span class="st">'$\Phi_</span><span class="sc">{ref}</span><span class="st">$'</span>)</span>
+<span id="cb13-580"><a href="#cb13-580" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-581"><a href="#cb13-581" aria-hidden="true" tabindex="-1"></a>plt.plot(np.zeros(<span class="dv">2</span>))</span>
+<span id="cb13-582"><a href="#cb13-582" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-583"><a href="#cb13-583" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Solution to the 1D Poisson equation using FFTs'</span>)</span>
+<span id="cb13-584"><a href="#cb13-584" aria-hidden="true" tabindex="-1"></a>leg <span class="op">=</span> plt.legend()<span class="op">;</span></span>
+<span id="cb13-585"><a href="#cb13-585" aria-hidden="true" tabindex="-1"></a>leg.get_frame().set_alpha(<span class="fl">0.7</span>)</span>
+<span id="cb13-586"><a href="#cb13-586" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-587"><a href="#cb13-587" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-590"><a href="#cb13-590" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-591"><a href="#cb13-591" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-592"><a href="#cb13-592" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-593"><a href="#cb13-593" aria-hidden="true" tabindex="-1"></a>plot(k,delta.real,<span class="st">'x'</span>)</span>
+<span id="cb13-594"><a href="#cb13-594" aria-hidden="true" tabindex="-1"></a>plot(k,delta.imag,<span class="st">'x'</span>)<span class="op">;</span></span>
+<span id="cb13-595"><a href="#cb13-595" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-596"><a href="#cb13-596" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-597"><a href="#cb13-597" aria-hidden="true" tabindex="-1"></a><span class="fu"># The Conjugate Gradient Method &lt;img src="http://upload.wikimedia.org/wikipedia/commons/b/bf/Conjugate_gradient_illustration.svg" width="300" align="right"&gt; </span></span>
+<span id="cb13-598"><a href="#cb13-598" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-599"><a href="#cb13-599" aria-hidden="true" tabindex="-1"></a>The &lt;a href="http://en.wikipedia.org/wiki/Conjugate_gradient_method"&gt;conjugate gradient method&lt;/a&gt; is typically employed as an iterative approach to solving the linear equation</span>
+<span id="cb13-600"><a href="#cb13-600" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-601"><a href="#cb13-601" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-602"><a href="#cb13-602" aria-hidden="true" tabindex="-1"></a>\mathbf{A}\,\mathbf{x}=\mathbf{b}</span>
+<span id="cb13-603"><a href="#cb13-603" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-604"><a href="#cb13-604" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-605"><a href="#cb13-605" aria-hidden="true" tabindex="-1"></a>where &lt;b&gt;A&lt;/b&gt; is a matrix and &lt;b&gt;x&lt;/b&gt; and &lt;b&gt;b&lt;/b&gt; are vectors. </span>
+<span id="cb13-606"><a href="#cb13-606" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-607"><a href="#cb13-607" aria-hidden="true" tabindex="-1"></a>So we want to find a good approximate solution $\mathbf{x}_F$. </span>
+<span id="cb13-608"><a href="#cb13-608" aria-hidden="true" tabindex="-1"></a>We will want to start with a guess for $x_0$ and go through a number of iterations that we stop at $\mathbf{x}_F$ and call the intermediate results $\mathbf{x}_k$. </span>
+<span id="cb13-609"><a href="#cb13-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-610"><a href="#cb13-610" aria-hidden="true" tabindex="-1"></a>For any guess $\mathbf{x}_k$ we can measure how far off from the correct solution we are</span>
+<span id="cb13-611"><a href="#cb13-611" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-612"><a href="#cb13-612" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-613"><a href="#cb13-613" aria-hidden="true" tabindex="-1"></a>\mathbf{r} = \mathbf{b} - \mathbf{A}\,\mathbf{x}.</span>
+<span id="cb13-614"><a href="#cb13-614" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb13-615"><a href="#cb13-615" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-616"><a href="#cb13-616" aria-hidden="true" tabindex="-1"></a>$\mathbf{r}$ is called the &lt;b&gt;residual&lt;/b&gt; (or residue) at the $k$-th step. </span>
+<span id="cb13-617"><a href="#cb13-617" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-618"><a href="#cb13-618" aria-hidden="true" tabindex="-1"></a>If we now think of this quadratic equation:</span>
+<span id="cb13-619"><a href="#cb13-619" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-620"><a href="#cb13-620" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-621"><a href="#cb13-621" aria-hidden="true" tabindex="-1"></a>f(\mathbf{x}) = \frac12 \mathbf{x}^\mathrm{T} \mathbf{A}\mathbf{x} - \mathbf{x}^\mathrm{T} \mathbf{b} , \quad \mathbf{x}\in\mathbf{R}^n. </span>
+<span id="cb13-622"><a href="#cb13-622" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-623"><a href="#cb13-623" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-624"><a href="#cb13-624" aria-hidden="true" tabindex="-1"></a>we can see that $-\mathbf{r}$ is the gradient of $f$ at $\mathbf{x}_k$. So to find an $\mathbf{x}_F$ for which $\mathbf{r}\approx 0$ is equivalent to finding the minimum of $f$. There are methods which follow the steepest decent i.e. move along $\mathbf{r}$ to get towards the minimum. The trick in the conjugant gradient method is that it takes steps in orthogonal vectors to converge towards the minimum. The remarkable aspect of this algorithm is that it converges in at most $n$ steps where $\mathbf{A}$ is a $n\times n$ matrix.</span>
+<span id="cb13-625"><a href="#cb13-625" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-626"><a href="#cb13-626" aria-hidden="true" tabindex="-1"></a>So the key is to learn how to pick the search directions $\mathbf{p}_k$. The most common choice here is to find vectors ortho-normal to the last residue so our quantities only depend on the last step taken and not say on a large number of previous steps. </span>
+<span id="cb13-627"><a href="#cb13-627" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-628"><a href="#cb13-628" aria-hidden="true" tabindex="-1"></a>For the first step we pick $\mathbf{p}_0=\mathbf{r}_0=\mathbf{b}-\mathbf{A\,x}_0$ as the search direction. </span>
+<span id="cb13-629"><a href="#cb13-629" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-630"><a href="#cb13-630" aria-hidden="true" tabindex="-1"></a>Let us pick </span>
+<span id="cb13-631"><a href="#cb13-631" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-632"><a href="#cb13-632" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-633"><a href="#cb13-633" aria-hidden="true" tabindex="-1"></a>\mathbf{x}_{k+1} = \mathbf{x}_k+\alpha_k\,\mathbf{p}_k,\ \ \ \  \alpha_k=\frac{\mathbf{r}^T_k \mathbf{r}_k}{\mathbf{p}_k^T\,\mathbf{A}\,\mathbf{p}_k}</span>
+<span id="cb13-634"><a href="#cb13-634" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-635"><a href="#cb13-635" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-636"><a href="#cb13-636" aria-hidden="true" tabindex="-1"></a>and </span>
+<span id="cb13-637"><a href="#cb13-637" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-638"><a href="#cb13-638" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-639"><a href="#cb13-639" aria-hidden="true" tabindex="-1"></a>\mathbf{p}_{k+1} = \mathbf{r}_{k+1} + \beta_k \, \mathbf{p}_k, \ \ \ \ \beta = \frac{\mathbf{r}_{k+1}^T\, \mathbf{r}_{k+1}}{ \mathbf{r}_{k}^T \, \mathbf{r}_{k}}</span>
+<span id="cb13-640"><a href="#cb13-640" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-641"><a href="#cb13-641" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-642"><a href="#cb13-642" aria-hidden="true" tabindex="-1"></a>i.e. a combination of the current residual and the previous search direction, for the next search direction. Different conjugate gradient methods differ typically in their choice of $\beta$ and of how many previous search directions are considered. Please also have a look at &lt;a href="http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf"&gt;Jonathan Shewchuk's fantastic detailed description&lt;/a&gt; of this method.</span>
+<span id="cb13-643"><a href="#cb13-643" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-646"><a href="#cb13-646" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-647"><a href="#cb13-647" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-648"><a href="#cb13-648" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-649"><a href="#cb13-649" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ConGrad(A,b,tol,xinit<span class="op">=</span><span class="dv">0</span>,kmax<span class="op">=</span><span class="dv">5000</span>):</span>
+<span id="cb13-650"><a href="#cb13-650" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''Solve the linear problem A x = b</span></span>
+<span id="cb13-651"><a href="#cb13-651" aria-hidden="true" tabindex="-1"></a><span class="co">    A and b have to python matrices not arrays ! </span></span>
+<span id="cb13-652"><a href="#cb13-652" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
+<span id="cb13-653"><a href="#cb13-653" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> b.copy()</span>
+<span id="cb13-654"><a href="#cb13-654" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> b.copy()</span>
+<span id="cb13-655"><a href="#cb13-655" aria-hidden="true" tabindex="-1"></a>    x[:] <span class="op">=</span> <span class="fl">0.</span> <span class="co"># start with x=0 as a guess</span></span>
+<span id="cb13-656"><a href="#cb13-656" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(xinit) <span class="op">!=</span> <span class="bu">int</span>:</span>
+<span id="cb13-657"><a href="#cb13-657" aria-hidden="true" tabindex="-1"></a>       x <span class="op">=</span> xinit</span>
+<span id="cb13-658"><a href="#cb13-658" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-659"><a href="#cb13-659" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> b <span class="op">-</span> A<span class="op">*</span>x</span>
+<span id="cb13-660"><a href="#cb13-660" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> r.copy()</span>
+<span id="cb13-661"><a href="#cb13-661" aria-hidden="true" tabindex="-1"></a>    rsold<span class="op">=</span>ravel(r.T<span class="op">*</span>r)[<span class="dv">0</span>]</span>
+<span id="cb13-662"><a href="#cb13-662" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(sqrt(rsold), tol)</span>
+<span id="cb13-663"><a href="#cb13-663" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (k<span class="op">==</span><span class="dv">0</span> <span class="kw">or</span> ((sqrt(rsold) <span class="op">&gt;</span> tol) <span class="kw">and</span> (k <span class="op">&lt;</span> kmax))):</span>
+<span id="cb13-664"><a href="#cb13-664" aria-hidden="true" tabindex="-1"></a>        Ap <span class="op">=</span> A<span class="op">*</span>p</span>
+<span id="cb13-665"><a href="#cb13-665" aria-hidden="true" tabindex="-1"></a>        alphak <span class="op">=</span> rsold<span class="op">/</span>np.ravel(p.T<span class="op">*</span>Ap)[<span class="dv">0</span>]</span>
+<span id="cb13-666"><a href="#cb13-666" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> x <span class="op">+</span> alphak<span class="op">*</span>p</span>
+<span id="cb13-667"><a href="#cb13-667" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> r <span class="op">-</span> alphak<span class="op">*</span>Ap</span>
+<span id="cb13-668"><a href="#cb13-668" aria-hidden="true" tabindex="-1"></a>        rsnew <span class="op">=</span> (ravel(r.T<span class="op">*</span>r))[<span class="dv">0</span>]</span>
+<span id="cb13-669"><a href="#cb13-669" aria-hidden="true" tabindex="-1"></a>        beta <span class="op">=</span> rsnew<span class="op">/</span>rsold</span>
+<span id="cb13-670"><a href="#cb13-670" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> r <span class="op">+</span> beta<span class="op">*</span>p</span>
+<span id="cb13-671"><a href="#cb13-671" aria-hidden="true" tabindex="-1"></a>        k <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb13-672"><a href="#cb13-672" aria-hidden="true" tabindex="-1"></a>        rsold<span class="op">=</span>rsnew</span>
+<span id="cb13-673"><a href="#cb13-673" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'iterated '</span>, k, <span class="st">' times to get to tolerance='</span>, tol)</span>
+<span id="cb13-674"><a href="#cb13-674" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (k <span class="op">==</span> kmax):</span>
+<span id="cb13-675"><a href="#cb13-675" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'reached max. iterations! '</span>, kmax)</span>
+<span id="cb13-676"><a href="#cb13-676" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
+<span id="cb13-677"><a href="#cb13-677" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-678"><a href="#cb13-678" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.asmatrix([[<span class="fl">4.</span>,<span class="fl">1.001</span>],[<span class="fl">1.</span>,<span class="dv">3</span>]])</span>
+<span id="cb13-679"><a href="#cb13-679" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.asmatrix([<span class="fl">1.</span>,<span class="dv">2</span>]).T</span>
+<span id="cb13-680"><a href="#cb13-680" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> ConGrad(A,b,<span class="fl">1e-10</span>)</span>
+<span id="cb13-681"><a href="#cb13-681" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'x='</span>, ravel(x))</span>
+<span id="cb13-682"><a href="#cb13-682" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-683"><a href="#cb13-683" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-684"><a href="#cb13-684" aria-hidden="true" tabindex="-1"></a>Double check the Answer. Is $\mathbf{A\,x}=\mathbf{b}$ ? </span>
+<span id="cb13-685"><a href="#cb13-685" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-688"><a href="#cb13-688" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-689"><a href="#cb13-689" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-690"><a href="#cb13-690" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-691"><a href="#cb13-691" aria-hidden="true" tabindex="-1"></a>A<span class="op">*</span>x<span class="op">-</span>b</span>
+<span id="cb13-692"><a href="#cb13-692" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-693"><a href="#cb13-693" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-696"><a href="#cb13-696" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-697"><a href="#cb13-697" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-698"><a href="#cb13-698" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-699"><a href="#cb13-699" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f2(x,A,b):</span>
+<span id="cb13-700"><a href="#cb13-700" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ravel(<span class="fl">0.5</span><span class="op">*</span>x.T<span class="op">*</span>A<span class="op">*</span>x<span class="op">-</span>x.T<span class="op">*</span>b)[<span class="dv">0</span>]</span>
+<span id="cb13-701"><a href="#cb13-701" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-702"><a href="#cb13-702" aria-hidden="true" tabindex="-1"></a>xy <span class="op">=</span> linspace(<span class="fl">0.</span>,<span class="dv">1</span>)</span>
+<span id="cb13-703"><a href="#cb13-703" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> np.zeros((<span class="bu">len</span>(xy),<span class="bu">len</span>(xy)))</span>
+<span id="cb13-704"><a href="#cb13-704" aria-hidden="true" tabindex="-1"></a>f[:] <span class="op">=</span> <span class="fl">0.</span></span>
+<span id="cb13-705"><a href="#cb13-705" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(xy)):</span>
+<span id="cb13-706"><a href="#cb13-706" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(xy)):</span>
+<span id="cb13-707"><a href="#cb13-707" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> np.asmatrix([xy[i], <span class="fl">1.</span><span class="op">-</span>xy[j]]).T</span>
+<span id="cb13-708"><a href="#cb13-708" aria-hidden="true" tabindex="-1"></a>        f[i,j] <span class="op">=</span> f2(x,A,b)</span>
+<span id="cb13-709"><a href="#cb13-709" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-710"><a href="#cb13-710" aria-hidden="true" tabindex="-1"></a>plt.imshow(f.T,extent<span class="op">=</span>(xy.<span class="bu">min</span>(),xy.<span class="bu">max</span>(),xy.<span class="bu">min</span>(),xy.<span class="bu">max</span>()))</span>
+<span id="cb13-711"><a href="#cb13-711" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-712"><a href="#cb13-712" aria-hidden="true" tabindex="-1"></a>x<span class="op">=</span> np.asmatrix([<span class="fl">1.</span>,<span class="fl">.7</span>]).T</span>
+<span id="cb13-713"><a href="#cb13-713" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> b.copy()<span class="op">-</span>A<span class="op">*</span>x</span>
+<span id="cb13-714"><a href="#cb13-714" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> r.copy()</span>
+<span id="cb13-715"><a href="#cb13-715" aria-hidden="true" tabindex="-1"></a><span class="co">#x[:] = 0. # start with x=0 as a guess</span></span>
+<span id="cb13-716"><a href="#cb13-716" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-717"><a href="#cb13-717" aria-hidden="true" tabindex="-1"></a>rsold<span class="op">=</span>ravel(r.T<span class="op">*</span>r)[<span class="dv">0</span>]</span>
+<span id="cb13-718"><a href="#cb13-718" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> ((k <span class="op">&lt;</span> <span class="dv">8</span>)):</span>
+<span id="cb13-719"><a href="#cb13-719" aria-hidden="true" tabindex="-1"></a>    Ap <span class="op">=</span> A<span class="op">*</span>p</span>
+<span id="cb13-720"><a href="#cb13-720" aria-hidden="true" tabindex="-1"></a>    alphak <span class="op">=</span> rsold<span class="op">/</span>ravel(p.T<span class="op">*</span>Ap)[<span class="dv">0</span>]</span>
+<span id="cb13-721"><a href="#cb13-721" aria-hidden="true" tabindex="-1"></a>    xold <span class="op">=</span> x</span>
+<span id="cb13-722"><a href="#cb13-722" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x <span class="op">+</span> alphak<span class="op">*</span>p</span>
+<span id="cb13-723"><a href="#cb13-723" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> r <span class="op">-</span> alphak<span class="op">*</span>Ap</span>
+<span id="cb13-724"><a href="#cb13-724" aria-hidden="true" tabindex="-1"></a>    rsnew <span class="op">=</span> ravel(r.T<span class="op">*</span>r)[<span class="dv">0</span>]</span>
+<span id="cb13-725"><a href="#cb13-725" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> rsnew<span class="op">/</span>rsold</span>
+<span id="cb13-726"><a href="#cb13-726" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> r <span class="op">+</span> beta<span class="op">*</span>p</span>
+<span id="cb13-727"><a href="#cb13-727" aria-hidden="true" tabindex="-1"></a>    k <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb13-728"><a href="#cb13-728" aria-hidden="true" tabindex="-1"></a>    rsold<span class="op">=</span>rsnew</span>
+<span id="cb13-729"><a href="#cb13-729" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'step:'</span>, k, <span class="st">' distance to minimum:'</span>,sqrt(rsnew))</span>
+<span id="cb13-730"><a href="#cb13-730" aria-hidden="true" tabindex="-1"></a>    plt.plot([ravel(xold[<span class="dv">0</span>])[<span class="dv">0</span>], ravel(x[<span class="dv">0</span>])[<span class="dv">0</span>]], [ravel(xold[<span class="dv">1</span>])[<span class="dv">0</span>],ravel(x[<span class="dv">1</span>])[<span class="dv">0</span>]])</span>
+<span id="cb13-731"><a href="#cb13-731" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-732"><a href="#cb13-732" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-735"><a href="#cb13-735" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb13-736"><a href="#cb13-736" aria-hidden="true" tabindex="-1"></a><span class="co">#| collapsed: false</span></span>
+<span id="cb13-737"><a href="#cb13-737" aria-hidden="true" tabindex="-1"></a><span class="co">#| jupyter: {outputs_hidden: false}</span></span>
+<span id="cb13-738"><a href="#cb13-738" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.integrate <span class="im">as</span> integrate</span>
+<span id="cb13-739"><a href="#cb13-739" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-740"><a href="#cb13-740" aria-hidden="true" tabindex="-1"></a>N<span class="op">=</span><span class="dv">130</span></span>
+<span id="cb13-741"><a href="#cb13-741" aria-hidden="true" tabindex="-1"></a>iPhi <span class="op">=</span><span class="dv">0</span> </span>
+<span id="cb13-742"><a href="#cb13-742" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-743"><a href="#cb13-743" aria-hidden="true" tabindex="-1"></a><span class="co"># reference solution</span></span>
+<span id="cb13-744"><a href="#cb13-744" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="fl">0.</span>,<span class="fl">1.</span>,N) <span class="co"># uniform grid </span></span>
+<span id="cb13-745"><a href="#cb13-745" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> density(x)</span>
+<span id="cb13-746"><a href="#cb13-746" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-747"><a href="#cb13-747" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> <span class="op">-</span>integrate.cumulative_trapezoid(C<span class="op">*</span>d,x<span class="op">=</span>x,initial<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-748"><a href="#cb13-748" aria-hidden="true" tabindex="-1"></a>F0 <span class="op">=</span> <span class="op">-</span>integrate.simpson(F,x<span class="op">=</span>x) <span class="co"># fix the force constant to keep momentum change=0</span></span>
+<span id="cb13-749"><a href="#cb13-749" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'F(x=0) = '</span>, F0)</span>
+<span id="cb13-750"><a href="#cb13-750" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> F <span class="op">+</span> F0</span>
+<span id="cb13-751"><a href="#cb13-751" aria-hidden="true" tabindex="-1"></a>Phi <span class="op">=</span> <span class="op">-</span>integrate.cumulative_trapezoid(F,x,initial<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-752"><a href="#cb13-752" aria-hidden="true" tabindex="-1"></a><span class="co">#Phi = Phi - integrate.simpson(Phi,x=x)/1.    # set potential to mean</span></span>
+<span id="cb13-753"><a href="#cb13-753" aria-hidden="true" tabindex="-1"></a>Phi <span class="op">=</span> Phi <span class="op">-</span> mean(Phi)</span>
+<span id="cb13-754"><a href="#cb13-754" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-755"><a href="#cb13-755" aria-hidden="true" tabindex="-1"></a><span class="co"># now try with Conjugate Gradient</span></span>
+<span id="cb13-756"><a href="#cb13-756" aria-hidden="true" tabindex="-1"></a>rx <span class="op">=</span> (<span class="fl">0.5</span><span class="op">+</span>np.arange(N))<span class="op">/</span>N</span>
+<span id="cb13-757"><a href="#cb13-757" aria-hidden="true" tabindex="-1"></a>rd <span class="op">=</span> density(rx)</span>
+<span id="cb13-758"><a href="#cb13-758" aria-hidden="true" tabindex="-1"></a>rd[<span class="dv">3</span>] <span class="op">=</span><span class="fl">1.</span></span>
+<span id="cb13-759"><a href="#cb13-759" aria-hidden="true" tabindex="-1"></a>rd <span class="op">-=</span> np.mean(rd)</span>
+<span id="cb13-760"><a href="#cb13-760" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb13-761"><a href="#cb13-761" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.asmatrix(np.zeros((N,N)),dtype<span class="op">=</span>double) <span class="co"># mat turns the numpy array into an object of matrix type</span></span>
+<span id="cb13-762"><a href="#cb13-762" aria-hidden="true" tabindex="-1"></a>ip1 <span class="op">=</span> (np.arange(N) <span class="op">+</span> <span class="dv">1</span>) <span class="co"># define arrays that are the indeces i+1 and i-1</span></span>
+<span id="cb13-763"><a href="#cb13-763" aria-hidden="true" tabindex="-1"></a>ip1[N<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-764"><a href="#cb13-764" aria-hidden="true" tabindex="-1"></a>im1 <span class="op">=</span> (np.arange(N) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb13-765"><a href="#cb13-765" aria-hidden="true" tabindex="-1"></a>im1[<span class="dv">0</span>] <span class="op">=</span> N<span class="op">-</span><span class="dv">1</span></span>
+<span id="cb13-766"><a href="#cb13-766" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>,N):</span>
+<span id="cb13-767"><a href="#cb13-767" aria-hidden="true" tabindex="-1"></a>    A[i,i]<span class="op">=-</span><span class="dv">2</span></span>
+<span id="cb13-768"><a href="#cb13-768" aria-hidden="true" tabindex="-1"></a>    A[i,im1[i]] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-769"><a href="#cb13-769" aria-hidden="true" tabindex="-1"></a>    A[i,ip1[i]] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-770"><a href="#cb13-770" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.asmatrix(rd,dtype<span class="op">=</span>double).T<span class="op">*</span>C <span class="co"># *dx**2  do this small number later</span></span>
+<span id="cb13-771"><a href="#cb13-771" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-772"><a href="#cb13-772" aria-hidden="true" tabindex="-1"></a>iPhi <span class="op">=</span> ConGrad(A,b,<span class="fl">1e-1</span>)</span>
+<span id="cb13-773"><a href="#cb13-773" aria-hidden="true" tabindex="-1"></a>iPhi <span class="op">=</span> ConGrad(A,b,<span class="fl">1e-4</span>)</span>
+<span id="cb13-774"><a href="#cb13-774" aria-hidden="true" tabindex="-1"></a>iPhi <span class="op">=</span> ConGrad(A,b,<span class="fl">1e-5</span>)</span>
+<span id="cb13-775"><a href="#cb13-775" aria-hidden="true" tabindex="-1"></a>iPhi <span class="op">=</span> ConGrad(A,b,<span class="fl">1e-7</span>)</span>
+<span id="cb13-776"><a href="#cb13-776" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-777"><a href="#cb13-777" aria-hidden="true" tabindex="-1"></a>iPhi <span class="op">=</span> iPhi<span class="op">*</span>dx<span class="op">**</span><span class="dv">2</span> <span class="co"># we solved without that factor</span></span>
+<span id="cb13-778"><a href="#cb13-778" aria-hidden="true" tabindex="-1"></a>iPhi <span class="op">=</span> iPhi <span class="op">-</span> mean(iPhi) <span class="co"># convention: \bar{\Phi} = 0</span></span>
+<span id="cb13-779"><a href="#cb13-779" aria-hidden="true" tabindex="-1"></a>iF <span class="op">=</span> <span class="op">-</span>(iPhi[ip1]<span class="op">-</span>iPhi[im1])<span class="op">/</span>(<span class="fl">2.</span><span class="op">*</span>dx) <span class="co"># force from central difference</span></span>
+<span id="cb13-780"><a href="#cb13-780" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-781"><a href="#cb13-781" aria-hidden="true" tabindex="-1"></a><span class="co"># show results</span></span>
+<span id="cb13-782"><a href="#cb13-782" aria-hidden="true" tabindex="-1"></a>figure(num<span class="op">=</span><span class="va">None</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>), dpi<span class="op">=</span><span class="dv">80</span>, facecolor<span class="op">=</span><span class="st">'w'</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb13-783"><a href="#cb13-783" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,rd<span class="op">/</span>N,<span class="st">'x'</span>,label<span class="op">=</span><span class="st">'$\delta$'</span>)<span class="op">;</span></span>
+<span id="cb13-784"><a href="#cb13-784" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,iF,label<span class="op">=</span><span class="st">'F'</span>)<span class="op">;</span></span>
+<span id="cb13-785"><a href="#cb13-785" aria-hidden="true" tabindex="-1"></a>plt.plot(x,F,<span class="st">':'</span>,label<span class="op">=</span><span class="st">'$F_</span><span class="sc">{ref}</span><span class="st">$'</span>)</span>
+<span id="cb13-786"><a href="#cb13-786" aria-hidden="true" tabindex="-1"></a>plt.plot(rx,iPhi<span class="op">*</span><span class="dv">30</span>,<span class="st">'.'</span>,label<span class="op">=</span><span class="st">'$\Phi$*30'</span>)<span class="op">;</span></span>
+<span id="cb13-787"><a href="#cb13-787" aria-hidden="true" tabindex="-1"></a>plt.plot(x,Phi<span class="op">*</span><span class="dv">30</span>,<span class="st">':'</span>,label<span class="op">=</span><span class="st">'$\Phi_</span><span class="sc">{ref}</span><span class="st">$*30'</span>)</span>
+<span id="cb13-788"><a href="#cb13-788" aria-hidden="true" tabindex="-1"></a>plt.plot(np.zeros(<span class="dv">2</span>))</span>
+<span id="cb13-789"><a href="#cb13-789" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-790"><a href="#cb13-790" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Solution to the 1D Poisson equation using Conjugate Gradient'</span>)</span>
+<span id="cb13-791"><a href="#cb13-791" aria-hidden="true" tabindex="-1"></a>leg <span class="op">=</span> plt.legend()<span class="op">;</span></span>
+<span id="cb13-792"><a href="#cb13-792" aria-hidden="true" tabindex="-1"></a>leg.get_frame().set_alpha(<span class="fl">0.7</span>)</span>
+<span id="cb13-793"><a href="#cb13-793" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-794"><a href="#cb13-794" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-795"><a href="#cb13-795" aria-hidden="true" tabindex="-1"></a><span class="fu">### In class Exercise: </span></span>
+<span id="cb13-796"><a href="#cb13-796" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Let's see whether we can figure out how to use the <span class="co">[</span><span class="ot">conjugate gradient method in scipy</span><span class="co">](https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.cg.html)</span>.</span>
+<span id="cb13-797"><a href="#cb13-797" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Explore <span class="co">[</span><span class="ot">Best least square solution</span><span class="co">](https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html#numpy.linalg.lstsq)</span></span>
+<span id="cb13-798"><a href="#cb13-798" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-799"><a href="#cb13-799" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Laplace operator in spherical coordinates</span></span>
+<span id="cb13-800"><a href="#cb13-800" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-801"><a href="#cb13-801" aria-hidden="true" tabindex="-1"></a>The Laplace operator in spherical coordinates is:</span>
+<span id="cb13-802"><a href="#cb13-802" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-803"><a href="#cb13-803" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb13-804"><a href="#cb13-804" aria-hidden="true" tabindex="-1"></a>\nabla^2 f &amp;=&amp; {1 \over r^2}{\partial \over \partial r}<span class="sc">\!</span>\left(r^2 {\partial f \over \partial r}\right)</span>
+<span id="cb13-805"><a href="#cb13-805" aria-hidden="true" tabindex="-1"></a>  <span class="sc">\!</span>+<span class="sc">\!</span>{1 \over r^2<span class="sc">\!</span>\sin\theta}{\partial \over \partial \theta}<span class="sc">\!</span>\left(\sin\theta {\partial f \over \partial \theta}\right)</span>
+<span id="cb13-806"><a href="#cb13-806" aria-hidden="true" tabindex="-1"></a>  <span class="sc">\!</span>+<span class="sc">\!</span>{1 \over r^2<span class="sc">\!</span>\sin^2\theta}{\partial^2 f \over \partial \varphi^2} </span>
+<span id="cb13-807"><a href="#cb13-807" aria-hidden="true" tabindex="-1"></a>= <span class="sc">\\</span> </span>
+<span id="cb13-808"><a href="#cb13-808" aria-hidden="true" tabindex="-1"></a>&amp; = &amp;\left(\frac{\partial^2}{\partial r^2} + \frac{2}{r} \frac{\partial}{\partial r}\right)f <span class="sc">\!</span>+</span>
+<span id="cb13-809"><a href="#cb13-809" aria-hidden="true" tabindex="-1"></a>{1 \over r^2<span class="sc">\!</span>\sin\theta}{\partial \over \partial \theta}<span class="sc">\!</span>\left(\sin\theta \frac{\partial}{\partial \theta}\right)f +\frac{1}{r^2<span class="sc">\!</span>\sin^2\theta}\frac{\partial^2}{\partial \varphi^2}f.</span>
+<span id="cb13-810"><a href="#cb13-810" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb13-811"><a href="#cb13-811" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-812"><a href="#cb13-812" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-813"><a href="#cb13-813" aria-hidden="true" tabindex="-1"></a>Here we care only for the radial part:</span>
+<span id="cb13-814"><a href="#cb13-814" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-815"><a href="#cb13-815" aria-hidden="true" tabindex="-1"></a>\nabla^2_r f =  {1 \over r^2}{\partial \over \partial r}<span class="sc">\!</span>\left(r^2 {\partial f \over \partial r}\right) = \left(\frac{\partial^2}{\partial r^2} + \frac{2}{r} \frac{\partial}{\partial r}\right)f</span>
+<span id="cb13-816"><a href="#cb13-816" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-817"><a href="#cb13-817" aria-hidden="true" tabindex="-1"></a>and also make note of the gradient in radial direction:</span>
+<span id="cb13-818"><a href="#cb13-818" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-819"><a href="#cb13-819" aria-hidden="true" tabindex="-1"></a>\nabla_r\ f = {\partial f \over \partial r}</span>
+<span id="cb13-820"><a href="#cb13-820" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-821"><a href="#cb13-821" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
