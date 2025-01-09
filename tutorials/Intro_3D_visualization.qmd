@@ -14,6 +14,18 @@ format:
 jupyter: python3
 ---
 
+## [pyvista](https://pyvista.org)
+
+[pyvista](https://pyvista.org) is your best bet to create informative visualizations of 3D data from within python. Yes, matplotlib and [veusz](https://veusz.github.io) have beautiful 3D plots as well but these are mostly restricted to relatively simple types of visualizations. 
+
+Your best bet to install pyvista maybe
+
+```bash
+pip install 'jupyterlab>=3' ipywidgets 'pyvista[all,trame]'
+```
+
+as [described at their userguide](https://docs.pyvista.org/user-guide/jupyter/trame.html).
+
 ```{{python}}
 import numpy as np
 import pyvista as pv
