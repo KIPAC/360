@@ -268,7 +268,7 @@ window.Quarto = {
 <section id="solving-the-poisson-equation-deltaphicrho" class="level1">
 <h1>Solving the Poisson equation <span class="math inline">\(\Delta\Phi=C\rho\)</span></h1>
 <p>In physics we often write <span class="math inline">\(\nabla^2\)</span> instead of <span class="math inline">\(\Delta\)</span> but we mean the same thing, suming the second derivatives along each value.</p>
-<div id="c7fd4232" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="1">
+<div id="8aa9a29e" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="1">
 <div class="cell-output cell-output-stdout">
 <pre><code>%pylab is deprecated, use %matplotlib inline and import the required libraries.
 Populating the interactive namespace from numpy and matplotlib</code></pre>
@@ -312,7 +312,7 @@ F(0) = -\int_0^1 \int_0^1 D(\tilde{x})d\tilde{x}
 <p><span class="math display">\[
 - \tilde{\Phi}(X) = \int_0^X F(\tilde{x}) d\tilde{x}  + C_2
 \]</span></p>
-<div id="23fef751" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="2">
+<div id="cfeb0591" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>F(x=0) =  -0.07082481931956612</code></pre>
 </div>
@@ -333,11 +333,11 @@ invalid escape sequence '\d'
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/3129958682.py:24: SyntaxWarning:
+/tmp/ipykernel_2455/3129958682.py:24: SyntaxWarning:
 
 invalid escape sequence '\d'
 
-/tmp/ipykernel_2433/3129958682.py:26: SyntaxWarning:
+/tmp/ipykernel_2455/3129958682.py:26: SyntaxWarning:
 
 invalid escape sequence '\P'
 </code></pre>
@@ -357,7 +357,7 @@ invalid escape sequence '\P'
 - What did you notice about our assumption of periodic boundaries? How does the mean density enter?
 - Plot it for the grid resolution 60 and 240
 - Discuss the solution</code></pre>
-<div id="bf52a529" class="cell" data-execution_count="3">
+<div id="6b1db97b" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stderr">
 <pre><code>&lt;&gt;:26: SyntaxWarning:
 
@@ -375,11 +375,11 @@ invalid escape sequence '\d'
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/968438071.py:26: SyntaxWarning:
+/tmp/ipykernel_2455/968438071.py:26: SyntaxWarning:
 
 invalid escape sequence '\d'
 
-/tmp/ipykernel_2433/968438071.py:28: SyntaxWarning:
+/tmp/ipykernel_2455/968438071.py:28: SyntaxWarning:
 
 invalid escape sequence '\P'
 </code></pre>
@@ -409,7 +409,7 @@ invalid escape sequence '\P'
 \]</span></p>
 <p>For our first implementation we will assume periodic boundaries.</p>
 <p>The overdensity <span class="math inline">\(D(x)\)</span> will be defined at cell centers and similarly <span class="math inline">\(\Phi\)</span> is recorded at the same positions.</p>
-<div id="f35097b6" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="4">
+<div id="c9b91360" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="4">
 <div class="cell-output cell-output-stderr">
 <pre><code>&lt;&gt;:15: SyntaxWarning:
 
@@ -427,11 +427,11 @@ invalid escape sequence '\d'
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/1351949014.py:15: SyntaxWarning:
+/tmp/ipykernel_2455/1351949014.py:15: SyntaxWarning:
 
 invalid escape sequence '\d'
 
-/tmp/ipykernel_2433/1351949014.py:18: SyntaxWarning:
+/tmp/ipykernel_2455/1351949014.py:18: SyntaxWarning:
 
 invalid escape sequence '\P'
 </code></pre>
@@ -446,7 +446,7 @@ invalid escape sequence '\P'
 </div>
 <p>Wow. That takes an enormous amount of iterations to converge. In particular if the solution has long wavelength components. This method is known an <b>Jacobi’s iterative method</b>.</p>
 <p>Ah yes. But we could use the update values as we march through. Perhaps that converges faster?</p>
-<div id="eead6be2" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="5">
+<div id="28fa7944" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="5">
 <div class="cell-output cell-output-stderr">
 <pre><code>&lt;&gt;:16: SyntaxWarning:
 
@@ -464,11 +464,11 @@ invalid escape sequence '\d'
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/3725170206.py:16: SyntaxWarning:
+/tmp/ipykernel_2455/3725170206.py:16: SyntaxWarning:
 
 invalid escape sequence '\d'
 
-/tmp/ipykernel_2433/3725170206.py:19: SyntaxWarning:
+/tmp/ipykernel_2455/3725170206.py:19: SyntaxWarning:
 
 invalid escape sequence '\P'
 </code></pre>
@@ -488,7 +488,7 @@ invalid escape sequence '\P'
 <p>If we wouldn’ change the values completely just on the neighbors but keep some information from previous steps we can weight the update. This is known as successive over-relaxation. <span class="math display">\[
 \Phi_i^{n+1} = (1-\omega)\ \Phi_i^n + \omega/2\ \left( \Phi^n_{i+1} + \Phi^n_{i-1} - c h^2 D \right),
 \]</span> first for <span class="math inline">\(i=0,2,4,\cdots\)</span> and then for <span class="math inline">\(i=1,3,5,\cdots\)</span>. It is the same number of operations as before but does converge somewhat quicker.</p>
-<div id="48b66fbc" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="6">
+<div id="8d6c943d" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="6">
 <div class="cell-output cell-output-stderr">
 <pre><code>&lt;&gt;:19: SyntaxWarning:
 
@@ -506,11 +506,11 @@ invalid escape sequence '\d'
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/3512576029.py:19: SyntaxWarning:
+/tmp/ipykernel_2455/3512576029.py:19: SyntaxWarning:
 
 invalid escape sequence '\d'
 
-/tmp/ipykernel_2433/3512576029.py:22: SyntaxWarning:
+/tmp/ipykernel_2455/3512576029.py:22: SyntaxWarning:
 
 invalid escape sequence '\P'
 </code></pre>
@@ -530,7 +530,7 @@ invalid escape sequence '\P'
 <p>There is a variant of <b>Gauss Seidel</b> and succesive over-relaxation that is known as <b>red-black</b> ordering. This realizes that even positions are only dependent on odd neighbors and odd ones only on even. So first updates the one half and then the other. We do our SOR update <span class="math display">\[
 \Phi_i^{n+1} = (1-\omega)\ \Phi_i^N + \omega/2\ \left( \Phi^n_{i+1} + \Phi^n_{i-1} - c h^2 D \right),
 \]</span> first for <span class="math inline">\(i=0,2,4,\cdots\)</span> and then for <span class="math inline">\(i=1,3,5,\cdots\)</span>. It is the same number of operations as before but does converge somewhat quicker.</p>
-<div id="dbe9c2d3" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="7">
+<div id="5954c40d" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="7">
 <div class="cell-output cell-output-stderr">
 <pre><code>&lt;&gt;:21: SyntaxWarning:
 
@@ -556,15 +556,15 @@ invalid escape sequence '\P'
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/681110147.py:21: SyntaxWarning:
+/tmp/ipykernel_2455/681110147.py:21: SyntaxWarning:
 
 invalid escape sequence '\d'
 
-/tmp/ipykernel_2433/681110147.py:24: SyntaxWarning:
+/tmp/ipykernel_2455/681110147.py:24: SyntaxWarning:
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/681110147.py:26: SyntaxWarning:
+/tmp/ipykernel_2455/681110147.py:26: SyntaxWarning:
 
 invalid escape sequence '\P'
 </code></pre>
@@ -612,7 +612,7 @@ D_n
 \]</span></p>
 <p>So in the relaxation technique we iterated until we got <span class="math inline">\(\Phi\)</span> to agree with this formula.</p>
 <p>So let us define this Matrix:</p>
-<div id="3ad97d3f" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="8">
+<div id="96f1a013" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>[[-2.  1.  0. ...  0.  0.  1.]
  [ 1. -2.  1. ...  0.  0.  0.]
@@ -625,7 +625,7 @@ Determinant of A is: 1.3322676295502058e-13</code></pre>
 </div>
 </div>
 <p>and now invert it</p>
-<div id="78df8148" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
+<div id="20b977ce" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>array([[ 1.   , -0.125,  0.   , ...,  0.   ,  0.   ,  0.   ],
        [ 0.125,  0.875, -0.125, ...,  0.   ,  0.   ,  0.   ],
@@ -671,7 +671,7 @@ D_n \\\\
 \end{pmatrix}
 \]</span></p>
 <p>Once we have the solution to <span class="math inline">\(\Phi\)</span> we throw away <span class="math inline">\(\Phi_{n+1}\)</span> and subtract the mean of the potential <span class="math inline">\(\int_0^1 \Phi dx\)</span> just by convention.</p>
-<div id="955c85c3" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="10">
+<div id="b70e8d8d" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="10">
 <div class="cell-output cell-output-stdout">
 <pre><code>[[-1.38777878e-16  4.94444444e-01  9.77777778e-01 ...  9.77777778e-01
    4.94444444e-01  1.11111111e-02]
@@ -713,15 +713,15 @@ invalid escape sequence '\P'
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/247100793.py:29: SyntaxWarning:
+/tmp/ipykernel_2455/247100793.py:29: SyntaxWarning:
 
 invalid escape sequence '\d'
 
-/tmp/ipykernel_2433/247100793.py:32: SyntaxWarning:
+/tmp/ipykernel_2455/247100793.py:32: SyntaxWarning:
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/247100793.py:33: SyntaxWarning:
+/tmp/ipykernel_2455/247100793.py:33: SyntaxWarning:
 
 invalid escape sequence '\P'
 </code></pre>
@@ -734,12 +734,12 @@ invalid escape sequence '\P'
 </div>
 </div>
 </div>
-<div id="6359655a" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="11">
+<div id="cc7c9f8a" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="11">
 <div class="cell-output cell-output-stdout">
 <pre><code>Determinant of A is: 8100.0000000000355</code></pre>
 </div>
 </div>
-<div id="4c8bdabb" class="cell" data-execution_count="12">
+<div id="170c703b" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -764,7 +764,7 @@ A_k = \sum_{m=0}^{N-1}\ a_m\ e^{-2\pi\ i\ m\ k/N}, \ \ k=0,1,...,n-2,n-1
 \]</span> and the inverse transform is given by <span class="math display">\[
 a_m = \frac{1}{N}\sum_{m=0}^{n-1}\ A_m\ e^{2\pi\ i\ m\ k/N}
 \]</span> See the <a href="http://docs.scipy.org/doc/numpy/reference/routines.fft.html#module-numpy.fft" target="_blank">FFT documentation</a> for more details.</p>
-<div id="e9271822" class="cell" data-execution_count="13">
+<div id="b7e41270" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-stderr">
 <pre><code>&lt;&gt;:25: SyntaxWarning:
 
@@ -790,15 +790,15 @@ invalid escape sequence '\P'
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/450823216.py:25: SyntaxWarning:
+/tmp/ipykernel_2455/450823216.py:25: SyntaxWarning:
 
 invalid escape sequence '\d'
 
-/tmp/ipykernel_2433/450823216.py:28: SyntaxWarning:
+/tmp/ipykernel_2455/450823216.py:28: SyntaxWarning:
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/450823216.py:29: SyntaxWarning:
+/tmp/ipykernel_2455/450823216.py:29: SyntaxWarning:
 
 invalid escape sequence '\P'
 </code></pre>
@@ -811,7 +811,7 @@ invalid escape sequence '\P'
 </div>
 </div>
 </div>
-<div id="5ed515dd" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="14">
+<div id="14cdff04" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -851,7 +851,7 @@ f(\mathbf{x}) = \frac12 \mathbf{x}^\mathrm{T} \mathbf{A}\mathbf{x} - \mathbf{x}^
 \mathbf{p}_{k+1} = \mathbf{r}_{k+1} + \beta_k \, \mathbf{p}_k, \ \ \ \ \beta = \frac{\mathbf{r}_{k+1}^T\, \mathbf{r}_{k+1}}{ \mathbf{r}_{k}^T \, \mathbf{r}_{k}}
 \]</span></p>
 <p>i.e.&nbsp;a combination of the current residual and the previous search direction, for the next search direction. Different conjugate gradient methods differ typically in their choice of <span class="math inline">\(\beta\)</span> and of how many previous search directions are considered. Please also have a look at <a href="http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf">Jonathan Shewchuk’s fantastic detailed description</a> of this method.</p>
-<div id="29b81411" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="15">
+<div id="c8cd5c74" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="15">
 <div class="cell-output cell-output-stdout">
 <pre><code>2.23606797749979 1e-10
 iterated  6  times to get to tolerance= 1e-10
@@ -859,13 +859,13 @@ x= [0.09073552 0.63642149]</code></pre>
 </div>
 </div>
 <p>Double check the Answer. Is <span class="math inline">\(\mathbf{A\,x}=\mathbf{b}\)</span> ?</p>
-<div id="f02c2e33" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="16">
+<div id="7fb0cffd" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="16">
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>matrix([[5.40056888e-12],
         [3.98747702e-12]])</code></pre>
 </div>
 </div>
-<div id="aa0cfb5f" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="17">
+<div id="752d4fbd" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="17">
 <div class="cell-output cell-output-stdout">
 <pre><code>step: 1  distance to minimum: 0.4880232063220932
 step: 2  distance to minimum: 0.00019970168811959504
@@ -884,7 +884,7 @@ step: 8  distance to minimum: 1.5362729766613488e-16</code></pre>
 </div>
 </div>
 </div>
-<div id="8072c295" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="18">
+<div id="d3aa5800" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="18">
 <div class="cell-output cell-output-stderr">
 <pre><code>&lt;&gt;:46: SyntaxWarning:
 
@@ -910,15 +910,15 @@ invalid escape sequence '\P'
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/2426640464.py:46: SyntaxWarning:
+/tmp/ipykernel_2455/2426640464.py:46: SyntaxWarning:
 
 invalid escape sequence '\d'
 
-/tmp/ipykernel_2433/2426640464.py:49: SyntaxWarning:
+/tmp/ipykernel_2455/2426640464.py:49: SyntaxWarning:
 
 invalid escape sequence '\P'
 
-/tmp/ipykernel_2433/2426640464.py:50: SyntaxWarning:
+/tmp/ipykernel_2455/2426640464.py:50: SyntaxWarning:
 
 invalid escape sequence '\P'
 </code></pre>
