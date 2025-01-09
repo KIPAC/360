@@ -23,6 +23,11 @@ website:
             href: ./tutorials/python_setup.qmd
           - text: "gala tutorial"
             href: ./tutorials/gala_tutorial.qmd
+          - text: "Poisson equation tutorial"
+            href: ./tutorials/integrate-1D-poissonEquation.qmd
+          - text: "3D vis tutorial"
+            href: ./tutorials/Intro_3D_visualization.qmd
+
       - text: "Assignments"
         menu:
           - text: "Workflow"
