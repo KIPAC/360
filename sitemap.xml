@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://KIPAC.github.io/360/lectures/preliminaries.html</loc>
-    <lastmod>2025-01-06T21:31:01.131Z</lastmod>
-  </url>
-  <url>
-    <loc>https://KIPAC.github.io/360/tutorials/python_setup.html</loc>
-    <lastmod>2025-01-06T21:36:38.294Z</lastmod>
-  </url>
-  <url>
-    <loc>https://KIPAC.github.io/360/tutorials/Intro_3D_visualization.html</loc>
-    <lastmod>2025-01-09T19:40:24.697Z</lastmod>
+    <loc>https://KIPAC.github.io/360/final_project/project_ideas.html</loc>
+    <lastmod>2025-01-09T19:44:05.005Z</lastmod>
   </url>
   <url>
     <loc>https://KIPAC.github.io/360/website/index.html</loc>
-    <lastmod>2025-01-07T17:51:49.381Z</lastmod>
+    <lastmod>2025-01-09T19:44:05.039Z</lastmod>
   </url>
   <url>
-    <loc>https://KIPAC.github.io/360/final_project/project_ideas.html</loc>
-    <lastmod>2025-01-06T21:31:03.736Z</lastmod>
+    <loc>https://KIPAC.github.io/360/tutorials/Intro_3D_visualization.html</loc>
+    <lastmod>2025-01-09T19:44:05.038Z</lastmod>
   </url>
   <url>
-    <loc>https://KIPAC.github.io/360/assignments/assignment_1.html</loc>
-    <lastmod>2025-01-06T02:19:52.883Z</lastmod>
-  </url>
-  <url>
-    <loc>https://KIPAC.github.io/360/final_project/projects/project1.html</loc>
-    <lastmod>2024-12-28T00:44:06.964Z</lastmod>
+    <loc>https://KIPAC.github.io/360/tutorials/python_setup.html</loc>
+    <lastmod>2025-01-09T19:44:05.038Z</lastmod>
   </url>
   <url>
     <loc>https://KIPAC.github.io/360/resources/resources.html</loc>
-    <lastmod>2024-12-28T00:44:06.964Z</lastmod>
+    <lastmod>2025-01-09T19:44:05.038Z</lastmod>
   </url>
   <url>
-    <loc>https://KIPAC.github.io/360/tutorials/integrate-1D-poissonEquation.html</loc>
-    <lastmod>2025-01-09T19:31:53.764Z</lastmod>
-  </url>
-  <url>
-    <loc>https://KIPAC.github.io/360/tutorials/gala_tutorial.html</loc>
-    <lastmod>2025-01-09T19:41:48.460Z</lastmod>
+    <loc>https://KIPAC.github.io/360/lectures/preliminaries.html</loc>
+    <lastmod>2025-01-09T19:44:05.005Z</lastmod>
   </url>
   <url>
     <loc>https://KIPAC.github.io/360/lectures/gravity.html</loc>
-    <lastmod>2025-01-06T21:45:26.961Z</lastmod>
+    <lastmod>2025-01-09T19:44:05.005Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/tutorials/integrate-1D-poissonEquation.html</loc>
+    <lastmod>2025-01-09T19:44:05.038Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/tutorials/gala_tutorial.html</loc>
+    <lastmod>2025-01-09T19:44:05.038Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/assignments/assignment_1.html</loc>
+    <lastmod>2025-01-09T19:44:05.004Z</lastmod>
+  </url>
+  <url>
+    <loc>https://KIPAC.github.io/360/final_project/projects/project1.html</loc>
+    <lastmod>2025-01-09T19:44:05.005Z</lastmod>
   </url>
 </urlset>
