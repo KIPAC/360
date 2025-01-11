@@ -10,6 +10,7 @@ format:
     toc-title: Poisson equation tutorial
     page-layout: full
     callout-icon: false
+  ipynb: default
 jupyter: python3
 ---
 
@@ -20,11 +21,13 @@ In physics we often write $\nabla^2$ instead of $\Delta$ but we mean the same th
 ```{python}
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
-%pylab inline
+%matplotlib inline
 import time
 import math
+import matplotlib.pyplot as plt
+import numpy as np
 import scipy.integrate as integrate
-plt.rcParams['figure.figsize'] = (12, 8)
+plt.rcParams['figure.figsize'] = (9, 6)
 ```
 
 Here we explore a solution strategy for the one dimensional Poisson equation. This is purely an example and most of the solution strategies will work for almost all second order partial differential equations. Let us first make the equation dimension-less. We can use the mean density $\bar{\rho}=\int\rho dV/\int dV$ to define the <b>overdensity</b> $$D\equiv \frac{\rho}{\bar{\rho}}$$ and rescale the potential 
@@ -562,11 +565,13 @@ leg.get_frame().set_alpha(0.7)
 ```{python}
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
-plot(k,delta.real,'x')
-plot(k,delta.imag,'x');
+plt.plot(k,delta.real,'x')
+plt.plot(k,delta.imag,'x');
 ```
 
-# The Conjugate Gradient Method <img src="http://upload.wikimedia.org/wikipedia/commons/b/bf/Conjugate_gradient_illustration.svg" width="300" align="right"> 
+# The Conjugate Gradient Method 
+
+<img src="http://upload.wikimedia.org/wikipedia/commons/b/bf/Conjugate_gradient_illustration.svg" width="300" align="right"> 
 
 The <a href="http://en.wikipedia.org/wiki/Conjugate_gradient_method">conjugate gradient method</a> is typically employed as an iterative approach to solving the linear equation
 
@@ -628,14 +633,14 @@ def ConGrad(A,b,tol,xinit=0,kmax=5000):
     k = 0
     r = b - A*x
     p = r.copy()
-    rsold=ravel(r.T*r)[0]
-    print(sqrt(rsold), tol)
-    while (k==0 or ((sqrt(rsold) > tol) and (k < kmax))):
+    rsold=np.ravel(r.T*r)[0]
+    print(np.sqrt(rsold), tol)
+    while (k==0 or ((np.sqrt(rsold) > tol) and (k < kmax))):
         Ap = A*p
         alphak = rsold/np.ravel(p.T*Ap)[0]
         x = x + alphak*p
         r = r - alphak*Ap
-        rsnew = (ravel(r.T*r))[0]
+        rsnew = (np.ravel(r.T*r))[0]
         beta = rsnew/rsold
         p = r + beta*p
         k += 1
@@ -648,7 +653,7 @@ def ConGrad(A,b,tol,xinit=0,kmax=5000):
 A = np.asmatrix([[4.,1.001],[1.,3]])
 b = np.asmatrix([1.,2]).T
 x = ConGrad(A,b,1e-10)
-print('x=', ravel(x))
+print('x=', np.ravel(x))
 ```
 
 Double check the Answer. Is $\mathbf{A\,x}=\mathbf{b}$ ? 
@@ -663,9 +668,9 @@ A*x-b
 #| collapsed: false
 #| jupyter: {outputs_hidden: false}
 def f2(x,A,b):
-    return ravel(0.5*x.T*A*x-x.T*b)[0]
+    return np.ravel(0.5*x.T*A*x-x.T*b)[0]
 
-xy = linspace(0.,1)
+xy = np.linspace(0.,1)
 f = np.zeros((len(xy),len(xy)))
 f[:] = 0.
 for i in range(len(xy)):
@@ -680,20 +685,20 @@ r = b.copy()-A*x
 p = r.copy()
 #x[:] = 0. # start with x=0 as a guess
 k = 0
-rsold=ravel(r.T*r)[0]
+rsold=np.ravel(r.T*r)[0]
 while ((k < 8)):
     Ap = A*p
-    alphak = rsold/ravel(p.T*Ap)[0]
+    alphak = rsold/np.ravel(p.T*Ap)[0]
     xold = x
     x = x + alphak*p
     r = r - alphak*Ap
-    rsnew = ravel(r.T*r)[0]
+    rsnew = np.ravel(r.T*r)[0]
     beta = rsnew/rsold
     p = r + beta*p
     k += 1
     rsold=rsnew
-    print('step:', k, ' distance to minimum:',sqrt(rsnew))
-    plt.plot([ravel(xold[0])[0], ravel(x[0])[0]], [ravel(xold[1])[0],ravel(x[1])[0]])
+    print('step:', k, ' distance to minimum:',np.sqrt(rsnew))
+    plt.plot([np.ravel(xold[0])[0], np.ravel(x[0])[0]], [np.ravel(xold[1])[0],np.ravel(x[1])[0]])
 ```
 
 ```{python}
@@ -714,7 +719,7 @@ print('F(x=0) = ', F0)
 F = F + F0
 Phi = -integrate.cumulative_trapezoid(F,x,initial=0)
 #Phi = Phi - integrate.simpson(Phi,x=x)/1.    # set potential to mean
-Phi = Phi - mean(Phi)
+Phi = Phi - np.mean(Phi)
 
 # now try with Conjugate Gradient
 rx = (0.5+np.arange(N))/N
@@ -722,7 +727,7 @@ rd = density(rx)
 rd[3] =1.
 rd -= np.mean(rd)
 dx = 1./N
-A = np.asmatrix(np.zeros((N,N)),dtype=double) # mat turns the numpy array into an object of matrix type
+A = np.asmatrix(np.zeros((N,N)),dtype=np.float64) # mat turns the numpy array into an object of matrix type
 ip1 = (np.arange(N) + 1) # define arrays that are the indeces i+1 and i-1
 ip1[N-1] = 0
 im1 = (np.arange(N) - 1)
@@ -731,7 +736,7 @@ for i in range(0,N):
     A[i,i]=-2
     A[i,im1[i]] = 1
     A[i,ip1[i]] = 1
-b = np.asmatrix(rd,dtype=double).T*C # *dx**2  do this small number later
+b = np.asmatrix(rd,dtype=np.float64).T*C # *dx**2  do this small number later
 
 iPhi = ConGrad(A,b,1e-1)
 iPhi = ConGrad(A,b,1e-4)
@@ -739,11 +744,11 @@ iPhi = ConGrad(A,b,1e-5)
 iPhi = ConGrad(A,b,1e-7)
 
 iPhi = iPhi*dx**2 # we solved without that factor
-iPhi = iPhi - mean(iPhi) # convention: \bar{\Phi} = 0
+iPhi = iPhi - np.mean(iPhi) # convention: \bar{\Phi} = 0
 iF = -(iPhi[ip1]-iPhi[im1])/(2.*dx) # force from central difference
 
 # show results
-figure(num=None, figsize=(8, 6), dpi=80, facecolor='w', edgecolor='k')
+plt.figure(num=None, figsize=(8, 6), dpi=80, facecolor='w', edgecolor='k')
 plt.plot(rx,rd/N,'x',label='$\delta$');
 plt.plot(rx,iF,label='F');
 plt.plot(x,F,':',label='$F_{ref}$')
