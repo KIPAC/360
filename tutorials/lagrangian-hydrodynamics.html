@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lagrangian Hydrodynamics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-79108a0fc1995748cbd19a5b0e3e3e7c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../website/index.html"> 
+<span class="menu-text">Physics 360: Modern Astrophysics</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/preliminaries.html">
+ <span class="dropdown-text">Preliminaries</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/gravity.html">
+ <span class="dropdown-text">Gravity</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorials</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">    
+        <li>
+    <a class="dropdown-item" href="../tutorials/python_setup.html">
+ <span class="dropdown-text">Setup python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/gala_tutorial.html">
+ <span class="dropdown-text">gala tutorial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/integrate-1D-poissonEquation.html">
+ <span class="dropdown-text">Poisson equation tutorial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/Intro_3D_visualization.html">
+ <span class="dropdown-text">3D vis tutorial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/lagrangian-hydrodynamics.html">
+ <span class="dropdown-text">Lagrangian Hydro</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/pyro_tutorial.html">
+ <span class="dropdown-text">2D Hydro</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href=".././tutorials/plasma_pic_1d.ipynb">
+ <span class="dropdown-text">1D PIC plasma code</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-assignments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Assignments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-assignments">    
+        <li>
+    <a class="dropdown-item" href="../assignments/assignment_1.html">
+ <span class="dropdown-text">Workflow</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-final-project" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Final Project</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-final-project">    
+        <li>
+    <a class="dropdown-item" href="../final_project/project_ideas.html">
+ <span class="dropdown-text">Project Suggestions</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lagrangian Hydrodynamics</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<h3 class="anchored">
+INTRODUCTION
+</h3>
+<p>An inviscid fluid flow is described through the following conservation equations collectively known as the <b>Euler equations</b>.</p>
+<p>Conservation of mass (continuity equation): <span class="math display">\[
+\dot{\rho} + \nabla(\rho\,\mathbf{v}) = 0, \ \ \text{or} \ \ \ \ \left( \frac{\partial }{\partial t} + \mathbf{v} \nabla\right) \rho = - \rho \nabla\mathbf{v}
+\]</span></p>
+<p>Conservation of momentum: (Navier Stokes equation) <span class="math display">\[
+\rho \left( \frac{\partial }{\partial t} + \mathbf{v} \cdot \nabla  \right) \mathbf{v}= -\nabla p + \rho \nu \nabla^2 \mathbf{v},
+\]</span> where <span class="math inline">\(\nu\)</span> is the kinematic viscosity.</p>
+<p>Conservation of energy: <span class="math display">\[
+\frac{\partial e}{\partial t} + \nabla\cdot(e\,\mathbf{v}) + p\nabla\cdot\mathbf{v} = 0
+\]</span></p>
+<p>In certain situations the pressure can sometimes be expressed as a function of <span class="math inline">\(\rho\)</span> only. Such as in the isothermal equation of state <span class="math inline">\(p=c_0^2\,\rho\)</span>, where <span class="math inline">\(c_0\)</span> is the speed of sound. In this case the behavior is given only from the continuity equation and the momentum equation. Because <span class="math inline">\(\nabla p=c_0^2 \nabla\rho\)</span> and that is all we need for the momentum equation.</p>
+<p>In this case for a Lagrangian description this boils down to solving this single equation: <span class="math display">\[
+\frac{D\mathbf{v}}{Dt} = -\frac{1}{\rho}\nabla p
+\]</span></p>
+<p>So we have a second-order differential equation for the positions of our mass grid.</p>
+<p>So imagine we discretized the total mass <span class="math inline">\(M\)</span> with <span class="math inline">\(N\)</span> shells of mass, <span class="math inline">\(\triangle m\)</span> , with edges of <span class="math inline">\(r_i\)</span> with <span class="math inline">\(0&lt;i&lt;N\)</span> in the domain <span class="math inline">\([0,1]\)</span>. Call the initial pressure distribution at time zero <span class="math inline">\(p_0\)</span> and realize that the density, <span class="math inline">\(\rho_i\)</span> in our grid zones is always just simply given by <span class="math inline">\(\rho_i = \triangle m/|r_{i+1}-r_{i}|\)</span>. So if we can describe our fluid purely with an equation of state described by <span class="math inline">\(p = c_0^2\rho\)</span> we only need to store the initial value of <span class="math inline">\(c_0\)</span> which may be a different in different parcels of the gas.</p>
+<p>We will first use a simple leap frog integrator to solve this. This operates in two parts. First we update the positions by half a time step <span class="math inline">\(r_i = r_i + (dt/2)\,v_i\)</span> then using these positions to calculate the accelerations</p>
+<span class="math display">\[\begin{equation}
+-\frac{1}{\rho}\nabla p = - \frac{|r_{i+1}-r_i|}{\triangle m}
+\nabla \left(\frac{\triangle m c_{0,i}^2}{|r_{i+1}-r_i|}\right)=-\frac{1}{\triangle m} \triangle r_i \nabla\frac{\triangle m c_{0,i}^2}{\triangle r_i},
+\end{equation}\]</span> where <span class="math inline">\(\triangle r_i = |r_{i+1}-r_i|\)</span>. Then we do the remaining part of the kick of the positions <span class="math inline">\(r_i = r_i + (dt/2)\,v_i\)</span>. The two kicks can be combined one we keep them separate here so that at outputs we have positions and velocities at the same time. In the case where all shells have the same mass we could even eliminate <span class="math inline">\(\triangle m\)</span> in the accelerations. This may not in general be the case, however, so we keep it.
+<p>
+</p><p>For the special case where pressure is only a function of density these are the only equations we would need. More generally we also have to consider an energy (or entropy) equation in order to account for the possibility that the internal energy could be different for different densities. However, in the Lagrangian case we know right away that the energy change is just the work done on the cell. I.e. <span class="math display">\[
+\frac{Du}{dt} = - p \frac{dV}{dt},
+\]</span> where <span class="math inline">\(dV\)</span> is the rate of change of the fluid element volume we are considering.</p>
+<h3 class="anchored">
+Sound waves
+</h3>
+<p>Linearizing the continuity and momentum equation above for small perturbations <span class="math inline">\(\rho_1\)</span> and <span class="math inline">\(v_1\)</span> (i.e.&nbsp;assume <span class="math inline">\(\rho = \rho_0 + \rho_1\)</span> and <span class="math inline">\(v = 0+v_1\)</span>) and differentiating the momentum equation one more time in time we can obtain the wave solutions with the linear dispersion relation <span class="math inline">\(\omega=ck\)</span> <span class="math display">\[
+v = v_{a} \exp[i(kx+\omega t)] = v_{a}\exp[ik(x + c t)] , \ \ \ \rho = \rho_0 \left(1-\frac{v_1}{c}\right).
+\]</span> The mass coordinate is <span class="math display">\[
+m(x) = \int_0^1 \rho dx = \rho_0\left[x+\frac{v_a}{2\pi\,c_0}(\cos(2\pi\,x)-1)\right]
+\]</span> so to set up a simple test we can choose equidistant points in mass and derive the positions by finding the roots of this last equation.</p>
+<div id="cell-3" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pylab inline</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time <span class="im">as</span> systime</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#from scitools.std import as sci</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> brentq </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> accGradP(dr,m,c):</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    diff <span class="op">=</span> c<span class="op">**</span><span class="dv">2</span><span class="op">*</span> (m<span class="op">/</span>fabs(dr))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span><span class="fl">1.</span><span class="op">/</span>m<span class="op">*</span>dr<span class="op">*</span>(diff<span class="op">-</span>np.roll(diff,<span class="dv">1</span>))<span class="op">/</span>(<span class="fl">0.5</span><span class="op">*</span>fabs(dr<span class="op">+</span>np.roll(dr,<span class="dv">1</span>)))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> (<span class="fl">0.</span><span class="op">+</span>np.arange(N))<span class="op">/</span>N</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>va <span class="op">=</span> <span class="fl">.1</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>rho0 <span class="op">=</span> <span class="fl">1.</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">1.</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> va<span class="op">*</span>sin(<span class="fl">4.</span><span class="op">*</span>np.pi<span class="op">*</span>r)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>c0 <span class="op">=</span> np.ones(N)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>c0[:] <span class="op">=</span> c</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>mass <span class="op">=</span> <span class="kw">lambda</span> x,off: rho0<span class="op">*</span>(x<span class="op">+</span>va<span class="op">/</span>c<span class="op">*</span>(cos(<span class="fl">4.</span><span class="op">*</span>np.pi<span class="op">*</span>x)<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">4</span><span class="op">/</span>np.pi)<span class="op">-</span>off</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(r)):</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    r[i] <span class="op">=</span> brentq(mass,<span class="dv">0</span>,<span class="dv">1</span>,args<span class="op">=</span>(r[i]))</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>dr <span class="op">=</span> np.roll(r,<span class="op">-</span><span class="dv">1</span>)<span class="op">-</span>r</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>Courantfactor <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> Courantfactor <span class="op">*</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>tfinal <span class="op">=</span> <span class="fl">0.6</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> [<span class="fl">0.</span>]</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>vmax <span class="op">=</span> [<span class="bu">max</span>(v)]</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>count<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (time[<span class="op">-</span><span class="dv">1</span>]<span class="op">&lt;</span>tfinal <span class="kw">and</span> count <span class="op">&lt;</span> <span class="dv">500000</span>):</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    r <span class="op">+=</span> dt<span class="op">/</span><span class="dv">2</span> <span class="op">*</span> v</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    r[r<span class="op">&gt;</span><span class="dv">1</span>] <span class="op">-=</span> <span class="fl">1.</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    r[r<span class="op">&lt;</span><span class="dv">0</span>] <span class="op">+=</span> <span class="fl">1.</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    dr <span class="op">=</span> np.roll(r,<span class="op">-</span><span class="dv">1</span>)<span class="op">-</span>r</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    ind <span class="op">=</span> where(fabs(dr)<span class="op">&gt;</span><span class="fl">0.5</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    dr[ind] <span class="op">=</span> fabs(<span class="fl">1.</span><span class="op">+</span>dr[ind])</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    acc <span class="op">=</span> accGradP(dr,m,c0) </span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    v <span class="op">+=</span> dt <span class="op">*</span> acc</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#    print accGradP(r,m,c0)</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    r <span class="op">+=</span> dt<span class="op">/</span><span class="dv">2</span> <span class="op">*</span> v</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> Courantfactor<span class="op">*</span><span class="bu">min</span>(dr)<span class="op">/</span><span class="bu">max</span>((<span class="bu">max</span>(c0),<span class="bu">max</span>(v)))</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    time.append((time[<span class="op">-</span><span class="dv">1</span>]<span class="op">+</span>dt))</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    vmax.append(<span class="bu">max</span>(v))</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> count, <span class="st">' time steps to time: '</span>, time[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>plot(r,v,<span class="st">'.'</span>,label<span class="op">=</span><span class="st">"velocity"</span>)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>xlabel(<span class="st">"position"</span>)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-4" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>plot(r,m<span class="op">/</span>dr,label<span class="op">=</span><span class="st">"density"</span>)<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>xlabel(<span class="st">'position'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<h4 class="anchored">
+Oh no!!!
+</h4>
+<p>Did we screw up our approach to solving the equations? What happened to our wave?</p>
+<section id="wave-steepening" class="level2">
+<h2 class="anchored" data-anchor-id="wave-steepening">Wave steepening</h2>
+<p>Essentially all non-linear wave steepen! The ones that do not are arranged such that their dispersion just cancels the steepening. These are called <i>solitary wave</i> or <a href="http://en.wikipedia.org/wiki/Soliton" target="_blank"><i>solitons</i></a>. This is actually quite easy to understand. The sound speed of a gas is given by <span class="math inline">\(c^2 = \partial p/\partial \rho\)</span></p>
+<h3 class="anchored">
+Artificial Viscosity
+</h3>
+<p><a href="http://jap.aip.org/resource/1/japiau/v21/i3/p232_s1">A Method for the Numerical Calculation of Hydrodynamic Shocks</a> 1950 by J. VonNeumann and R. D. Richtmyer layed out how to study shock waves by inroducing a so called artificial viscosity into the method. Let us explore this and see whether we can make it work.</p>
+<div id="cell-9" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> accVisc(dr,m,v,dx_smear<span class="op">=</span><span class="fl">.01</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    dv <span class="op">=</span> (np.roll(v,<span class="op">-</span><span class="dv">1</span>)<span class="op">-</span>v)<span class="op">/</span>dr</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    dif <span class="op">=</span> <span class="op">-</span>dx_smear<span class="op">**</span><span class="dv">2</span> <span class="op">*</span>dv<span class="op">*</span>fabs(dv)  <span class="op">*</span>(fabs(dr)<span class="op">/</span>m)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span><span class="fl">1.</span><span class="op">/</span>m<span class="op">*</span>dr<span class="op">*</span>(dif<span class="op">-</span>np.roll(dif,<span class="dv">1</span>))<span class="op">/</span>(<span class="fl">0.5</span><span class="op">*</span>fabs(dr<span class="op">+</span>np.roll(dr,<span class="dv">1</span>)))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> accGradP(dr,m,c):</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    dif <span class="op">=</span> c<span class="op">**</span><span class="dv">2</span><span class="op">*</span> (m<span class="op">/</span>fabs(dr))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span><span class="fl">1.</span><span class="op">/</span>m<span class="op">*</span>dr<span class="op">*</span>(dif<span class="op">-</span>np.roll(dif,<span class="dv">1</span>))<span class="op">/</span>(<span class="fl">0.5</span><span class="op">*</span>fabs(dr<span class="op">+</span>np.roll(dr,<span class="dv">1</span>)))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">160</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> (<span class="fl">0.</span><span class="op">+</span>np.arange(N))<span class="op">/</span>N</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>xL <span class="op">=</span> r<span class="op">+</span><span class="fl">.5</span><span class="op">/</span>N</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>va <span class="op">=</span> <span class="fl">.1</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>rho0 <span class="op">=</span> <span class="fl">1.</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">1.</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> va<span class="op">*</span>sin(<span class="fl">4.</span><span class="op">*</span>np.pi<span class="op">*</span>r)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>c0 <span class="op">=</span> np.ones(N)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>c0[:] <span class="op">=</span> c</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>mass <span class="op">=</span> <span class="kw">lambda</span> x,off: rho0<span class="op">*</span>(x<span class="op">+</span>va<span class="op">/</span>c<span class="op">*</span>(cos(<span class="fl">4.</span><span class="op">*</span>np.pi<span class="op">*</span>x)<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">4</span><span class="op">/</span>np.pi)<span class="op">-</span>off</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(r)):</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    r[i] <span class="op">=</span> brentq(mass,<span class="dv">0</span>,<span class="dv">1</span>,args<span class="op">=</span>(r[i]))</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>dr <span class="op">=</span> np.roll(r,<span class="op">-</span><span class="dv">1</span>)<span class="op">-</span>r</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>Courantfactor <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> Courantfactor <span class="op">*</span> <span class="fl">1.</span><span class="op">/</span>N<span class="op">/</span><span class="bu">max</span>(v)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>tfinal <span class="op">=</span> <span class="fl">1.5</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> [<span class="fl">0.</span>]</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>vmax <span class="op">=</span> [<span class="bu">max</span>(v)]</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>count<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (time[<span class="op">-</span><span class="dv">1</span>]<span class="op">&lt;</span>tfinal <span class="kw">and</span> count <span class="op">&lt;</span> <span class="dv">500000</span>):</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    r <span class="op">+=</span> dt<span class="op">/</span><span class="dv">2</span> <span class="op">*</span> v</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    r[r<span class="op">&gt;</span><span class="dv">1</span>] <span class="op">-=</span> <span class="fl">1.</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    r[r<span class="op">&lt;</span><span class="dv">0</span>] <span class="op">+=</span> <span class="fl">1.</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    dr <span class="op">=</span> np.roll(r,<span class="op">-</span><span class="dv">1</span>)<span class="op">-</span>r</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    ind <span class="op">=</span> where(fabs(dr)<span class="op">&gt;</span><span class="fl">0.5</span>)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    dr[ind] <span class="op">=</span> fabs(<span class="fl">1.</span><span class="op">+</span>dr[ind])</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    acc <span class="op">=</span> accGradP(dr,m,c0) <span class="op">+</span> accVisc(dr,m,v,dx_smear<span class="op">=</span><span class="fl">.02</span>)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    v <span class="op">+=</span> dt <span class="op">*</span> acc</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co">#    print accGradP(r,m,c0)</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    r <span class="op">+=</span> dt<span class="op">/</span><span class="dv">2</span> <span class="op">*</span> v</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> Courantfactor<span class="op">*</span><span class="bu">min</span>(dr)<span class="op">/</span><span class="bu">max</span>((<span class="bu">max</span>(c0),<span class="bu">max</span>(v)))</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    time.append((time[<span class="op">-</span><span class="dv">1</span>]<span class="op">+</span>dt))</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    vmax.append(<span class="bu">max</span>(v))</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> count, <span class="st">' time steps to time: '</span>, time[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>plot(r,v,<span class="st">'.'</span>,label<span class="op">=</span><span class="st">"velocity"</span>)</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>xlabel(<span class="st">"position"</span>)</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-10" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot(r,accGradP(dr,m,c0), r, <span class="fl">.01</span><span class="op">*</span>accVisc(dr,m,v,dx_smear<span class="op">=</span><span class="fl">.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Clean up the code a bit.</p>
+<div id="cell-12" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> diff(y):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y[<span class="dv">1</span>:]<span class="op">-</span>y[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> av(y):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (y[<span class="dv">1</span>:]<span class="op">+</span>y[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> eos_u(rho, p):</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> p</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> u</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EquationOfState:</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, gammain):</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.gamma <span class="op">=</span> gammain</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> u(<span class="va">self</span>,rho,p):</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">1.</span><span class="op">/</span>(<span class="va">self</span>.gamma<span class="op">-</span><span class="fl">1.</span>) <span class="op">*</span> p<span class="op">/</span>rho</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> cs(<span class="va">self</span>,rho,p):</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> sqrt(<span class="va">self</span>.gamma<span class="op">*</span>p<span class="op">/</span>rho)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> p(<span class="va">self</span>,rho,u):</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="va">self</span>.gamma<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>rho<span class="op">*</span>u</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> VNR_q(dr,dm,v,kdx<span class="op">=</span><span class="fl">.1</span>):</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''return VanNeumann Richtmyer viscosity'''</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    dv <span class="op">=</span> (v<span class="op">-</span>np.roll(v,<span class="op">-</span><span class="dv">1</span>))<span class="op">/</span>dr</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> <span class="op">-</span>kdx<span class="op">**</span><span class="dv">2</span> <span class="op">*</span>dv<span class="op">*</span>fabs(dv)  <span class="op">*</span>dr<span class="op">/</span>dm</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> q</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> accGradP(dr,m,p):</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> m<span class="op">/</span>dr</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span><span class="fl">1.</span><span class="op">/</span>rho<span class="op">*</span>(p<span class="op">-</span>np.roll(p,<span class="dv">1</span>))<span class="op">/</span>(<span class="fl">0.5</span><span class="op">*</span>fabs(dr<span class="op">+</span>np.roll(dr,<span class="dv">1</span>)))</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>gasgamma <span class="op">=</span> <span class="fl">1.001</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>eos <span class="op">=</span> EquationOfState(gasgamma)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> LagrangeHydro(tfinal, r, v, dm, p):</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(r)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    Courantfactor <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    dr <span class="op">=</span> np.roll(r,<span class="op">-</span><span class="dv">1</span>)<span class="op">-</span>r <span class="co"># cell volumes. </span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    ind <span class="op">=</span> where(fabs(dr)<span class="op">&gt;</span><span class="fl">0.5</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    dr[ind] <span class="op">=</span> fabs(<span class="fl">1.</span><span class="op">+</span>dr[ind])</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    drold <span class="op">=</span> dr</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> dm<span class="op">/</span>dr</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> eos.u(rho, p)</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    cs <span class="op">=</span> eos.cs(rho,p)</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> Courantfactor <span class="op">*</span> <span class="fl">1.</span><span class="op">/</span>N<span class="op">/</span><span class="bu">max</span>((<span class="bu">max</span>(cs), <span class="bu">max</span>(v)))</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    kvnr <span class="op">=</span> <span class="fl">4.</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    dxvnr <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    count<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    time <span class="op">=</span> <span class="fl">0.</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (time<span class="op">&lt;</span>tfinal <span class="kw">and</span> count <span class="op">&lt;</span> <span class="dv">500000</span>):</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>        r <span class="op">+=</span> dt<span class="op">/</span><span class="dv">2</span> <span class="op">*</span> v</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>        dr <span class="op">=</span> np.roll(r,<span class="op">-</span><span class="dv">1</span>)<span class="op">-</span>r</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>        ind <span class="op">=</span> where(fabs(dr)<span class="op">&gt;</span><span class="fl">0.5</span>)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>        dr[ind] <span class="op">=</span> fabs(<span class="fl">1.</span><span class="op">+</span>dr[ind])</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>        q <span class="op">=</span> VNR_q(dr,dm,v,kdx<span class="op">=</span>kvnr<span class="op">*</span>dxvnr)</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> eos.p(dm<span class="op">/</span>dr,u)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        acc <span class="op">=</span> accGradP(dr,m,p<span class="op">+</span>q) </span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>        v <span class="op">+=</span> dt <span class="op">*</span> acc</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>    <span class="co">#    print accGradP(r,m,c0)</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>        r <span class="op">+=</span> dt<span class="op">/</span><span class="dv">2</span> <span class="op">*</span> v</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>        r[r<span class="op">&gt;</span><span class="dv">1</span>] <span class="op">-=</span> <span class="fl">1.</span></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>        r[r<span class="op">&lt;</span><span class="dv">0</span>] <span class="op">+=</span> <span class="fl">1.</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>        dr <span class="op">=</span> np.roll(r,<span class="op">-</span><span class="dv">1</span>)<span class="op">-</span>r <span class="co"># cell volumes. </span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>        ind <span class="op">=</span> where(fabs(dr)<span class="op">&gt;</span><span class="fl">0.5</span>)</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>        dr[ind] <span class="op">=</span> fabs(<span class="fl">1.</span><span class="op">+</span>dr[ind])</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>        dV <span class="op">=</span> dr<span class="op">-</span>drold</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>        u <span class="op">-=</span> (p<span class="op">+</span>q)<span class="op">*</span>dV<span class="op">/</span>dm</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>        rho <span class="op">=</span> dm<span class="op">/</span>dr</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> eos.p(rho,u)</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>        drold <span class="op">=</span> dr</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>        time <span class="op">+=</span> dt</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>        dt <span class="op">=</span> Courantfactor<span class="op">*</span><span class="bu">min</span>(<span class="bu">abs</span>(dr))<span class="op">/</span>(<span class="bu">max</span>(eos.cs(rho,p<span class="op">+</span>q)<span class="op">+</span><span class="bu">abs</span>((v<span class="op">-</span>np.roll(v,<span class="op">-</span><span class="dv">1</span>)) ))) <span class="co"># new time step</span></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>        count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> r, v, rho, p, u</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-13" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">160</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> (<span class="fl">0.</span><span class="op">+</span>np.arange(N))<span class="op">/</span>N</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>xL <span class="op">=</span> r<span class="op">+</span><span class="fl">.5</span><span class="op">/</span>N</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>va <span class="op">=</span> <span class="fl">.1</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>rho0 <span class="op">=</span> <span class="fl">1.</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">1.</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> va<span class="op">*</span>sin(<span class="fl">4.</span><span class="op">*</span>np.pi<span class="op">*</span>r)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>c0 <span class="op">=</span> np.ones(N)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>c0[:] <span class="op">=</span> c</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>mass <span class="op">=</span> <span class="kw">lambda</span> x,off: rho0<span class="op">*</span>(x<span class="op">+</span>va<span class="op">/</span>c<span class="op">*</span>(cos(<span class="fl">4.</span><span class="op">*</span>np.pi<span class="op">*</span>x)<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">4</span><span class="op">/</span>np.pi)<span class="op">-</span>off</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(r)):</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    r[i] <span class="op">=</span> brentq(mass,<span class="dv">0</span>,<span class="dv">1</span>,args<span class="op">=</span>(r[i]))</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>dr <span class="op">=</span> np.roll(r,<span class="op">-</span><span class="dv">1</span>)<span class="op">-</span>r</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>ind <span class="op">=</span> where(fabs(dr)<span class="op">&gt;</span><span class="fl">0.5</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>dr[ind] <span class="op">=</span> fabs(<span class="fl">1.</span><span class="op">+</span>dr[ind])</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> m<span class="op">/</span>dr</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>r, v, den, p, u <span class="op">=</span> LagrangeHydro(<span class="fl">.1</span>, r, v, m, p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-14" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> JSAnimation</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> JSAnimation <span class="im">import</span> IPython_display</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> animation</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> HydroMovie(solver, h<span class="op">=</span><span class="fl">1.0</span>, tfinal<span class="op">=</span><span class="dv">2</span><span class="op">*</span><span class="fl">2.0</span><span class="op">*</span>np.pi, w0<span class="op">=</span><span class="fl">1.0</span>, phase<span class="op">=</span><span class="fl">1.0</span>):</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    x, v, t <span class="op">=</span> solver(tfinal, h, w0, phase)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    skiprate <span class="op">=</span> <span class="bu">int</span>(<span class="bu">len</span>(t) <span class="op">/</span> <span class="dv">100</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    skiprate <span class="op">=</span> <span class="bu">max</span>(skiprate, <span class="dv">1</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> t[::skiprate]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x[::skiprate]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> v[::skiprate]</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create a simple animation</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> plt.figure()</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.axes(xlim<span class="op">=</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>), ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    line, <span class="op">=</span> ax.plot([], [], lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">'v'</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> init():</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        line.set_data([], [])</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> line,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> animate(i):</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        line.set_data(x[:i], v[:i])</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> line,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> animation.FuncAnimation(fig, animate, init_func<span class="op">=</span>init,</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>                            frames<span class="op">=</span><span class="bu">len</span>(t), interval<span class="op">=</span><span class="dv">60</span>, blit<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-15" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mass <span class="op">=</span> <span class="kw">lambda</span> x,off: rho0<span class="op">*</span>(x<span class="op">+</span>va<span class="op">/</span>c<span class="op">*</span>(cos(<span class="fl">4.</span><span class="op">*</span>np.pi<span class="op">*</span>x)<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">4</span><span class="op">/</span>np.pi)<span class="op">-</span>off</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(r)):</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    r[i] <span class="op">=</span> brentq(mass,<span class="dv">0</span>,<span class="dv">1</span>,args<span class="op">=</span>(r[i]))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>dr <span class="op">=</span> np.roll(r,<span class="op">-</span><span class="dv">1</span>)<span class="op">-</span>r</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<h3 class="anchored">
+Shock tube
+</h3>
+<p>Let us study a problem where we have an experiment in which we have a tube with fixed ends. I.e. boundary conditions for the velocity will be <span class="math inline">\(v(x=0)=v(x-1)=0\)</span> in which we prepared the left half of the tube with gas of a certain pressure, and density, <span class="math inline">\(p_l\)</span> and <span class="math inline">\(\rho_l\)</span> separated from the the fluid on the right with <span class="math inline">\(p_r\)</span> and <span class="math inline">\(\rho_l\)</span> at <span class="math inline">\(t=0\)</span>. You could imagine e.g.&nbsp;that we had a thin membrane to separate the two parts which we can remove very fast. <br> To setup the interface we will use a smoothly varying function rather than an infinitesimal thin interface using the function <span class="math inline">\(R(x)\)</span> defined as <span class="math display">\[
+R(x)\equiv \left[\tanh(x-x_0)/\triangle x+1\right]/2,
+\]</span> which goes smoothly from 0 to 1 at <span class="math inline">\(x_0\)</span> over an interval of approximate width <span class="math inline">\(\triangle x\)</span>.</p>
+<div id="cell-17" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ramp(x,x0,dx):</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''ramp function. Goes from 0 to 1 smoothly at x0 over a transition region with width dx'''</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (np.tanh((x<span class="op">-</span>x0)<span class="op">/</span>dx)<span class="op">+</span><span class="fl">1.</span>)<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rampInt(x,x0,dx):</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">''' integral from 0 to x of the ramp function ramp(x,x0,dx)'''</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.5</span><span class="op">*</span>(x <span class="op">+</span> dx<span class="op">*</span>np.log(np.cosh((x<span class="op">-</span>x0)<span class="op">/</span>dx)<span class="op">/</span>np.cosh(x0<span class="op">/</span>dx)))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>x<span class="op">=</span>np.linspace(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">100</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span><span class="fl">.5</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>plt.plot(x,ramp(x,x0,dx))</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.plot(x,rampInt(x,x0,dx))</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"value of ramp function dx from x0:"</span>,ramp(x0<span class="op">-</span>dx,x0,dx), <span class="op">\</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="ch">\n</span><span class="st"> integral of rampInt"</span>, rampInt(<span class="fl">1.</span>,x0,dx) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>value of ramp function dx from x0: 0.11920292202211763 
+ integral of rampInt 0.5</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lagrangian-hydrodynamics_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So now we can describe e.g.&nbsp;the density as <span class="math display">\[
+\rho(x)=\rho_l+R(x)\,(\rho_r-\rho_l)
+\]</span> and have as the integral <span class="math display">\[
+\int_0^x \rho(x') dx' = \rho_l\,x+(\rho_r-\rho_l) RI(x)
+\]</span> where <span class="math inline">\(RI(x)=\int_0^x R(x')dx'\)</span>.</p>
+<div id="cell-19" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rhol<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>rhor<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> rhol <span class="op">+</span> ramp(x,x0,dx)<span class="op">*</span>(rhor<span class="op">-</span>rhol)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>mass <span class="op">=</span> rhol<span class="op">*</span>x <span class="op">+</span> (rhor<span class="op">-</span>rhol)<span class="op">*</span>rampInt(x,x0,dx)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>plt.plot(x,rho,label<span class="op">=</span><span class="st">"Density"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plt.plot(x,mass,label<span class="op">=</span><span class="st">"Mass(&lt;x)"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lagrangian-hydrodynamics_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So now we have <span class="math display">\[
+\rho(x)=\rho_l+R(x)\,(\rho_r-\rho_l)
+\]</span> <span class="math display">\[
+p(x)=p_l+R(x)\,(p_r-p_l)
+\]</span> $$ v(x)=v_l+R(x),(v_r-v_l)</p>
+<div id="cell-21" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> brentq </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> diff(y):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y[<span class="dv">1</span>:]<span class="op">-</span>y[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> av(y):</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (y[<span class="dv">1</span>:]<span class="op">+</span>y[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>])<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> eos_u(rho, p):</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> p</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> u</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EquationOfState:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, gammain):</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.gamma <span class="op">=</span> gammain</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> u(<span class="va">self</span>,rho,p):</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">1.</span><span class="op">/</span>(<span class="va">self</span>.gamma<span class="op">-</span><span class="dv">1</span>) <span class="op">*</span> p<span class="op">/</span>rho</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> cs(<span class="va">self</span>,rho,p):</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.sqrt(<span class="va">self</span>.gamma<span class="op">*</span>p<span class="op">/</span>rho)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> p(<span class="va">self</span>,rho,u):</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="va">self</span>.gamma<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>rho<span class="op">*</span>u</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">## User Parameters</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>rhol <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>rhor <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>pl <span class="op">=</span> <span class="fl">1000.</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>pr <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>vl <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>vr <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>kvnr <span class="op">=</span> <span class="fl">4.</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>dxvnr <span class="op">=</span> <span class="fl">1.</span><span class="op">/</span>N</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>gasgamma <span class="op">=</span> <span class="fl">5.</span><span class="op">/</span><span class="dv">3</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>eos <span class="op">=</span> EquationOfState(gasgamma)</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="co">## ===== done initial conditions specification</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>mass <span class="op">=</span> <span class="kw">lambda</span> x,off: rhol<span class="op">*</span>x <span class="op">+</span> (rhor<span class="op">-</span>rhol)<span class="op">*</span>rampInt(x,x0,dx) <span class="op">-</span> off</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="co"># now we discretize using equal mass bins</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>mt <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">1</span>,N)<span class="op">*</span>mass(<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.zeros(N)</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(mt)):</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    r[i] <span class="op">=</span> brentq(mass,<span class="dv">0</span>,<span class="dv">1</span>,args<span class="op">=</span>(mt[i]))  <span class="co"># cell faces containing mass mt[i]</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>ra <span class="op">=</span> av(r) <span class="co"># cell centers</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>dr <span class="op">=</span> diff(r)  <span class="co"># cell widths</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>dm <span class="op">=</span> diff(mt) <span class="co"># mass of cell</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> dm<span class="op">/</span>dr</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> vl <span class="op">+</span> ramp(r,x0,dx)<span class="op">*</span>(vr<span class="op">-</span>vl)  <span class="co"># velocities cell faces</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> pl <span class="op">+</span> ramp(ra,x0,dx)<span class="op">*</span>(pr<span class="op">-</span>pl) <span class="co"># pressure at cell centers</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> eos.u(rho, p)</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> VNR_q(dr,dm,v,kdx<span class="op">=</span><span class="fl">.1</span>):</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''return VanNeumann Richtmyer viscosity'''</span></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>    dv <span class="op">=</span> diff(v)<span class="op">/</span>dr</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> <span class="op">-</span>kdx<span class="op">**</span><span class="dv">2</span> <span class="op">*</span>dv<span class="op">*</span>np.fabs(dv)  <span class="op">*</span>dr<span class="op">/</span>dm</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> q</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> accGradP(dr,dm,p):</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> dm<span class="op">/</span>dr</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.concatenate(([<span class="dv">0</span>],<span class="op">-</span><span class="fl">1.</span><span class="op">/</span>av(rho)<span class="op">*</span>diff(p)<span class="op">/</span>av(dr),[<span class="dv">0</span>]))</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>Courantfactor <span class="op">=</span> <span class="fl">.2</span></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> Courantfactor <span class="op">*</span> <span class="fl">1.</span><span class="op">/</span>np.<span class="bu">max</span>(eos.cs(rho,p))<span class="op">/</span>N </span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>tfinal <span class="op">=</span> <span class="fl">0.01</span>  <span class="co"># try for time = 1, 2, 3 and 5 </span></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> [<span class="fl">0.</span>]</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>vmax <span class="op">=</span> [<span class="bu">max</span>(v)]</span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>count<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> [<span class="dv">0</span>,<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>v[edges] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>drold <span class="op">=</span> diff(r)</span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> []</span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (time[<span class="op">-</span><span class="dv">1</span>]<span class="op">&lt;</span>tfinal <span class="kw">and</span> count <span class="op">&lt;</span> <span class="dv">100000</span>):</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>    r <span class="op">+=</span> dt<span class="op">/</span><span class="dv">2</span> <span class="op">*</span> v</span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    dr <span class="op">=</span> diff(r) <span class="co"># cell volumes. </span></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> VNR_q(dr,dm,v,kdx<span class="op">=</span>kvnr<span class="op">*</span>dxvnr)</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> eos.p(dm<span class="op">/</span>dr,u)</span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a><span class="co">#    print min(q), max(q), median(q)</span></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>    acc <span class="op">=</span> accGradP(dr,dm,p<span class="op">+</span>q) <span class="co"># now accelerations and continue with leap frog step</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>    v <span class="op">+=</span> dt <span class="op">*</span> acc</span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>    r <span class="op">+=</span> dt<span class="op">/</span><span class="dv">2</span> <span class="op">*</span> v</span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>    time.append((time[<span class="op">-</span><span class="dv">1</span>]<span class="op">+</span>dt)) <span class="co"># remember times</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>    dr <span class="op">=</span> diff(r) <span class="co"># cell volumes. </span></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>    dV <span class="op">=</span> dr<span class="op">-</span>drold</span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>    u <span class="op">-=</span> (p<span class="op">+</span>q)<span class="op">*</span>dV<span class="op">/</span>dm</span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> eos.p(rho,u)</span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> dm<span class="op">/</span>dr</span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>    drold <span class="op">=</span> dr</span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> Courantfactor<span class="op">*</span><span class="bu">min</span>(<span class="bu">abs</span>(dr))<span class="op">/</span>(<span class="bu">max</span>(eos.cs(rho,p<span class="op">+</span>q)<span class="op">+</span><span class="bu">abs</span>(diff(v)) )) <span class="co"># new time step</span></span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> <span class="bu">min</span>([dt, tfinal<span class="op">-</span>time[<span class="op">-</span><span class="dv">1</span>]])  <span class="co"># do not integrate longer than asked to</span></span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>    count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>    vmax.append(<span class="bu">max</span>(v))</span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ((count <span class="op">%</span> <span class="dv">100</span>) <span class="op">==</span> <span class="dv">0</span>):</span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Grab data at this step</span></span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>        state_data <span class="op">=</span> {</span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>            <span class="st">"density"</span>   : rho.copy(),</span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>            <span class="st">"x_momentum"</span>: v.copy(),</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>            <span class="st">"pressure"</span>  : p.copy(),</span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a>            <span class="st">"energy"</span>    : u.copy(),</span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a>            <span class="st">"x"</span>         : r.copy(),</span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a>            <span class="st">"step"</span>      : count  <span class="co"># current step number</span></span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a>        states.append(state_data)</span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a><span class="co">#    print (((u)+av(v)**2/2)*dm).sum()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-22" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rhop <span class="op">=</span> (gasgamma<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span>(gasgamma<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>f, ((ax1, ax2), (ax3, ax4)) <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, sharex<span class="op">=</span><span class="st">'col'</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ax1.plot(ra, rho,label<span class="op">=</span><span class="st">'density'</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ax2.plot(ra, av(v)<span class="op">/</span>eos.cs(rho,p),<span class="st">'rx-'</span>, label<span class="op">=</span><span class="st">'velocity'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ax2.yaxis.tick_right()</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ax3.semilogy(ra, p, label<span class="op">=</span><span class="st">'pressure'</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>ax3.set_xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>ax4.semilogy(ra, u, label<span class="op">=</span><span class="st">'internal energy'</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>ax4.yaxis.tick_right()</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>ax4.set_xlabel(<span class="st">'position'</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> (ax1,ax2,ax3,ax4):</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    leg <span class="op">=</span> i.legend(loc<span class="op">=</span><span class="st">'best'</span>, fancybox<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    leg.get_frame().set_alpha(<span class="fl">0.5</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>f.subplots_adjust(wspace<span class="op">=</span><span class="dv">0</span>,hspace<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lagrangian-hydrodynamics_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-23" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipywidgets <span class="im">as</span> widgets</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> shocktube_animation_app(states):</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Create an interactive slider + play widget to browse precomputed 'states'.</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">    states : list of dict</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">        Each element is a dictionary with keys:</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">         - "density", "x_momentum", "pressure", "energy" (arrays)</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">         - "x": the spatial coordinate array</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">         - "step": integer time step index</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">    ui : widgets.VBox</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">        A VBox widget containing the slider, play controls, and the plot output.</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The total number of precomputed states</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    ntotal <span class="op">=</span> <span class="bu">len</span>(states)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1) Create a slider to pick the index in [0, ntotal-1]</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    slider <span class="op">=</span> widgets.IntSlider(value<span class="op">=</span><span class="dv">0</span>, <span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span>ntotal <span class="op">-</span> <span class="dv">1</span>, step<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        description<span class="op">=</span><span class="st">'Step'</span>, continuous_update<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2) Create a Play widget for auto animation</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    play <span class="op">=</span> widgets.Play(value<span class="op">=</span><span class="dv">0</span>, <span class="bu">min</span><span class="op">=</span><span class="dv">0</span>, <span class="bu">max</span><span class="op">=</span>ntotal <span class="op">-</span> <span class="dv">1</span>,</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>        step<span class="op">=</span><span class="dv">1</span>,interval<span class="op">=</span><span class="dv">200</span>,       <span class="co"># ms between frames</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>        description<span class="op">=</span><span class="st">"Press play"</span>, disabled<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Link the Play widget and the slider</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    widgets.jslink((play, <span class="st">'value'</span>), (slider, <span class="st">'value'</span>))</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    widgets.jslink((slider, <span class="st">'value'</span>), (play, <span class="st">'value'</span>))</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3) Create an output area for the Plotly figure</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>    output_area <span class="op">=</span> widgets.Output()</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> update_plot(change<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Draw the figure for the current slider value."""</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> slider.value</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>        state <span class="op">=</span> states[index]</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> output_area:</span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Extract data</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>            x          <span class="op">=</span> state[<span class="st">"x"</span>]</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>            step_num   <span class="op">=</span> state[<span class="st">"step"</span>]</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Build the figure</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>            fig <span class="op">=</span> make_subplots( rows<span class="op">=</span><span class="dv">2</span>, cols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>                subplot_titles<span class="op">=</span>[<span class="st">"Density"</span>, <span class="st">"X-Momentum"</span>, <span class="st">"Pressure"</span>, <span class="st">"Energy"</span>],</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>                vertical_spacing<span class="op">=</span><span class="fl">0.09</span> )</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>            <span class="co"># 2x2 subplots</span></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>            fig.add_trace(go.Scatter(x<span class="op">=</span>x, y<span class="op">=</span>state[<span class="st">"density"</span>],    mode<span class="op">=</span><span class="st">'lines+markers'</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>            fig.add_trace(go.Scatter(x<span class="op">=</span>x, y<span class="op">=</span>state[<span class="st">"x_momentum"</span>], mode<span class="op">=</span><span class="st">'lines+markers'</span>), row<span class="op">=</span><span class="dv">1</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>            fig.add_trace(go.Scatter(x<span class="op">=</span>x, y<span class="op">=</span>state[<span class="st">"pressure"</span>],   mode<span class="op">=</span><span class="st">'lines+markers'</span>), row<span class="op">=</span><span class="dv">2</span>, col<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>            fig.add_trace(go.Scatter(x<span class="op">=</span>x, y<span class="op">=</span>state[<span class="st">"energy"</span>],     mode<span class="op">=</span><span class="st">'lines+markers'</span>), row<span class="op">=</span><span class="dv">2</span>, col<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>            fig.update_layout( title<span class="op">=</span><span class="ss">f"Shocktube Data — Step </span><span class="sc">{</span>step_num<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>                showlegend<span class="op">=</span><span class="va">False</span>, height<span class="op">=</span><span class="dv">500</span>, width<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>                margin<span class="op">=</span><span class="bu">dict</span>(l<span class="op">=</span><span class="dv">60</span>, r<span class="op">=</span><span class="dv">60</span>, t<span class="op">=</span><span class="dv">60</span>, b<span class="op">=</span><span class="dv">60</span>) )</span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Show with "notebook" renderer so repeated calls don't stack new outputs</span></span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>            output_area.clear_output(wait<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>            fig.show(<span class="st">"notebook"</span>)</span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4) Observe slider changes =&gt; call update_plot</span></span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>    slider.observe(update_plot, names<span class="op">=</span><span class="st">'value'</span>)</span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5) Initial figure</span></span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>    update_plot()</span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6) Combine play+slider+figure into a single UI</span></span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>    controls <span class="op">=</span> widgets.HBox([play, slider])</span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a>    ui <span class="op">=</span> widgets.VBox([controls, output_area])</span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ui</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-24" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>shocktube_animation_app(states)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"2c4c3f928f9b45c3bd7f191a781e03d6","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/KIPAC\.github\.io\/360\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
