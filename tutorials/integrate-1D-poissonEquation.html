@@ -223,6 +223,13 @@ window.Quarto = {
     </ul>
   </li>
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/KIPAC/360"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -318,7 +325,7 @@ F(0) = -\int_0^1 \int_0^1 D(\tilde{x})d\tilde{x}
 <p><span class="math display">\[
 - \tilde{\Phi}(X) = \int_0^X F(\tilde{x}) d\tilde{x}  + C_2
 \]</span></p>
-<div id="b70ee40a" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="2">
+<div id="2dafb527" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>F(x=0) =  -0.07082481931956612</code></pre>
 </div>
@@ -337,7 +344,7 @@ F(0) = -\int_0^1 \int_0^1 D(\tilde{x})d\tilde{x}
 - What did you notice about our assumption of periodic boundaries? How does the mean density enter?
 - Plot it for the grid resolution 60 and 240
 - Discuss the solution</code></pre>
-<div id="ff7007f2" class="cell" data-execution_count="3">
+<div id="78ca565c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>F(x=0) =  0.6019793898581776</code></pre>
 </div>
@@ -363,7 +370,7 @@ F(0) = -\int_0^1 \int_0^1 D(\tilde{x})d\tilde{x}
 \]</span></p>
 <p>For our first implementation we will assume periodic boundaries.</p>
 <p>The overdensity <span class="math inline">\(D(x)\)</span> will be defined at cell centers and similarly <span class="math inline">\(\Phi\)</span> is recorded at the same positions.</p>
-<div id="21a363ac" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="4">
+<div id="d492b6d0" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -374,7 +381,7 @@ F(0) = -\int_0^1 \int_0^1 D(\tilde{x})d\tilde{x}
 </div>
 <p>Wow. That takes an enormous amount of iterations to converge. In particular if the solution has long wavelength components. This method is known an <b>Jacobi’s iterative method</b>.</p>
 <p>Ah yes. But we could use the update values as we march through. Perhaps that converges faster?</p>
-<div id="f0c538f5" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="5">
+<div id="aeea0927" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -390,7 +397,7 @@ F(0) = -\int_0^1 \int_0^1 D(\tilde{x})d\tilde{x}
 <p>If we wouldn’ change the values completely just on the neighbors but keep some information from previous steps we can weight the update. This is known as successive over-relaxation. <span class="math display">\[
 \Phi_i^{n+1} = (1-\omega)\ \Phi_i^n + \omega/2\ \left( \Phi^n_{i+1} + \Phi^n_{i-1} - c h^2 D \right),
 \]</span> first for <span class="math inline">\(i=0,2,4,\cdots\)</span> and then for <span class="math inline">\(i=1,3,5,\cdots\)</span>. It is the same number of operations as before but does converge somewhat quicker.</p>
-<div id="546e3e2c" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="6">
+<div id="214f512f" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -406,7 +413,7 @@ F(0) = -\int_0^1 \int_0^1 D(\tilde{x})d\tilde{x}
 <p>There is a variant of <b>Gauss Seidel</b> and succesive over-relaxation that is known as <b>red-black</b> ordering. This realizes that even positions are only dependent on odd neighbors and odd ones only on even. So first updates the one half and then the other. We do our SOR update <span class="math display">\[
 \Phi_i^{n+1} = (1-\omega)\ \Phi_i^N + \omega/2\ \left( \Phi^n_{i+1} + \Phi^n_{i-1} - c h^2 D \right),
 \]</span> first for <span class="math inline">\(i=0,2,4,\cdots\)</span> and then for <span class="math inline">\(i=1,3,5,\cdots\)</span>. It is the same number of operations as before but does converge somewhat quicker.</p>
-<div id="cb31e517" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="7">
+<div id="042e3eea" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -450,7 +457,7 @@ D_n
 \]</span></p>
 <p>So in the relaxation technique we iterated until we got <span class="math inline">\(\Phi\)</span> to agree with this formula.</p>
 <p>So let us define this Matrix:</p>
-<div id="e57c0192" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="8">
+<div id="384c47f5" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>[[-2.  1.  0. ...  0.  0.  1.]
  [ 1. -2.  1. ...  0.  0.  0.]
@@ -463,7 +470,7 @@ Determinant of A is: 1.1147087742196166e-13</code></pre>
 </div>
 </div>
 <p>and now invert it</p>
-<div id="eb4f69ad" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
+<div id="2441eb5b" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="9">
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>array([[ 1.   , -0.125, -0.125, ...,  0.   ,  0.   ,  0.   ],
        [ 0.   ,  1.   , -0.25 , ...,  0.   ,  0.   ,  0.   ],
@@ -508,7 +515,7 @@ D_n \\\\
 \end{pmatrix}
 \]</span></p>
 <p>Once we have the solution to <span class="math inline">\(\Phi\)</span> we throw away <span class="math inline">\(\Phi_{n+1}\)</span> and subtract the mean of the potential <span class="math inline">\(\int_0^1 \Phi dx\)</span> just by convention.</p>
-<div id="022d6e15" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="10">
+<div id="ca0dfcf8" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="10">
 <div class="cell-output cell-output-stdout">
 <pre><code>[[ 5.55111512e-17  4.94444444e-01  9.77777778e-01 ...  9.77777778e-01
    4.94444444e-01  1.11111111e-02]
@@ -533,12 +540,12 @@ Determinant of the input matrix is : 8100.000000000035</code></pre>
 </div>
 </div>
 </div>
-<div id="4223da46" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="11">
+<div id="ac572f96" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="11">
 <div class="cell-output cell-output-stdout">
 <pre><code>Determinant of A is: 8100.000000000035</code></pre>
 </div>
 </div>
-<div id="dfe0b793" class="cell" data-execution_count="12">
+<div id="6e509af7" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -563,7 +570,7 @@ A_k = \sum_{m=0}^{N-1}\ a_m\ e^{-2\pi\ i\ m\ k/N}, \ \ k=0,1,...,n-2,n-1
 \]</span> and the inverse transform is given by <span class="math display">\[
 a_m = \frac{1}{N}\sum_{m=0}^{n-1}\ A_m\ e^{2\pi\ i\ m\ k/N}
 \]</span> See the <a href="http://docs.scipy.org/doc/numpy/reference/routines.fft.html#module-numpy.fft" target="_blank">FFT documentation</a> for more details.</p>
-<div id="2305a63b" class="cell" data-execution_count="13">
+<div id="247241ed" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -572,7 +579,7 @@ a_m = \frac{1}{N}\sum_{m=0}^{n-1}\ A_m\ e^{2\pi\ i\ m\ k/N}
 </div>
 </div>
 </div>
-<div id="dae4071d" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="14">
+<div id="278e2347" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -613,7 +620,7 @@ f(\mathbf{x}) = \frac12 \mathbf{x}^\mathrm{T} \mathbf{A}\mathbf{x} - \mathbf{x}^
 \mathbf{p}_{k+1} = \mathbf{r}_{k+1} + \beta_k \, \mathbf{p}_k, \ \ \ \ \beta = \frac{\mathbf{r}_{k+1}^T\, \mathbf{r}_{k+1}}{ \mathbf{r}_{k}^T \, \mathbf{r}_{k}}
 \]</span></p>
 <p>i.e.&nbsp;a combination of the current residual and the previous search direction, for the next search direction. Different conjugate gradient methods differ typically in their choice of <span class="math inline">\(\beta\)</span> and of how many previous search directions are considered. Please also have a look at <a href="http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf">Jonathan Shewchuk’s fantastic detailed description</a> of this method.</p>
-<div id="dff198b5" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="15">
+<div id="8cfb9dc3" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="15">
 <div class="cell-output cell-output-stdout">
 <pre><code>2.23606797749979 1e-10
 iterated  6  times to get to tolerance= 1e-10
@@ -621,13 +628,13 @@ x= [0.09073552 0.63642149]</code></pre>
 </div>
 </div>
 <p>Double check the Answer. Is <span class="math inline">\(\mathbf{A\,x}=\mathbf{b}\)</span> ?</p>
-<div id="faa4b433" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="16">
+<div id="4c59aa0a" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="16">
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>matrix([[5.40056888e-12],
         [3.98747702e-12]])</code></pre>
 </div>
 </div>
-<div id="9c621dfe" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="17">
+<div id="0ecb733f" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="17">
 <div class="cell-output cell-output-stdout">
 <pre><code>step: 1  distance to minimum: 0.4880232063220932
 step: 2  distance to minimum: 0.00019970168811959504
@@ -646,7 +653,7 @@ step: 8  distance to minimum: 1.5362729766613488e-16</code></pre>
 </div>
 </div>
 </div>
-<div id="dd8d67e5" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="18">
+<div id="a365af2d" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:false}" data-execution_count="18">
 <div class="cell-output cell-output-stdout">
 <pre><code>F(x=0) =  -0.07086394966370409
 8.122607918947157 0.1
