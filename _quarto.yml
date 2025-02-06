@@ -27,6 +27,16 @@ website:
             href: ./tutorials/integrate-1D-poissonEquation.qmd
           - text: "3D vis tutorial"
             href: ./tutorials/Intro_3D_visualization.qmd
+          - text: "Lagrangian Hydro"
+            href: ./tutorials/lagrangian-hydrodynamics.ipynb
+          - text: "2D Hydro"
+            href: ./tutorials/pyro_tutorial.ipynb
+          - text: "1D PIC plasma code"
+            href: ./tutorials/plasma_pic_1d.ipynb
+          - text: "How to write a hydro code"
+            href: ./tutorials/zingale_write_a_hydrocode.ipynb
+          - text: "Explore absorption lines"
+            href: ./tutorials/WavelengthAbsorptionLineModeller.ipynb
 
       - text: "Assignments"
         menu:
@@ -38,7 +48,9 @@ website:
             href: ./final_project/project_ideas.qmd
 #      - text: "Resources"
 #        href: resources.qmd
-
+    right:
+      - icon: github
+        href: https://github.com/KIPAC/360
 format:
   html:
     css: styles.css
